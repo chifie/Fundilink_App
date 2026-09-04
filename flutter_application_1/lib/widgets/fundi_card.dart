@@ -28,7 +28,12 @@ class FundiCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FundiAvatar(name: fundi.fullName, imageUrl: fundi.avatarUrl),
+              FundiAvatar(
+                name: fundi.fullName,
+                imageUrl: fundi.avatarUrl,
+                heroTag: 'fundi-avatar-${fundi.id}',
+                useHero: true,
+              ),
               const SizedBox(width: AppDimensions.spaceM),
               Expanded(
                 child: Column(

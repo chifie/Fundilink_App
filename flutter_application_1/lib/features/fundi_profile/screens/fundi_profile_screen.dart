@@ -144,6 +144,8 @@ class _HeaderCard extends StatelessWidget {
             name: fundi.fullName,
             imageUrl: fundi.avatarUrl,
             radius: AppDimensions.avatarXL / 2,
+            heroTag: 'fundi-avatar-${fundi.id}',
+            useHero: true,
           ),
           const SizedBox(height: AppDimensions.spaceM),
           Row(

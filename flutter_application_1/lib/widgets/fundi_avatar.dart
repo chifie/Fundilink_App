@@ -13,12 +13,14 @@ class FundiAvatar extends StatelessWidget {
     this.imageUrl,
     this.radius = AppDimensions.avatarM / 2,
     this.heroTag,
+    this.useHero = false,
   });
 
   final String name;
   final String? imageUrl;
   final double radius;
   final Object? heroTag;
+  final bool useHero;
 
   static const List<Color> _palette = [
     AppColors.primary,
@@ -48,9 +50,13 @@ class FundiAvatar extends StatelessWidget {
       ),
     );
 
-    if (url == null || url.isEmpty) return fallback;
+    if (url == null || url.isEmpty) {
+      return useHero && heroTag != null
+          ? Hero(tag: heroTag!, child: fallback)
+          : fallback;
+    }
 
-    return CircleAvatar(
+    final avatar = CircleAvatar(
       radius: radius,
       backgroundColor: AppColors.surfaceVariant,
       foregroundImage: NetworkImage(url),
@@ -64,5 +70,9 @@ class FundiAvatar extends StatelessWidget {
         ),
       ),
     );
+
+    return useHero && heroTag != null
+        ? Hero(tag: heroTag!, child: avatar)
+        : avatar;
   }
 }
