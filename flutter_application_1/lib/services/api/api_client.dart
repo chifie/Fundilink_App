@@ -9,10 +9,9 @@ import '../../core/constants/api_constants.dart';
 /// Handles JSON encoding, auth tokens and non-2xx responses so feature
 /// repositories only deal with typed data.
 class ApiClient {
-  ApiClient({http.Client? client, String? baseUrl, String? authToken})
+  ApiClient({http.Client? client, String? baseUrl, this._authToken})
       : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ?? ApiConstants.baseUrl,
-        _authToken = authToken;
+        _baseUrl = baseUrl ?? ApiConstants.baseUrl;
 
   final http.Client _client;
   final String _baseUrl;
