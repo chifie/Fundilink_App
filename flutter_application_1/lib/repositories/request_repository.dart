@@ -82,6 +82,6 @@ class RequestRepository {
     final jobs = MockData.requestsForFundi(fundiId).where((r) =>
         r.status == RequestStatus.completed ||
         r.status == RequestStatus.reviewed);
-    return jobs.fold(0, (sum, r) => sum + r.estimatedCost);
+    return jobs.fold<double>(0, (sum, r) => sum + r.estimatedCost);
   }
 }
