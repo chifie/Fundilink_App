@@ -9,8 +9,15 @@ import '../../providers/auth_provider.dart';
 /// Shown after a fundi signs in. The fundi workspace (incoming requests,
 /// job management, earnings) is being built in a later release, so this
 /// screen explains the state and offers a way back to the customer flow.
-class FundiWorkspacePlaceholder extends StatelessWidget {
+class FundiWorkspacePlaceholder extends StatefulWidget {
   const FundiWorkspacePlaceholder({super.key});
+
+  @override
+  State<FundiWorkspacePlaceholder> createState() => _FundiWorkspacePlaceholderState();
+}
+
+class _FundiWorkspacePlaceholderState extends State<FundiWorkspacePlaceholder> {
+  bool _loggingOut = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +70,22 @@ class FundiWorkspacePlaceholder extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () =>
-                        context.read<AuthProvider>().logout(),
-                    icon: const Icon(Icons.logout),
+                    onPressed: _loggingOut
+                        ? null
+                        : () async {
+                            setState(() => _loggingOut = true);
+                            await context.read<AuthProvider>().logout();
+                          },
+                    icon: _loggingOut
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.textOnPrimary,
+                            ),
+                          )
+                        : const Icon(Icons.logout),
                     label: const Text(AppStrings.logout),
                   ),
                 ),
