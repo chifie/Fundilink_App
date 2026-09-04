@@ -28,6 +28,7 @@ class _CustomerShellState extends State<CustomerShell> {
     super.initState();
     _index = CustomerTabs.index.value;
     CustomerTabs.index.addListener(_onTabIndexChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadSharedData());
   }
 
   @override
@@ -60,8 +61,6 @@ class _CustomerShellState extends State<CustomerShell> {
 
   @override
   Widget build(BuildContext context) {
-    _loadSharedData();
-
     return Scaffold(
       body: IndexedStack(
         index: _index,
