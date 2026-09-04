@@ -70,6 +70,7 @@ class _CustomerShellState extends State<CustomerShell> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
+    final unreadCount = context.watch<ChatProvider>().unreadTotal;
 
     return Scaffold(
       body: IndexedStack(
@@ -87,28 +88,36 @@ class _CustomerShellState extends State<CustomerShell> {
         onDestinationSelected: (value) => CustomerTabs.index.value = value,
         backgroundColor: AppColors.white,
         indicatorColor: AppColors.primarySurface,
-        destinations: const [
-          NavigationDestination(
+        destinations: [
+          const NavigationDestination(
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home, color: AppColors.primary),
             label: AppStrings.home,
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.search),
             selectedIcon: Icon(Icons.search, color: AppColors.primary),
             label: AppStrings.search,
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.assignment_outlined),
             selectedIcon: Icon(Icons.assignment, color: AppColors.primary),
             label: AppStrings.requests,
           ),
           NavigationDestination(
-            icon: Icon(Icons.chat_bubble_outline),
-            selectedIcon: Icon(Icons.chat_bubble, color: AppColors.primary),
+            icon: Badge(
+              isLabelVisible: unreadCount > 0,
+              label: Text('$unreadCount'),
+              child: const Icon(Icons.chat_bubble_outline),
+            ),
+            selectedIcon: Badge(
+              isLabelVisible: unreadCount > 0,
+              label: Text('$unreadCount'),
+              child: const Icon(Icons.chat_bubble, color: AppColors.primary),
+            ),
             label: AppStrings.messages,
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person, color: AppColors.primary),
             label: AppStrings.profile,
