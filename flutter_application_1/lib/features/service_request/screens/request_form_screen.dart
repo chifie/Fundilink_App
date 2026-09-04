@@ -70,7 +70,10 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
     setState(() => _submitting = true);
 
     final user = context.read<AuthProvider>().user;
-    if (user == null) return;
+    if (user == null) {
+      if (mounted) setState(() => _submitting = false);
+      return;
+    }
 
     await context.read<RequestProvider>().createRequest(
       customerId: user.id,
