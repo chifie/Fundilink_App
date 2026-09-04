@@ -60,6 +60,9 @@ class _CustomerShellState extends State<CustomerShell> {
     if (user != null) {
       context.read<RequestProvider>().loadCustomerRequests(user.id);
     }
+    if (user != null) {
+      context.read<ChatProvider>().setCurrentUserId(user.id);
+    }
     context.read<ChatProvider>().loadConversations();
     context.read<NotificationProvider>().load();
   }

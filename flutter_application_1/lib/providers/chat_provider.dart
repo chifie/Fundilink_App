@@ -24,10 +24,14 @@ class ChatProvider extends ChangeNotifier {
   int get unreadTotal =>
       _conversations.fold(0, (sum, c) => sum + c.unreadCount);
 
+  String _currentUserId = '';
+
+  void setCurrentUserId(String userId) => _currentUserId = userId;
+
   Future<void> loadConversations() async {
     _loading = true;
     notifyListeners();
-    _conversations = await _repository.getConversations('');
+    _conversations = await _repository.getConversations(_currentUserId);
     _loading = false;
     notifyListeners();
   }
