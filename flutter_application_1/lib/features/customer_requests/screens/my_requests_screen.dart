@@ -80,12 +80,12 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
                     onTap: () => setState(() => _filter = 'pending'),
                   ),
                   _FilterChip(
-                    label: 'Active',
+                    label: AppStrings.inProgress,
                     selected: _filter == 'active',
                     onTap: () => setState(() => _filter = 'active'),
                   ),
                   _FilterChip(
-                    label: 'Completed',
+                    label: AppStrings.completed,
                     selected: _filter == 'completed',
                     onTap: () => setState(() => _filter = 'completed'),
                   ),
