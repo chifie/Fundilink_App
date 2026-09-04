@@ -12,6 +12,7 @@ import '../../../models/review.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/chat_provider.dart';
 import '../../../providers/fundi_provider.dart';
+import '../../../providers/request_provider.dart';
 import '../../../providers/review_provider.dart';
 import '../../../widgets/fundi_avatar.dart';
 import '../../../widgets/rating_stars.dart';
@@ -47,12 +48,24 @@ class _FundiProfileScreenState extends State<FundiProfileScreen> {
     final messenger = ScaffoldMessenger.of(context);
     final chat = context.read<ChatProvider>();
     try {
+      // Find an existing request to this fundi, if any.
+      final requests = context.read<RequestProvider>();
+      final existingRequest = requests.customerRequests
+          .where((r) => r.fundiId == fundi.id)
+          .toList();
+      final requestId = existingRequest.isNotEmpty
+          ? existingRequest.first.id
+          : '';
+      final requestTitle = existingRequest.isNotEmpty
+          ? existingRequest.first.categoryName
+          : fundi.categoryName;
+
       final conversation = await chat.startConversation(
         otherUserId: fundi.id,
         otherUserName: fundi.fullName,
         otherUserAvatar: fundi.avatarUrl,
-        requestId: '',
-        requestTitle: fundi.categoryName,
+        requestId: requestId,
+        requestTitle: requestTitle,
       );
       if (!mounted) return;
       Navigator.of(context).push(
