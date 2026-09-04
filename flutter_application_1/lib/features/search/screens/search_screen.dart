@@ -12,6 +12,7 @@ import '../../../providers/fundi_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_card.dart';
+import '../../../widgets/shimmer_loading.dart';
 import '../../fundi_profile/screens/fundi_profile_screen.dart';
 
 /// Explore tab: full-text search with category filters and result sorting.
@@ -168,7 +169,15 @@ class _SearchScreenState extends State<SearchScreen> {
     bool hasQuery,
   ) {
     if (provider.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return ListView(
+        padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
+        children: const [
+          ShimmerFundiCard(),
+          ShimmerFundiCard(),
+          ShimmerFundiCard(),
+          ShimmerFundiCard(),
+        ],
+      );
     }
     if (provider.error != null) {
       return ErrorView(
