@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -119,10 +121,13 @@ class HomeScreen extends StatelessWidget {
                 if (fundiProvider.nearby.isNotEmpty) ...[
                   const SectionHeader(title: AppStrings.nearbyFundi),
                   const SizedBox(height: AppDimensions.spaceS),
-                  for (final fundi in fundiProvider.nearby)
-                    FundiCard(
-                      fundi: fundi,
-                      onTap: () => _openFundi(context, fundi),
+                  for (var i = 0; i < fundiProvider.nearby.length; i++)
+                    _StaggeredItem(
+                      index: i,
+                      child: FundiCard(
+                        fundi: fundiProvider.nearby[i],
+                        onTap: () => _openFundi(context, fundiProvider.nearby[i]),
+                      ),
                     ),
                 ],
               ),
@@ -386,6 +391,62 @@ class _LoadingSkeleton extends StatelessWidget {
         const ShimmerFundiCard(),
         const ShimmerFundiCard(),
       ],
+    );
+  }
+}
+
+/// Wraps a child widget with a staggered fade-in-slide animation.
+class _StaggeredItem extends StatefulWidget {
+  const _StaggeredItem({required this.index, required this.child});
+
+  final int index;
+  final Widget child;
+
+  @override
+  State<_StaggeredItem> createState() => _StaggeredItemState();
+}
+
+class _StaggeredItemState extends State<_StaggeredItem>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
+  late final Animation<Offset> _slide;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _opacity = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    ));
+    // Stagger each item by 80ms.
+    Future.delayed(Duration(milliseconds: 80 * widget.index), () {
+      if (mounted) _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: SlideTransition(position: _slide, child: widget.child),
     );
   }
 }
