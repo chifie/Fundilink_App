@@ -75,23 +75,33 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
       return;
     }
 
-    await context.read<RequestProvider>().createRequest(
-      customerId: user.id,
-      customerName: user.fullName,
-      fundi: fundi,
-      categoryName: fundi.categoryName,
-      description: _descriptionController.text.trim(),
-      preferredDate: Formatters.date(_date),
-      preferredTime: _time.format(context),
-      location: _locationController.text.trim(),
-    );
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await context.read<RequestProvider>().createRequest(
+        customerId: user.id,
+        customerName: user.fullName,
+        fundi: fundi,
+        categoryName: fundi.categoryName,
+        description: _descriptionController.text.trim(),
+        preferredDate: Formatters.date(_date),
+        preferredTime: _time.format(context),
+        location: _locationController.text.trim(),
+      );
 
-    if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (_) => RequestSuccessScreen(fundiName: fundi.fullName),
-      ),
-    );
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (_) => RequestSuccessScreen(fundiName: fundi.fullName),
+        ),
+      );
+    } catch (e) {
+      if (mounted) {
+        messenger.showSnackBar(
+          SnackBar(content: Text('Failed to submit request: $e')),
+        );
+        setState(() => _submitting = false);
+      }
+    }
   }
 
   @override
