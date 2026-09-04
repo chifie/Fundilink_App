@@ -14,6 +14,7 @@ import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_card.dart';
 import '../../../widgets/section_header.dart';
 import '../../../widgets/shimmer_loading.dart';
+import '../../../core/navigation/page_transitions.dart';
 import '../../fundi_profile/screens/fundi_profile_screen.dart';
 import '../../notifications/screens/notifications_screen.dart';
 
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
 
   void _openFundi(BuildContext context, Fundi fundi) {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => FundiProfileScreen(fundi: fundi)),
+      SlideUpRoute(page: FundiProfileScreen(fundi: fundi)),
     );
   }
 
