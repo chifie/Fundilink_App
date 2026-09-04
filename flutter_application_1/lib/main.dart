@@ -6,6 +6,7 @@ import 'core/constants/app_dimensions.dart';
 import 'core/constants/app_strings.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/auth/screens/onboarding_screen.dart';
 import 'features/shell/customer_shell.dart';
 import 'features/shell/fundi_workspace_placeholder.dart';
 import 'models/user_model.dart';
@@ -71,7 +72,7 @@ class _RootGateState extends State<RootGate> {
       case AuthStatus.unknown:
         return const _SplashScreen();
       case AuthStatus.unauthenticated:
-        return const LoginScreen();
+        return const _AuthGate();
       case AuthStatus.authenticated:
         return auth.user?.role == UserRole.fundi
             ? const FundiWorkspacePlaceholder()
@@ -159,5 +160,41 @@ class _SplashScreenState extends State<_SplashScreen>
         ),
       ),
     );
+  }
+}
+
+/// Decides between onboarding and login for first-time / returning users.
+class _AuthGate extends StatefulWidget {
+  const _AuthGate();
+
+  @override
+  State<_AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<_AuthGate> {
+  bool _checking = true;
+  bool _showOnboarding = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkOnboarding();
+  }
+
+  Future<void> _checkOnboarding() async {
+    final show = await OnboardingScreen.shouldShow();
+    if (mounted) {
+      setState(() {
+        _showOnboarding = show;
+        _checking = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_checking) return const _SplashScreen();
+    if (_showOnboarding) return const OnboardingScreen();
+    return const LoginScreen();
   }
 }
