@@ -7,6 +7,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/navigation/customer_tabs.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/status_chip.dart';
@@ -103,17 +104,26 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
                         'Browse fundis and request a service to get started.',
                     actionLabel: AppStrings.findFundi,
                     onAction: () => CustomerTabs.goTo(CustomerTabs.home),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: AppDimensions.paddingS,
+                  )                  : RefreshIndicator(
+                      onRefresh: () async {
+                        final user = context.read<AuthProvider>().user;
+                        if (user != null) {
+                          await context
+                              .read<RequestProvider>()
+                              .loadCustomerRequests(user.id);
+                        }
+                      },
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: AppDimensions.paddingS,
+                        ),
+                        itemCount: requests.length,
+                        itemBuilder: (context, index) {
+                          final request = requests[index];
+                          return _RequestCard(request: request);
+                        },
+                      ),
                     ),
-                    itemCount: requests.length,
-                    itemBuilder: (context, index) {
-                      final request = requests[index];
-                      return _RequestCard(request: request);
-                    },
-                  ),
           ),
         ],
       ),
