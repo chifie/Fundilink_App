@@ -67,7 +67,12 @@ class HomeScreen extends StatelessWidget {
                 fundiProvider.loadFundis();
               },
             )
-          : ListView(
+          : RefreshIndicator(
+              onRefresh: () async {
+                await fundiProvider.loadCategories();
+                await fundiProvider.loadFundis();
+              },
+              child: ListView(
               padding: const EdgeInsets.only(bottom: AppDimensions.paddingXL),
               children: [
                 _Greeting(name: user?.fullName ?? 'there'),
@@ -119,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () => _openFundi(context, fundi),
                     ),
                 ],
-              ],
+              ),
             ),
     );
   }
