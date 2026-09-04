@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../core/constants/app_colors.dart';
 
 /// A service category a fundi can offer and customers can browse by.
 class ServiceCategory {
