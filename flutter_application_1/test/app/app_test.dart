@@ -4,7 +4,7 @@ import 'package:fundi_link/core/constants/app_strings.dart';
 import 'package:fundi_link/features/auth/screens/login_screen.dart';
 import 'package:fundi_link/features/auth/screens/onboarding_screen.dart';
 import 'package:fundi_link/features/shell/customer_shell.dart';
-import 'package:fundi_link/features/shell/fundi_workspace_placeholder.dart';
+import 'package:fundi_link/features/shell/fundi_shell.dart';
 import 'package:fundi_link/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -73,7 +73,7 @@ void main() {
     expect(find.byType(CustomerShell), findsOneWidget);
   });
 
-  testWidgets('fundi demo login shows the workspace placeholder', (tester) async {
+  testWidgets('fundi demo login shows the fundi shell', (tester) async {
     SharedPreferences.setMockInitialValues({});
     await _pumpLogin(tester);
 
@@ -85,12 +85,9 @@ void main() {
     await tester.pump();
     await _flushAsyncWork(tester);
 
-    expect(find.byType(FundiWorkspacePlaceholder), findsOneWidget);
-
-    await tester.tap(find.widgetWithText(ElevatedButton, AppStrings.logout));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-
-    expect(find.byType(LoginScreen), findsOneWidget);
+    expect(find.byType(FundiShell), findsOneWidget);
+    expect(find.text(AppStrings.dashboard), findsWidgets);
+    expect(find.text(AppStrings.requests), findsWidgets);
+    expect(find.text(AppStrings.jobs), findsWidgets);
   });
 }

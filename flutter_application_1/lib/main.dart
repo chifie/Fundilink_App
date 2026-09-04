@@ -8,7 +8,7 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/onboarding_screen.dart';
 import 'features/shell/customer_shell.dart';
-import 'features/shell/fundi_workspace_placeholder.dart';
+import 'features/shell/fundi_shell.dart';
 import 'models/user_model.dart';
 import 'providers/auth_provider.dart';
 import 'providers/chat_provider.dart';
@@ -75,7 +75,7 @@ class _RootGateState extends State<RootGate> {
         return const _AuthGate();
       case AuthStatus.authenticated:
         return auth.user?.role == UserRole.fundi
-            ? const FundiWorkspacePlaceholder()
+            ? const FundiShell()
             : const CustomerShell();
     }
   }

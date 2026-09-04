@@ -1,0 +1,130 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_dimensions.dart';
+import '../../../core/constants/app_strings.dart';
+import '../../../core/utils/formatters.dart';
+import '../../../models/service_request.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../providers/request_provider.dart';
+import '../../../widgets/shimmer_loading.dart';
+
+
+/// Earnings dashboard for the fundi.
+class EarningsScreen extends StatefulWidget {
+  const EarningsScreen({super.key});
+
+  @override
+  State<EarningsScreen> createState() => _EarningsScreenState();
+}
+
+class _EarningsScreenState extends State<EarningsScreen> {
+  double? _totalEarnings;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEarnings();
+  }
+
+  Future<void> _loadEarnings() async {
+    final user = context.read<AuthProvider>().user;
+    if (user == null) return;
+    final total = await context.read<RequestProvider>().totalEarnings(user.id);
+    if (mounted) {
+      setState(() {
+        _totalEarnings = total;
+        _loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final requests = context.watch<RequestProvider>().fundiRequests;
+    final completedJobs = requests
+        .where((r) => r.status == RequestStatus.completed || r.status == RequestStatus.reviewed)
+        .toList();
+
+    return Scaffold(
+      appBar: AppBar(title: const Text(AppStrings.myEarnings)),
+      body: ListView(
+        padding: const EdgeInsets.all(AppDimensions.paddingL),
+        children: [
+          // Total earnings card
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(AppDimensions.paddingXL),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppColors.success, AppColors.success.withValues(alpha: 0.8)],
+              ),
+              borderRadius: BorderRadius.circular(AppDimensions.radiusL),
+            ),
+            child: Column(
+              children: [
+                const Text(
+                  AppStrings.totalEarned,
+                  style: TextStyle(color: AppColors.textOnPrimary, fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: AppDimensions.spaceS),
+                if (_loading)
+                  const ShimmerLoading(
+                    child: SizedBox(width: 150, height: 36, child: ColoredBox(color: AppColors.surfaceVariant)),
+                  )
+                  else
+                    Text(
+                      Formatters.currency(_totalEarnings ?? 0),
+                      style: const TextStyle(
+                        color: AppColors.textOnPrimary,
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppDimensions.spaceXL),
+
+          // Job history
+          const Text(
+            AppStrings.jobHistory,
+            style: TextStyle(color: AppColors.textPrimary, fontSize: 17, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: AppDimensions.spaceM),
+          if (completedJobs.isEmpty)
+            const Padding(
+              padding: EdgeInsets.all(AppDimensions.paddingXL),
+              child: Center(
+                child: Text('No completed jobs yet.', style: TextStyle(color: AppColors.textHint)),
+              ),
+            )
+          else
+            for (final job in completedJobs)
+              Card(
+                margin: const EdgeInsets.only(bottom: AppDimensions.spaceS),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: AppColors.successLight,
+                    child: const Icon(Icons.check, color: AppColors.success, size: 20),
+                  ),
+                  title: Text(
+                    job.customerName,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(job.categoryName, style: const TextStyle(fontSize: 12)),
+                  trailing: Text(
+                    Formatters.currency(job.estimatedCost),
+                    style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+        ],
+      ),
+    );
+  }
+}
