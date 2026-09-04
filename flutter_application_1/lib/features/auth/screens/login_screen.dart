@@ -77,13 +77,15 @@ class _LoginScreenState extends State<LoginScreen> {
               if (dialogContext.mounted) {
                 Navigator.of(dialogContext).pop();
               }
-              messenger.showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'If the account exists, a reset link has been sent.',
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'If the account exists, a reset link has been sent.',
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
             child: const Text(AppStrings.sendResetLink),
           ),
