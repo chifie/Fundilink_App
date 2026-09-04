@@ -38,7 +38,12 @@ class FundiProvider extends ChangeNotifier {
     return list.take(4).toList();
   }
 
-  Fundi? fundiById(String id) => MockData.fundiById(id);
+  Fundi? fundiById(String id) {
+    for (final fundi in _fundis) {
+      if (fundi.id == id) return fundi;
+    }
+    return MockData.fundiById(id);
+  }
 
   Future<void> loadCategories() async {
     _categories = await _repository.getCategories();
