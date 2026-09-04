@@ -20,6 +20,7 @@ Future<void> showWriteReviewSheet(
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
+    showDragHandle: true,
     builder: (_) =>
         _WriteReviewSheet(fundiId: fundiId, customerName: customerName),
   );
