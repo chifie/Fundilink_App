@@ -13,6 +13,7 @@ import '../../../providers/notification_provider.dart';
 import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_card.dart';
 import '../../../widgets/section_header.dart';
+import '../../../widgets/shimmer_loading.dart';
 import '../../fundi_profile/screens/fundi_profile_screen.dart';
 import '../../notifications/screens/notifications_screen.dart';
 
@@ -57,7 +58,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: isLoading && !hasContent
-          ? const Center(child: CircularProgressIndicator())
+          ? const _LoadingSkeleton()
           : fundiProvider.error != null && !hasContent
           ? ErrorView(
               message: fundiProvider.error,
@@ -259,6 +260,123 @@ class _CategoryItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _LoadingSkeleton extends StatelessWidget {
+  const _LoadingSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.only(bottom: AppDimensions.paddingXL),
+      children: [
+        const SizedBox(height: AppDimensions.paddingXL + 56),
+        // Greeting skeleton
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerLoading(
+                child: SizedBox(
+                  width: 200,
+                  height: 26,
+                  child: ColoredBox(color: AppColors.surfaceVariant),
+                ),
+              ),
+              SizedBox(height: 8),
+              ShimmerLoading(
+                child: SizedBox(
+                  width: 180,
+                  height: 16,
+                  child: ColoredBox(color: AppColors.surfaceVariant),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceM),
+        // Search bar skeleton
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
+          child: ShimmerLoading(
+            child: SizedBox(
+              height: 52,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceXL),
+        // Categories skeleton
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+          child: ShimmerLoading(
+            child: SizedBox(
+              width: 140,
+              height: 20,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceM),
+        SizedBox(
+          height: 100,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.paddingM,
+            ),
+            itemCount: 8,
+            separatorBuilder: (_, _) =>
+                const SizedBox(width: AppDimensions.spaceM),
+            itemBuilder: (_, _) => const ShimmerCategoryItem(),
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceXL),
+        // Recommended skeleton
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+          child: ShimmerLoading(
+            child: SizedBox(
+              width: 180,
+              height: 20,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceM),
+        SizedBox(
+          height: 210,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.paddingM,
+            ),
+            itemCount: 4,
+            separatorBuilder: (_, _) =>
+                const SizedBox(width: AppDimensions.spaceM),
+            itemBuilder: (_, _) => const ShimmerCompactCard(),
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceXL),
+        // Nearby skeleton
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+          child: ShimmerLoading(
+            child: SizedBox(
+              width: 140,
+              height: 20,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppDimensions.spaceM),
+        const ShimmerFundiCard(),
+        const ShimmerFundiCard(),
+        const ShimmerFundiCard(),
+      ],
     );
   }
 }
