@@ -1,5 +1,7 @@
 import '../data/mock_data.dart';
+import '../models/availability.dart';
 import '../models/fundi_model.dart';
+import '../models/portfolio_item.dart';
 import '../models/service_category.dart';
 
 /// Data source for service categories and fundi listings.
@@ -67,5 +69,15 @@ class FundiRepository {
     if (index != -1) {
       MockData.fundis[index] = updated;
     }
+  }
+
+  Future<List<PortfolioItem>> getPortfolio(String fundiId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    return MockData.portfolioForFundi(fundiId);
+  }
+
+  Future<Availability> getAvailability(String fundiId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    return MockData.availabilityForFundi(fundiId);
   }
 }
