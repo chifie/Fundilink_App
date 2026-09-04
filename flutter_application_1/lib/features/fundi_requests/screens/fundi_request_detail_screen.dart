@@ -7,6 +7,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/request_progress_tracker.dart';
 import '../../../widgets/status_chip.dart';
 
 /// Fundi-side request detail with accept/reject/start/complete actions.
@@ -66,7 +67,9 @@ class FundiRequestDetailScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppDimensions.spaceM),
+          const SizedBox(height: AppDimensions.spaceL),
+          RequestProgressTracker(status: current.status),
+          const SizedBox(height: AppDimensions.spaceL),
           Text(
             current.customerName,
             style: const TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w700),
