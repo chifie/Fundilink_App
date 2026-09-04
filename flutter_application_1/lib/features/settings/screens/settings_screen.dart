@@ -92,6 +92,7 @@ class SettingsScreen extends StatelessWidget {
                     },
                     activeColor: AppColors.primary,
                   ),
+                  onTap: () {},
                 ),
               ],
             ),

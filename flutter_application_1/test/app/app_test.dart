@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fundi_link/core/constants/app_strings.dart';
 import 'package:fundi_link/features/auth/screens/login_screen.dart';
+import 'package:fundi_link/features/auth/screens/onboarding_screen.dart';
 import 'package:fundi_link/features/shell/customer_shell.dart';
 import 'package:fundi_link/features/shell/fundi_workspace_placeholder.dart';
 import 'package:fundi_link/main.dart';
@@ -21,10 +22,24 @@ Future<void> _flushAsyncWork(WidgetTester tester) async {
   await tester.pump();
 }
 
+/// Dismisses onboarding if it's showing, then waits for login.
+Future<void> _skipOnboardingIfNeeded(WidgetTester tester) async {
+  await _settle(tester);
+  await _settle(tester);
+  if (find.byType(OnboardingScreen).evaluate().isNotEmpty) {
+    // Tap Skip to go directly to login.
+    final skip = find.text('Skip');
+    if (skip.evaluate().isNotEmpty) {
+      await tester.tap(skip);
+      await tester.pump();
+      await tester.pump();
+    }
+  }
+}
+
 Future<void> _pumpLogin(WidgetTester tester) async {
   await tester.pumpWidget(const FundiLinkApp());
-  await _settle(tester);
-  await _settle(tester);
+  await _skipOnboardingIfNeeded(tester);
 }
 
 void main() {

@@ -4,11 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
-import 'login_screen.dart';
 
 /// Onboarding carousel shown on first app launch.
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  const OnboardingScreen({super.key, this.onComplete});
+
+  final VoidCallback? onComplete;
 
   static const String _seenKey = 'fundilink_onboarding_seen';
 
@@ -64,9 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _finish() async {
     await OnboardingScreen.markSeen();
     if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
-    );
+    widget.onComplete?.call();
   }
 
   void _next() {

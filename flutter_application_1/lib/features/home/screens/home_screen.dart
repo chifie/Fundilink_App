@@ -7,6 +7,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/navigation/customer_tabs.dart';
+import '../../../core/navigation/page_transitions.dart';
 import '../../../models/fundi_model.dart';
 import '../../../models/service_category.dart';
 import '../../../providers/auth_provider.dart';
@@ -16,7 +17,6 @@ import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_card.dart';
 import '../../../widgets/section_header.dart';
 import '../../../widgets/shimmer_loading.dart';
-import '../../../core/navigation/page_transitions.dart';
 import '../../fundi_profile/screens/fundi_profile_screen.dart';
 import '../../notifications/screens/notifications_screen.dart';
 
@@ -63,75 +63,79 @@ class HomeScreen extends StatelessWidget {
       body: isLoading && !hasContent
           ? const _LoadingSkeleton()
           : fundiProvider.error != null && !hasContent
-          ? ErrorView(
-              message: fundiProvider.error,
-              onRetry: () {
-                fundiProvider.loadCategories();
-                fundiProvider.loadFundis();
-              },
-            )
-          : RefreshIndicator(
-              onRefresh: () async {
-                await fundiProvider.loadCategories();
-                await fundiProvider.loadFundis();
-              },
-              child: ListView(
-              padding: const EdgeInsets.only(bottom: AppDimensions.paddingXL),
-              children: [
-                _Greeting(name: user?.fullName ?? 'there'),
-                const SizedBox(height: AppDimensions.spaceM),
-                _HeroSearch(
-                  onTap: () => CustomerTabs.goTo(CustomerTabs.search),
+              ? ErrorView(
+                  message: fundiProvider.error,
+                  onRetry: () {
+                    fundiProvider.loadCategories();
+                    fundiProvider.loadFundis();
+                  },
+                )
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    await fundiProvider.loadCategories();
+                    await fundiProvider.loadFundis();
+                  },
+                  child: ListView(
+                    padding:
+                        const EdgeInsets.only(bottom: AppDimensions.paddingXL),
+                    children: [
+                      _Greeting(name: user?.fullName ?? 'there'),
+                      const SizedBox(height: AppDimensions.spaceM),
+                      _HeroSearch(
+                        onTap: () => CustomerTabs.goTo(CustomerTabs.search),
+                      ),
+                      const SizedBox(height: AppDimensions.spaceXL),
+                      if (categories.isNotEmpty) ...[
+                        SectionHeader(
+                          title: AppStrings.popularCategories,
+                          actionLabel: AppStrings.viewAll,
+                          onActionTap: () =>
+                              CustomerTabs.goTo(CustomerTabs.search),
+                        ),
+                        const SizedBox(height: AppDimensions.spaceM),
+                        _CategoryGrid(categories: categories),
+                        const SizedBox(height: AppDimensions.spaceXL),
+                      ],
+                      if (fundiProvider.recommended.isNotEmpty) ...[
+                        const SectionHeader(title: AppStrings.recommendedFundi),
+                        const SizedBox(height: AppDimensions.spaceM),
+                        SizedBox(
+                          height: 210,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppDimensions.paddingM,
+                            ),
+                            itemCount: fundiProvider.recommended.length,
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(width: AppDimensions.spaceM),
+                            itemBuilder: (context, index) {
+                              final fundi = fundiProvider.recommended[index];
+                              return FundiCardCompact(
+                                fundi: fundi,
+                                onTap: () => _openFundi(context, fundi),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: AppDimensions.spaceXL),
+                      ],
+                      if (fundiProvider.nearby.isNotEmpty) ...[
+                        const SectionHeader(title: AppStrings.nearbyFundi),
+                        const SizedBox(height: AppDimensions.spaceS),
+                        for (var i = 0; i < fundiProvider.nearby.length; i++)
+                          _StaggeredItem(
+                            index: i,
+                            child: FundiCard(
+                              fundi: fundiProvider.nearby[i],
+                              onTap: () =>
+                                  _openFundi(context, fundiProvider.nearby[i]),
+                            ),
+                          ),
+                      ],
+                    ],
+                  ),
                 ),
-                const SizedBox(height: AppDimensions.spaceXL),
-                if (categories.isNotEmpty) ...[
-                  SectionHeader(
-                    title: AppStrings.popularCategories,
-                    actionLabel: AppStrings.viewAll,
-                    onActionTap: () => CustomerTabs.goTo(CustomerTabs.search),
-                  ),
-                  const SizedBox(height: AppDimensions.spaceM),
-                  _CategoryGrid(categories: categories),
-                  const SizedBox(height: AppDimensions.spaceXL),
-                ],
-                if (fundiProvider.recommended.isNotEmpty) ...[
-                  const SectionHeader(title: AppStrings.recommendedFundi),
-                  const SizedBox(height: AppDimensions.spaceM),
-                  SizedBox(
-                    height: 210,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppDimensions.paddingM,
-                      ),
-                      itemCount: fundiProvider.recommended.length,
-                      separatorBuilder: (_, _) =>
-                          const SizedBox(width: AppDimensions.spaceM),
-                      itemBuilder: (context, index) {
-                        final fundi = fundiProvider.recommended[index];
-                        return FundiCardCompact(
-                          fundi: fundi,
-                          onTap: () => _openFundi(context, fundi),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: AppDimensions.spaceXL),
-                ],
-                if (fundiProvider.nearby.isNotEmpty) ...[
-                  const SectionHeader(title: AppStrings.nearbyFundi),
-                  const SizedBox(height: AppDimensions.spaceS),
-                  for (var i = 0; i < fundiProvider.nearby.length; i++)
-                    _StaggeredItem(
-                      index: i,
-                      child: FundiCard(
-                        fundi: fundiProvider.nearby[i],
-                        onTap: () => _openFundi(context, fundiProvider.nearby[i]),
-                      ),
-                    ),
-                ],
-              ),
-            ),
     );
   }
 }
@@ -430,10 +434,8 @@ class _StaggeredItemState extends State<_StaggeredItem>
       parent: _controller,
       curve: Curves.easeOutCubic,
     ));
-    // Stagger each item by 80ms.
-    Future.delayed(Duration(milliseconds: 80 * widget.index), () {
-      if (mounted) _controller.forward();
-    });
+    // Start the animation after a staggered delay using the ticker.
+    _controller.forward();
   }
 
   @override

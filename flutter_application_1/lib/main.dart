@@ -165,7 +165,7 @@ class _SplashScreenState extends State<_SplashScreen>
 
 /// Decides between onboarding and login for first-time / returning users.
 class _AuthGate extends StatefulWidget {
-  const _AuthGate();
+  const _AuthGate({super.key});
 
   @override
   State<_AuthGate> createState() => _AuthGateState();
@@ -194,7 +194,15 @@ class _AuthGateState extends State<_AuthGate> {
   @override
   Widget build(BuildContext context) {
     if (_checking) return const _SplashScreen();
-    if (_showOnboarding) return const OnboardingScreen();
+    if (_showOnboarding) {
+      return OnboardingScreen(
+        onComplete: () {
+          setState(() {
+            _showOnboarding = false;
+          });
+        },
+      );
+    }
     return const LoginScreen();
   }
 }
