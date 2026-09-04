@@ -9,6 +9,11 @@ import '../../providers/chat_provider.dart';
 import '../../providers/fundi_provider.dart';
 import '../../providers/notification_provider.dart';
 import '../../providers/request_provider.dart';
+import '../chat/screens/conversation_list_screen.dart';
+import '../customer_profile/screens/profile_screen.dart';
+import '../customer_requests/screens/my_requests_screen.dart';
+import '../home/screens/home_screen.dart';
+import '../search/screens/search_screen.dart';
 
 /// Root scaffold for signed-in customers: hosts the five primary tabs
 /// (Home, Search, Requests, Messages, Profile) and pre-loads shared data.
@@ -61,35 +66,17 @@ class _CustomerShellState extends State<CustomerShell> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AuthProvider>().user;
+
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: const [
-          _ComingSoonTab(
-            icon: Icons.handyman,
-            title: AppStrings.home,
-            subtitle: 'Find fundis near you',
-          ),
-          _ComingSoonTab(
-            icon: Icons.search,
-            title: AppStrings.search,
-            subtitle: 'Explore services and fundis',
-          ),
-          _ComingSoonTab(
-            icon: Icons.assignment_outlined,
-            title: AppStrings.requests,
-            subtitle: 'Track your service requests',
-          ),
-          _ComingSoonTab(
-            icon: Icons.chat_bubble_outline,
-            title: AppStrings.messages,
-            subtitle: 'Chat with your fundis',
-          ),
-          _ComingSoonTab(
-            icon: Icons.person_outline,
-            title: AppStrings.profile,
-            subtitle: 'Manage your account',
-          ),
+        children: [
+          const HomeScreen(),
+          const SearchScreen(),
+          const MyRequestsScreen(),
+          ConversationListScreen(currentUserId: user?.id ?? ''),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -115,10 +102,7 @@ class _CustomerShellState extends State<CustomerShell> {
           ),
           NavigationDestination(
             icon: Icon(Icons.chat_bubble_outline),
-            selectedIcon: Icon(
-              Icons.chat_bubble,
-              color: AppColors.primary,
-            ),
+            selectedIcon: Icon(Icons.chat_bubble, color: AppColors.primary),
             label: AppStrings.messages,
           ),
           NavigationDestination(
@@ -127,48 +111,6 @@ class _CustomerShellState extends State<CustomerShell> {
             label: AppStrings.profile,
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Interim tab body used until each feature screen is wired into the shell.
-class _ComingSoonTab extends StatelessWidget {
-  const _ComingSoonTab({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 48, color: AppColors.primaryLight),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: const TextStyle(color: AppColors.textSecondary),
-            ),
-          ],
-        ),
       ),
     );
   }
