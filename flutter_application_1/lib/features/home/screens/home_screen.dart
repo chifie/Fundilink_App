@@ -236,6 +236,8 @@ class _CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+      splashColor: category.color.withValues(alpha: 0.15),
+      highlightColor: category.color.withValues(alpha: 0.05),
       onTap: () {
         CustomerTabs.categoryRequest.value = category.id;
         CustomerTabs.goTo(CustomerTabs.search);
@@ -243,7 +245,8 @@ class _CategoryItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
             width: 52,
             height: 52,
             decoration: BoxDecoration(
