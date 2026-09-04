@@ -76,12 +76,24 @@ class FundiCard extends StatelessWidget {
                       children: [
                         RatingStars(rating: fundi.rating, showValue: true),
                         const Spacer(),
-                        Text(
-                          'KES ${fundi.startingPrice.toStringAsFixed(0)}${fundi.priceUnit}',
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primarySurface,
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.radiusFull,
+                            ),
+                          ),
+                          child: Text(
+                            'KES ${fundi.startingPrice.toStringAsFixed(0)}${fundi.priceUnit}',
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ],
