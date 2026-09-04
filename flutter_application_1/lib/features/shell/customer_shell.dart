@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/navigation/customer_tabs.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/chat_provider.dart';
+import '../../providers/fundi_provider.dart';
+import '../../providers/notification_provider.dart';
+import '../../providers/request_provider.dart';
+
+/// Root scaffold for signed-in customers: hosts the five primary tabs
+/// (Home, Search, Requests, Messages, Profile) and pre-loads shared data.
+class CustomerShell extends StatefulWidget {
+  const CustomerShell({super.key});
+
+  @override
+  State<CustomerShell> createState() => _CustomerShellState();
+}
+
+class _CustomerShellState extends State<CustomerShell> {
+  late int _index;
+  bool _loaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _index = CustomerTabs.index.value;
+    CustomerTabs.index.addListener(_onTabIndexChanged);
+  }
+
+  @override
+  void dispose() {
+    CustomerTabs.index.removeListener(_onTabIndexChanged);
+    super.dispose();
+  }
+
+  void _onTabIndexChanged() {
+    if (mounted && _index != CustomerTabs.index.value) {
+      setState(() => _index = CustomerTabs.index.value);
+    }
+  }
+
+  void _loadSharedData() {
+    if (_loaded) return;
+    _loaded = true;
+
+    final user = context.read<AuthProvider>().user;
+    final fundiProvider = context.read<FundiProvider>();
+    fundiProvider.loadCategories();
+    fundiProvider.loadFundis();
+
+    if (user != null) {
+      context.read<RequestProvider>().loadCustomerRequests(user.id);
+    }
+    context.read<ChatProvider>().loadConversations();
+    context.read<NotificationProvider>().load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _loadSharedData();
+
+    return Scaffold(
+      body: IndexedStack(
+        index: _index,
+        children: const [
+          _ComingSoonTab(
+            icon: Icons.handyman,
+            title: AppStrings.home,
+            subtitle: 'Find fundis near you',
+          ),
+          _ComingSoonTab(
+            icon: Icons.search,
+            title: AppStrings.search,
+            subtitle: 'Explore services and fundis',
+          ),
+          _ComingSoonTab(
+            icon: Icons.assignment_outlined,
+            title: AppStrings.requests,
+            subtitle: 'Track your service requests',
+          ),
+          _ComingSoonTab(
+            icon: Icons.chat_bubble_outline,
+            title: AppStrings.messages,
+            subtitle: 'Chat with your fundis',
+          ),
+          _ComingSoonTab(
+            icon: Icons.person_outline,
+            title: AppStrings.profile,
+            subtitle: 'Manage your account',
+          ),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _index,
+        onDestinationSelected: (value) => CustomerTabs.index.value = value,
+        backgroundColor: AppColors.white,
+        indicatorColor: AppColors.primarySurface,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home, color: AppColors.primary),
+            label: AppStrings.home,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.search),
+            selectedIcon: Icon(Icons.search, color: AppColors.primary),
+            label: AppStrings.search,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.assignment_outlined),
+            selectedIcon: Icon(Icons.assignment, color: AppColors.primary),
+            label: AppStrings.requests,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(
+              Icons.chat_bubble,
+              color: AppColors.primary,
+            ),
+            label: AppStrings.messages,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person, color: AppColors.primary),
+            label: AppStrings.profile,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Interim tab body used until each feature screen is wired into the shell.
+class _ComingSoonTab extends StatelessWidget {
+  const _ComingSoonTab({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 48, color: AppColors.primaryLight),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              style: const TextStyle(color: AppColors.textSecondary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
