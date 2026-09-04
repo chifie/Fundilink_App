@@ -4,7 +4,7 @@ import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 
 /// Friendly placeholder shown when a list or screen has no content yet.
-class EmptyState extends StatelessWidget {
+class EmptyState extends StatefulWidget {
   const EmptyState({
     super.key,
     required this.icon,
@@ -21,6 +21,40 @@ class EmptyState extends StatelessWidget {
   final VoidCallback? onAction;
 
   @override
+  State<EmptyState> createState() => _EmptyStateState();
+}
+
+class _EmptyStateState extends State<EmptyState>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _bounceAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+    _bounceAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.2), weight: 40),
+      TweenSequenceItem(tween: Tween(begin: 1.2, end: 0.95), weight: 20),
+      TweenSequenceItem(tween: Tween(begin: 0.95, end: 1.05), weight: 20),
+      TweenSequenceItem(tween: Tween(begin: 1.05, end: 1.0), weight: 20),
+    ]).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
@@ -28,18 +62,21 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 88,
-              height: 88,
-              decoration: const BoxDecoration(
-                color: AppColors.primarySurface,
-                shape: BoxShape.circle,
+            ScaleTransition(
+              scale: _bounceAnimation,
+              child: Container(
+                width: 88,
+                height: 88,
+                decoration: const BoxDecoration(
+                  color: AppColors.primarySurface,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(widget.icon, size: 40, color: AppColors.primary),
               ),
-              child: Icon(icon, size: 40, color: AppColors.primary),
             ),
             const SizedBox(height: AppDimensions.spaceL),
             Text(
-              title,
+              widget.title,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: AppColors.textPrimary,
@@ -47,10 +84,10 @@ class EmptyState extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            if (message != null) ...[
+            if (widget.message != null) ...[
               const SizedBox(height: AppDimensions.spaceS),
               Text(
-                message!,
+                widget.message!,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: AppColors.textSecondary,
@@ -59,13 +96,13 @@ class EmptyState extends StatelessWidget {
                 ),
               ),
             ],
-            if (actionLabel != null) ...[
+            if (widget.actionLabel != null) ...[
               const SizedBox(height: AppDimensions.spaceXL),
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
-                  onPressed: onAction,
-                  child: Text(actionLabel!),
+                  onPressed: widget.onAction,
+                  child: Text(widget.actionLabel!),
                 ),
               ),
             ],
