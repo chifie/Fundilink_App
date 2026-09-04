@@ -78,7 +78,7 @@ class MockData {
     const ServiceCategory(
       id: 'cat_masonry',
       name: AppStrings.masonry,
-      icon: Icons.bricks,
+      icon: Icons.construction,
       color: AppColors.categoryMasonry,
       description: 'Brickwork, walls, pavements and concrete structures.',
       jobCount: 430,
