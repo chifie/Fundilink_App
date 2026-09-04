@@ -187,10 +187,15 @@ class _SearchScreenState extends State<SearchScreen> {
             : 'Type a service, name or location above, or pick a category.',
       );
     }
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
-      itemCount: fundis.length,
-      itemBuilder: (context, index) => _FundiResultTile(fundi: fundis[index]),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await provider.search(_queryController.text.trim(), sortBy: _sortBy);
+      },
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
+        itemCount: fundis.length,
+        itemBuilder: (context, index) => _FundiResultTile(fundi: fundis[index]),
+      ),
     );
   }
 }
