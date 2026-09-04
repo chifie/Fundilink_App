@@ -8,6 +8,7 @@ import '../../../core/navigation/customer_tabs.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../widgets/fundi_avatar.dart';
 import '../../notifications/screens/notifications_screen.dart';
+import '../../settings/screens/settings_screen.dart';
 
 /// Account overview for the signed-in customer with quick links and logout.
 class ProfileScreen extends StatelessWidget {
@@ -147,29 +148,13 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           _MenuTile(
-            icon: Icons.help_outline,
-            title: AppStrings.help,
-            onTap: () => showDialog<void>(
-              context: context,
-              builder: (dialogContext) => AlertDialog(
-                title: const Text(AppStrings.help),
-                content: const Text(
-                  'Reach our support team at support@fundilink.example.com '
-                  'or visit the help centre in the app menu.',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                    child: const Text(AppStrings.ok),
-                  ),
-                ],
+            icon: Icons.settings_outlined,
+            title: AppStrings.settings,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const SettingsScreen(),
               ),
             ),
-          ),
-          _MenuTile(
-            icon: Icons.info_outline,
-            title: AppStrings.aboutApp,
-            onTap: () => _showAbout(context),
           ),
           const SizedBox(height: AppDimensions.spaceL),
           SizedBox(
