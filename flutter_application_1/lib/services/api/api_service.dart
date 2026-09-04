@@ -59,10 +59,10 @@ class ApiService {
     String? sort,
   }) async {
     return await _client.get(ApiConstants.fundis, query: {
-      if (search != null) ApiConstants.searchParam: search,
-      if (category != null) ApiConstants.categoryParam: category,
-      if (location != null) ApiConstants.locationParam: location,
-      if (sort != null) ApiConstants.sortParam: sort,
+      ApiConstants.searchParam: ?search,
+      ApiConstants.categoryParam: ?category,
+      ApiConstants.locationParam: ?location,
+      ApiConstants.sortParam: ?sort,
     }) as List<dynamic>;
   }
 
