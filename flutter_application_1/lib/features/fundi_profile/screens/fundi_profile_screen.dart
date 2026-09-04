@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../models/availability.dart';
 import '../../../models/fundi_model.dart';
 import '../../../models/portfolio_item.dart';
 import '../../../models/review.dart';
@@ -287,7 +288,7 @@ class _Stat extends StatelessWidget {
 class _AvailabilityCard extends StatelessWidget {
   const _AvailabilityCard({required this.availability});
 
-  final dynamic availability;
+  final Availability availability;
 
   @override
   Widget build(BuildContext context) {
