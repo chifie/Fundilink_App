@@ -8,6 +8,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/earnings_chart.dart';
 import '../../../widgets/shimmer_loading.dart';
 
 
@@ -87,6 +88,12 @@ class _EarningsScreenState extends State<EarningsScreen> {
                     ),
               ],
             ),
+          ),
+          const SizedBox(height: AppDimensions.spaceL),
+
+          // Weekly chart
+          EarningsChart(
+            dailyEarnings: [1200, 800, 2500, 0, 1800, 3200, 0],
           ),
           const SizedBox(height: AppDimensions.spaceXL),
 
