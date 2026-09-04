@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 import '../data/mock_data.dart';
+import '../models/availability.dart';
 import '../models/fundi_model.dart';
+import '../models/portfolio_item.dart';
 import '../models/service_category.dart';
 import '../repositories/fundi_repository.dart';
 
@@ -77,4 +79,10 @@ class FundiProvider extends ChangeNotifier {
     await _repository.updateFundiProfile(updated);
     await loadFundis();
   }
+
+  Future<List<PortfolioItem>> portfolioFor(String fundiId) =>
+      _repository.getPortfolio(fundiId);
+
+  Future<Availability> availabilityFor(String fundiId) =>
+      _repository.getAvailability(fundiId);
 }
