@@ -25,7 +25,7 @@ class ScheduleCalendar extends StatelessWidget {
         // Time range
         Row(
           children: [
-            const Icon(Icons.access_time, size: 16, color: AppColors.primary),
+            const Icon(Icons.access_time, size: 16, color: AppColors.forestGreen),
             const SizedBox(width: 6),
             Text(
               '$startTime – $endTime',
@@ -45,7 +45,7 @@ class ScheduleCalendar extends StatelessWidget {
               child: Text(
                 '${workingDays.length}/7 days',
                 style: const TextStyle(
-                  color: AppColors.primary,
+                  color: AppColors.forestGreen,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),

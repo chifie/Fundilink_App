@@ -63,7 +63,7 @@ class FundiRequestDetailScreen extends StatelessWidget {
               const Spacer(),
               Text(
                 Formatters.currency(current.estimatedCost),
-                style: const TextStyle(color: AppColors.primary, fontSize: 16, fontWeight: FontWeight.w800),
+                style: const TextStyle(color: AppColors.forestGreen, fontSize: 16, fontWeight: FontWeight.w800),
               ),
             ],
           ),

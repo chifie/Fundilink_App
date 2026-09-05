@@ -30,13 +30,13 @@ class RequestSuccessScreen extends StatelessWidget {
                   width: 112,
                   height: 112,
                   decoration: const BoxDecoration(
-                    color: AppColors.successLight,
+                    color: AppColors.forestGreen.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.check_circle,
                     size: 64,
-                    color: AppColors.success,
+                    color: AppColors.forestGreen,
                   ),
                 ),
                 const SizedBox(height: AppDimensions.spaceXL),
