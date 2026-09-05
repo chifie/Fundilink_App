@@ -11,6 +11,24 @@ extension RequestStatusHelpers on RequestStatus {
   /// Returns true if the request can be rejected.
   bool get canReject => this == RequestStatus.pending;
 
+  /// Returns a user-friendly label for the current status.
+  String get displayLabel {
+    switch (this) {
+      case RequestStatus.pending:
+        return 'Awaiting response';
+      case RequestStatus.accepted:
+        return 'Fundi accepted';
+      case RequestStatus.inProgress:
+        return 'Work in progress';
+      case RequestStatus.completed:
+        return 'Work completed';
+      case RequestStatus.reviewed:
+        return 'Review submitted';
+      case RequestStatus.rejected:
+        return 'Request declined';
+    }
+  }
+
   /// Returns true if work can be started.
   bool get canStartWork => this == RequestStatus.accepted;
 

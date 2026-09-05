@@ -34,6 +34,7 @@ class HomeScreen extends StatelessWidget {
     final fundiProvider = context.watch<FundiProvider>();
     final notificationProvider = context.watch<NotificationProvider>();
     final user = context.watch<AuthProvider>().user;
+    final showNewBadge = fundiProvider.recommended.isNotEmpty && fundiProvider.nearby.isNotEmpty;
 
     final categories = fundiProvider.categories;
     final isLoading = fundiProvider.isLoading;
@@ -95,6 +96,8 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: AppDimensions.spaceXL),
                       ],
                       if (fundiProvider.recommended.isNotEmpty) ...[
+                        if (showNewBadge)
+                          _NewArrivalsBanner(),
                         const SectionHeader(title: AppStrings.recommendedFundi),
                         const SizedBox(height: AppDimensions.spaceM),
                         SizedBox(
@@ -134,6 +137,38 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+    );
+  }
+}
+
+class _NewArrivalsBanner extends StatelessWidget {
+  const _NewArrivalsBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: AppDimensions.spaceM),
+      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.forestGreen.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+        border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.3)),
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.eco, size: 12, color: AppColors.forestGreen),
+          SizedBox(width: 4),
+          Text(
+            'New arrivals available',
+            style: TextStyle(
+              color: AppColors.forestGreen,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -23,6 +23,14 @@ extension FundiHelpers on Fundi {
   /// Returns true if the fundi is highly rated (4.5+).
   bool get isHighlyRated => rating >= 4.5;
 
+  /// Returns a badge color for the fundi's rating tier.
+  Color get ratingTierColor {
+    if (rating >= 4.8) return const Color(0xFF7193A3);
+    if (rating >= 4.5) return const Color(0xFF10B981);
+    if (rating >= 4.0) return const Color(0xFFF59E0B);
+    return const Color(0xFFEF4444);
+  }
+
   /// Returns true if the fundi responds quickly (15 min or less).
   bool get isFastResponder => responseTimeMinutes <= 15;
 }
