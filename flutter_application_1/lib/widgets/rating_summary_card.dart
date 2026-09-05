@@ -76,7 +76,7 @@ class RatingSummaryCard extends StatelessWidget {
                           child: LinearProgressIndicator(
                             value: percentage,
                             backgroundColor: AppColors.border,
-                            color: AppColors.starFilled,
+                            color: AppColors.forestGreen,
                             minHeight: 6,
                           ),
                         ),

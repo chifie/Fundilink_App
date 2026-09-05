@@ -60,7 +60,7 @@ class _StatItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 18, color: AppColors.primary),
+        Icon(icon, size: 18, color: AppColors.forestGreen),
         const SizedBox(height: 2),
         Text(
           value,

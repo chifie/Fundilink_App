@@ -56,9 +56,9 @@ class RequestProgressTracker extends StatelessWidget {
                   height: 28,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: i <= currentIndex ? AppColors.primary : AppColors.surfaceVariant,
+                    color: i <= currentIndex ? AppColors.forestGreen : AppColors.surfaceVariant,
                     border: Border.all(
-                      color: i <= currentIndex ? AppColors.primary : AppColors.border,
+                      color: i <= currentIndex ? AppColors.forestGreen : AppColors.border,
                       width: 2,
                     ),
                   ),
@@ -76,7 +76,7 @@ class RequestProgressTracker extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 9,
                     fontWeight: i == currentIndex ? FontWeight.w700 : FontWeight.w500,
-                    color: i <= currentIndex ? AppColors.primary : AppColors.textHint,
+                    color: i <= currentIndex ? AppColors.forestGreen : AppColors.textHint,
                   ),
                 ),
               ],
