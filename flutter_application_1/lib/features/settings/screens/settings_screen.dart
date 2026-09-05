@@ -90,7 +90,7 @@ class SettingsScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    activeThumbColor: AppColors.primary,
+                    activeThumbColor: AppColors.forestGreen,
                   ),
                   onTap: () {},
                 ),

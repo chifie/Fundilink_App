@@ -154,7 +154,7 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
                               '${Formatters.currency(fundi.startingPrice)}'
                               '${fundi.priceUnit}',
                               style: const TextStyle(
-                                color: AppColors.primary,
+                                color: AppColors.forestGreen,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                               ),

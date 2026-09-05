@@ -165,7 +165,7 @@ class _HeaderCard extends StatelessWidget {
               ),
               if (fundi.verified) ...[
                 const SizedBox(width: 6),
-                const Icon(Icons.verified, size: 20, color: AppColors.primary),
+                const Icon(Icons.verified, size: 20, color: AppColors.forestGreen),
               ],
             ],
           ),
@@ -280,7 +280,7 @@ class _Stat extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isPrice ? AppColors.primary : AppColors.textPrimary,
+                color: isPrice ? AppColors.forestGreen : AppColors.textPrimary,
                 fontSize: isPrice ? 12 : 15,
                 fontWeight: FontWeight.w800,
               ),
