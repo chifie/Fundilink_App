@@ -58,6 +58,9 @@ class AppColors {
   // Shadow
   static const Color shadow = Color(0x1A000000);
 
+  // Forest Green (from brand palette)
+  static const Color forestGreen = Color(0xFF7193A3);
+
   // Category Colors
   static const Color categoryPlumbing = Color(0xFF3B82F6);
   static const Color categoryElectrical = Color(0xFFF59E0B);
