@@ -6,7 +6,7 @@ import '../core/constants/app_dimensions.dart';
 enum FundiBadge {
   topRated('Top Rated', Icons.star, AppColors.starFilled),
   fastResponder('Fast Responder', Icons.bolt, AppColors.secondary),
-  verified('Verified Pro', Icons.verified, AppColors.primary),
+  verified('Verified Pro', Icons.verified, AppColors.forestGreen),
   experienced('5+ Years', Icons.workspace_premium, AppColors.categoryCarpentry),
   popular('Popular', Icons.trending_up, AppColors.success);
 

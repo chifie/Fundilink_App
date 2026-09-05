@@ -17,7 +17,7 @@ class PortfolioUploadCard extends StatelessWidget {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.3),
+            color: AppColors.forestGreen.withValues(alpha: 0.3),
             width: 2,
             strokeAlign: BorderSide.strokeAlignInside,
           ),
@@ -28,13 +28,13 @@ class PortfolioUploadCard extends StatelessWidget {
             Icon(
               Icons.add_photo_alternate_outlined,
               size: 40,
-              color: AppColors.primary,
+              color: AppColors.forestGreen,
             ),
             SizedBox(height: AppDimensions.spaceS),
             Text(
               AppStrings.addWork,
               style: TextStyle(
-                color: AppColors.primary,
+                color: AppColors.forestGreen,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
