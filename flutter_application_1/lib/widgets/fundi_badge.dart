@@ -9,6 +9,7 @@ enum FundiBadge {
   verified('Verified Pro', Icons.verified, AppColors.forestGreen),
   experienced('5+ Years', Icons.workspace_premium, AppColors.categoryCarpentry),
   popular('Popular', Icons.trending_up, AppColors.success);
+  forestRanger('Forest Pro', Icons.eco, AppColors.forestGreen);
 
   const FundiBadge(this.label, this.icon, this.color);
   final String label;

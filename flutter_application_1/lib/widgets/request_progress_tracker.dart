@@ -44,8 +44,23 @@ class RequestProgressTracker extends StatelessWidget {
 
     final currentIndex = _statusIndex(status);
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            'Request Progress',
+            style: const TextStyle(
+              color: AppColors.forestGreen,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
         for (var i = 0; i < _steps.length; i++) ...[
           Expanded(
             child: Column(

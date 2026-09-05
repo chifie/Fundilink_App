@@ -15,13 +15,24 @@ class RatingSummaryCard extends StatelessWidget {
   final double averageRating;
   final int totalReviews;
   final List<int> distribution;
+  final bool showHeader;
+
+  const RatingSummaryCard({
+    super.key,
+    required this.averageRating,
+    required this.totalReviews,
+    required this.distribution,
+    this.showHeader = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     final maxCount = distribution.isEmpty ? 1 : distribution.reduce((a, b) => a > b ? a : b);
 
     return Container(
-      padding: const EdgeInsets.all(AppDimensions.paddingL),
+      padding: EdgeInsets.all(
+        showHeader ? AppDimensions.paddingL : AppDimensions.paddingM,
+      ),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
