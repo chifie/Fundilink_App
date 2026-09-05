@@ -44,7 +44,7 @@ class PortfolioUploadCard extends StatelessWidget {
               'Upload a photo of\nyour work',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppColors.textHint,
+                color: AppColors.forestGreen.withValues(alpha: 0.7),
                 fontSize: 11,
               ),
             ),
