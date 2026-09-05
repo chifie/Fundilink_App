@@ -229,7 +229,7 @@ class _CategoryFilterChip extends StatelessWidget {
         selected: selected,
         onSelected: (_) => onTap(),
         showCheckmark: false,
-        selectedColor: AppColors.primary,
+        selectedColor: AppColors.forestGreen,
         backgroundColor: AppColors.surface,
         labelStyle: TextStyle(
           color: selected ? AppColors.textOnPrimary : AppColors.textSecondary,
@@ -237,7 +237,7 @@ class _CategoryFilterChip extends StatelessWidget {
           fontSize: 13,
         ),
         side: BorderSide(
-          color: selected ? AppColors.primary : AppColors.border,
+          color: selected ? AppColors.forestGreen : AppColors.border,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusFull),

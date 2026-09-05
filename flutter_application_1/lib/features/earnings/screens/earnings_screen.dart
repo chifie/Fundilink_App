@@ -62,7 +62,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [AppColors.success, AppColors.success.withValues(alpha: 0.8)],
+                colors: [AppColors.forestGreen, AppColors.forestGreen.withValues(alpha: 0.8)],
               ),
               borderRadius: BorderRadius.circular(AppDimensions.radiusL),
             ),
@@ -116,8 +116,8 @@ class _EarningsScreenState extends State<EarningsScreen> {
                 margin: const EdgeInsets.only(bottom: AppDimensions.spaceS),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: AppColors.successLight,
-                    child: const Icon(Icons.check, color: AppColors.success, size: 20),
+                    backgroundColor: AppColors.forestGreen.withValues(alpha: 0.12),
+                    child: const Icon(Icons.check, color: AppColors.forestGreen, size: 20),
                   ),
                   title: Text(
                     job.customerName,
@@ -126,7 +126,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                   subtitle: Text(job.categoryName, style: const TextStyle(fontSize: 12)),
                   trailing: Text(
                     Formatters.currency(job.estimatedCost),
-                    style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w700),
+                    style: const TextStyle(color: AppColors.forestGreen, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
