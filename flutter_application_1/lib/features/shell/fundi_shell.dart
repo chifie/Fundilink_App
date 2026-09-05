@@ -101,7 +101,7 @@ class _FundiShellState extends State<FundiShell> {
             selectedIcon: Badge(
               isLabelVisible: context.watch<ChatProvider>().unreadTotal > 0,
               label: Text('${context.watch<ChatProvider>().unreadTotal}'),
-              child: const Icon(Icons.chat_bubble, color: AppColors.primary),
+              child: const Icon(Icons.chat_bubble, color: AppColors.forestGreen),
             ),
             label: AppStrings.messages,
           ),
