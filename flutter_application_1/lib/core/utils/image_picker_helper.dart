@@ -50,6 +50,7 @@ class ImagePickerHelper {
       maxWidth: 1200,
       maxHeight: 1200,
       imageQuality: 85,
+      enablePinchToZoom: true,
     );
 
     if (picked == null) return null;

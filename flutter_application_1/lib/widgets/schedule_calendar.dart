@@ -66,6 +66,14 @@ class ScheduleCalendar extends StatelessWidget {
               ),
           ],
         ),
+        const SizedBox(height: AppDimensions.spaceM),
+        Text(
+          'Working hours: $startTime – $endTime',
+          style: const TextStyle(
+            color: AppColors.textHint,
+            fontSize: 11,
+          ),
+        ),
       ],
     );
   }

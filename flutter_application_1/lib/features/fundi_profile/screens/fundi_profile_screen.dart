@@ -101,6 +101,8 @@ class _FundiProfileScreenState extends State<FundiProfileScreen> {
         padding: const EdgeInsets.only(bottom: AppDimensions.paddingXL),
         children: [
           _HeaderCard(fundi: fundi),
+          const SizedBox(height: AppDimensions.spaceXS),
+          _ActionCta(fundi: fundi),
           const SizedBox(height: AppDimensions.spaceM),
           _StatsRow(fundi: fundi),
           const SizedBox(height: AppDimensions.spaceL),
@@ -550,6 +552,38 @@ class _ReviewTile extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActionCta extends StatelessWidget {
+  const _ActionCta({required this.fundi});
+  final Fundi fundi;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.forestGreen.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+        border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.chat_bubble_outline, size: 16, color: AppColors.forestGreen),
+          const SizedBox(width: 6),
+          Text(
+            'Chat with ${fundi.fullName}',
+            style: const TextStyle(
+              color: AppColors.forestGreen,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],

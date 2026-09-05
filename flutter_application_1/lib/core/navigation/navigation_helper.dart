@@ -39,4 +39,19 @@ class NavigationHelper {
   static void popToFirst(BuildContext context) {
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
+
+  /// Push a new screen with a custom animation duration.
+  static Future<T?> pushWithDuration<T>(
+    BuildContext context,
+    Widget page, {
+    required Duration duration,
+  }) {
+    return Navigator.of(context).push<T>(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => page,
+        transitionDuration: duration,
+        reverseTransitionDuration: duration,
+      ),
+    );
+  }
 }

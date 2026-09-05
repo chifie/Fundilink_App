@@ -35,6 +35,8 @@ class FundiStatsBar extends StatelessWidget {
           _StatItem(icon: Icons.star_outline, value: rating.toStringAsFixed(1), label: 'Rating'),
           _divider(),
           _StatItem(icon: Icons.school_outlined, value: '${yearsExperience}yr', label: 'Experience'),
+          _divider(),
+          _StatItem(icon: Icons.location_on_outlined, value: 'Active', label: 'Status'),
         ],
       ),
     );
