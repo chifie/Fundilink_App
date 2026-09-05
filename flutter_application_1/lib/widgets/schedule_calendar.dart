@@ -74,6 +74,50 @@ class ScheduleCalendar extends StatelessWidget {
             fontSize: 11,
           ),
         ),
+        const SizedBox(height: AppDimensions.spaceS),
+        _Legend(),
+      ],
+    );
+  }
+}
+
+class _Legend extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: const BoxDecoration(
+            color: AppColors.forestGreen,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 4),
+        const Text(
+          'Available',
+          style: TextStyle(color: AppColors.textHint, fontSize: 10),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: const BoxDecoration(
+            color: AppColors.surfaceVariant,
+            shape: BoxShape.circle,
+            border: Border(
+              color: AppColors.border,
+              width: 1,
+            ),
+          ),
+        ),
+        const SizedBox(width: 4),
+        const Text(
+          'Unavailable',
+          style: TextStyle(color: AppColors.textHint, fontSize: 10),
+        ),
       ],
     );
   }
