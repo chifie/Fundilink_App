@@ -47,7 +47,7 @@ class EarningsChart extends StatelessWidget {
                             value >= 1000 ? '${(value / 1000).toStringAsFixed(0)}K' : value.toStringAsFixed(0),
                             style: TextStyle(
                               fontSize: 8,
-                              color: isToday ? AppColors.primary : AppColors.textHint,
+                              color: isToday ? AppColors.forestGreen : AppColors.textHint,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -56,7 +56,7 @@ class EarningsChart extends StatelessWidget {
                         duration: const Duration(milliseconds: 500),
                         height: height.clamp(2, 80),
                         decoration: BoxDecoration(
-                          color: isToday ? AppColors.primary : AppColors.primaryLight.withValues(alpha: 0.5),
+                          color: isToday ? AppColors.forestGreen : AppColors.forestGreen.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -65,7 +65,7 @@ class EarningsChart extends StatelessWidget {
                         _days[index],
                         style: TextStyle(
                           fontSize: 10,
-                          color: isToday ? AppColors.primary : AppColors.textHint,
+                          color: isToday ? AppColors.forestGreen : AppColors.textHint,
                           fontWeight: isToday ? FontWeight.w700 : FontWeight.w400,
                         ),
                       ),
