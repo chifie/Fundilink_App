@@ -70,7 +70,7 @@ class _FundiReviewsScreenState extends State<FundiReviewsScreen> {
                           Text(
                             avgRating.toStringAsFixed(1),
                             style: const TextStyle(
-                              color: AppColors.primary,
+                              color: AppColors.forestGreen,
                               fontSize: 48,
                               fontWeight: FontWeight.w800,
                             ),

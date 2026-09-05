@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Icon(
                     Icons.handyman,
                     size: 44,
-                    color: AppColors.primary,
+                    color: AppColors.forestGreen,
                   ),
                 ),
                 const SizedBox(height: AppDimensions.spaceL),
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppStrings.appName,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: AppColors.primary,
+                    color: AppColors.forestGreen,
                     fontSize: 30,
                     fontWeight: FontWeight.w800,
                   ),

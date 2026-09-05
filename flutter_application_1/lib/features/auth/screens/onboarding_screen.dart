@@ -36,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: Icons.search,
       title: AppStrings.onboardingTitle1,
       description: AppStrings.onboardingDesc1,
-      color: AppColors.primary,
+      color: AppColors.forestGreen,
     ),
     _OnboardingPage(
       icon: Icons.calendar_today,
