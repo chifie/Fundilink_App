@@ -79,7 +79,7 @@ class _FundiShellState extends State<FundiShell> {
         destinations: [
           const NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),
-            selectedIcon: Icon(Icons.dashboard, color: AppColors.primary),
+            selectedIcon: Icon(Icons.dashboard, color: AppColors.forestGreen),
             label: AppStrings.dashboard,
           ),
           const NavigationDestination(
