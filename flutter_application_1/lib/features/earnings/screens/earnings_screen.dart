@@ -91,6 +91,31 @@ class _EarningsScreenState extends State<EarningsScreen> {
           ),
           const SizedBox(height: AppDimensions.spaceL),
 
+          // Earnings summary card
+          Container(
+            padding: const EdgeInsets.all(AppDimensions.paddingM),
+            decoration: BoxDecoration(
+              color: AppColors.forestGreen.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+              border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.2)),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.trending_up, size: 16, color: AppColors.forestGreen),
+                SizedBox(width: 6),
+                Text(
+                  'Your earnings are growing',
+                  style: TextStyle(
+                    color: AppColors.forestGreen,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppDimensions.spaceL),
+
           // Weekly chart
           EarningsChart(
             dailyEarnings: [1200, 800, 2500, 0, 1800, 3200, 0],
