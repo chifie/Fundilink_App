@@ -68,7 +68,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
             ),
             value: _isAvailable,
             onChanged: (value) => setState(() => _isAvailable = value),
-            activeThumbColor: AppColors.primary,
+            activeThumbColor: AppColors.forestGreen,
           ),
           const Divider(),
           const SizedBox(height: AppDimensions.spaceM),
@@ -94,7 +94,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                       }
                     });
                   },
-                  selectedColor: AppColors.primary,
+                  selectedColor: AppColors.forestGreen,
                   labelStyle: TextStyle(
                     color: _selectedDays.contains(day) ? AppColors.textOnPrimary : AppColors.textSecondary,
                     fontWeight: FontWeight.w600,
