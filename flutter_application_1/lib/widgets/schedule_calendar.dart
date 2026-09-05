@@ -104,10 +104,10 @@ class _Legend extends StatelessWidget {
         Container(
           width: 10,
           height: 10,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.surfaceVariant,
             shape: BoxShape.circle,
-            border: BorderSide(color: AppColors.border, width: 1),
+            border: Border.all(color: AppColors.border, width: 1),
           ),
         ),
         const SizedBox(width: 4),
@@ -136,6 +136,7 @@ class _DayCircle extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(
               color: isWorking ? AppColors.forestGreen : AppColors.border,
+              width: 2,
             ),
           ),
           child: Center(
