@@ -10,20 +10,13 @@ class RatingSummaryCard extends StatelessWidget {
     required this.averageRating,
     required this.totalReviews,
     required this.distribution, // [5star, 4star, 3star, 2star, 1star] counts
+    this.showHeader = true,
   });
 
   final double averageRating;
   final int totalReviews;
   final List<int> distribution;
   final bool showHeader;
-
-  const RatingSummaryCard({
-    super.key,
-    required this.averageRating,
-    required this.totalReviews,
-    required this.distribution,
-    this.showHeader = true,
-  });
 
   @override
   Widget build(BuildContext context) {

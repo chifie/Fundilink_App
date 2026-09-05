@@ -61,51 +61,51 @@ class RequestProgressTracker extends StatelessWidget {
         const SizedBox(height: 4),
         Row(
           children: [
-        for (var i = 0; i < _steps.length; i++) ...[
-          Expanded(
-            child: Column(
-              children: [
-                // Circle
-                Container(
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: i <= currentIndex ? AppColors.forestGreen : AppColors.surfaceVariant,
-                    border: Border.all(
-                      color: i <= currentIndex ? AppColors.forestGreen : AppColors.border,
-                      width: 2,
+            for (var i = 0; i < _steps.length; i++) ...[
+              Expanded(
+                child: Column(
+                  children: [
+                    // Circle
+                    Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: i <= currentIndex ? AppColors.forestGreen : AppColors.surfaceVariant,
+                        border: Border.all(
+                          color: i <= currentIndex ? AppColors.forestGreen : AppColors.border,
+                          width: 2,
+                        ),
+                      ),
+                      child: Icon(
+                        _steps[i].$3,
+                        size: 14,
+                        color: i <= currentIndex ? AppColors.textOnPrimary : AppColors.textHint,
+                      ),
                     ),
-                  ),
-                  child: Icon(
-                    _steps[i].$3,
-                    size: 14,
-                    color: i <= currentIndex ? AppColors.textOnPrimary : AppColors.textHint,
-                  ),
+                    const SizedBox(height: 4),
+                    // Label
+                    Text(
+                      _steps[i].$2,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight: i == currentIndex ? FontWeight.w700 : FontWeight.w500,
+                        color: i <= currentIndex ? AppColors.forestGreen : AppColors.textHint,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                // Label
-                Text(
-                  _steps[i].$2,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: i == currentIndex ? FontWeight.w700 : FontWeight.w500,
-                    color: i <= currentIndex ? AppColors.forestGreen : AppColors.textHint,
-                  ),
+              ),
+              // Connector line
+              if (i < _steps.length - 1)
+                Container(
+                  width: 20,
+                  height: 2,
+                  color: i < currentIndex ? AppColors.primary : AppColors.border,
                 ),
-              ],
-            ),
-          ),
-          // Connector line
-          if (i < _steps.length - 1)
-            Container(
-              width: 20,
-              height: 2,
-              color: i < currentIndex ? AppColors.primary : AppColors.border,
-            ),
-        ],
-      ],
-    );
+            ],
+          ],
+        ));
   }
 }

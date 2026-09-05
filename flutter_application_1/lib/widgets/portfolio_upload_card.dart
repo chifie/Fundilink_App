@@ -19,7 +19,7 @@ class PortfolioUploadCard extends StatelessWidget {
           border: Border.all(
             color: AppColors.forestGreen.withValues(alpha: 0.3),
             width: 2,
-            strokeAlign: BorderSide.strokeAlignInside,
+            strokeAlign: BorderSide.strokeAlignCenter,
           ),
         ),
         child: const Column(

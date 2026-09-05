@@ -107,10 +107,7 @@ class _Legend extends StatelessWidget {
           decoration: const BoxDecoration(
             color: AppColors.surfaceVariant,
             shape: BoxShape.circle,
-            border: Border(
-              color: AppColors.border,
-              width: 1,
-            ),
+            border: BorderSide(color: AppColors.border, width: 1),
           ),
         ),
         const SizedBox(width: 4),
@@ -134,12 +131,11 @@ class _DayCircle extends StatelessWidget {
       children: [
         Container(
           width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: isWorking ? AppColors.primary : AppColors.surfaceVariant,
+          height: 36,              decoration: BoxDecoration(
+            color: isWorking ? AppColors.forestGreen : AppColors.surfaceVariant,
             shape: BoxShape.circle,
             border: Border.all(
-              color: isWorking ? AppColors.primary : AppColors.border,
+              color: isWorking ? AppColors.forestGreen : AppColors.border,
             ),
           ),
           child: Center(
@@ -149,6 +145,7 @@ class _DayCircle extends StatelessWidget {
                 color: isWorking ? AppColors.textOnPrimary : AppColors.textHint,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
+                shadows: isWorking ? [] : null,
               ),
             ),
           ),
@@ -157,7 +154,7 @@ class _DayCircle extends StatelessWidget {
         Text(
           day,
           style: TextStyle(
-            color: isWorking ? AppColors.primary : AppColors.textHint,
+            color: isWorking ? AppColors.forestGreen : AppColors.textHint,
             fontSize: 10,
             fontWeight: isWorking ? FontWeight.w600 : FontWeight.w400,
           ),
