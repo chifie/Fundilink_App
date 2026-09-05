@@ -91,7 +91,7 @@ class _CustomerShellState extends State<CustomerShell> {
         destinations: [
           const NavigationDestination(
             icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home, color: AppColors.primary),
+            selectedIcon: Icon(Icons.home, color: AppColors.forestGreen),
             label: AppStrings.home,
           ),
           const NavigationDestination(
