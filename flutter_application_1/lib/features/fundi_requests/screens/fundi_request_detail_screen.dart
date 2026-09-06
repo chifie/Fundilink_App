@@ -7,6 +7,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/dialogs/confirm_dialog.dart';
 import '../../../widgets/request_progress_tracker.dart';
 import '../../../widgets/status_chip.dart';
 
@@ -31,18 +32,12 @@ class FundiRequestDetailScreen extends StatelessWidget {
     required String message,
     required RequestStatus status,
   }) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(dialogContext).pop(false), child: const Text(AppStrings.cancel)),
-          TextButton(onPressed: () => Navigator.of(dialogContext).pop(true), child: const Text(AppStrings.confirm)),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: title,
+      message: message,
     );
-    if (confirmed == true && context.mounted) {
+    if (confirmed && context.mounted) {
       await _updateStatus(context, status);
     }
   }

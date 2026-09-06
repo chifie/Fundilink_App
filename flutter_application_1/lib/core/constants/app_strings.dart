@@ -17,6 +17,7 @@ class AppStrings {
   static const String forgotPassword = 'Forgot Password?';
   static const String resetPassword = 'Reset Password';
   static const String sendResetLink = 'Send Reset Link';
+  static const String logoutConfirm = 'Are you sure you want to log out?';
   static const String backToLogin = 'Back to Login';
   static const String noAccount = "Don't have an account?";
   static const String hasAccount = 'Already have an account?';

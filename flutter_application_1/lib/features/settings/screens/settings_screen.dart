@@ -6,6 +6,7 @@ import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_info.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../widgets/dialogs/confirm_dialog.dart';
 
 /// App settings and account management screen.
 class SettingsScreen extends StatelessWidget {
@@ -202,24 +203,14 @@ class SettingsScreen extends StatelessWidget {
   Future<void> _logout(BuildContext context) async {
     final navigator = Navigator.of(context);
     final auth = context.read<AuthProvider>();
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.logout),
-        content: const Text('Are you sure you want to log out?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text(AppStrings.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text(AppStrings.logout),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: AppStrings.logout,
+      message: AppStrings.logoutConfirm,
+      confirmLabel: AppStrings.logout,
+      confirmColor: AppColors.error,
     );
-    if (confirmed != true) return;
+    if (!confirmed) return;
     await auth.logout();
     navigator.popUntil((route) => route.isFirst);
   }

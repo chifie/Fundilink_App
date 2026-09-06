@@ -5,6 +5,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimensions.dart';
 import '../../core/constants/app_strings.dart';
 import '../../providers/auth_provider.dart';
+import '../dialogs/confirm_dialog.dart';
 import '../fundi_avatar.dart';
 
 /// Navigation drawer for the fundi shell.
@@ -73,24 +74,14 @@ class AppDrawer extends StatelessWidget {
               title: const Text(AppStrings.logout, style: TextStyle(color: AppColors.error)),
               onTap: () async {
                 Navigator.of(context).pop();
-                final confirmed = await showDialog<bool>(
-                  context: context,
-                  builder: (dialogContext) => AlertDialog(
-                    title: const Text(AppStrings.logout),
-                    content: const Text('Are you sure you want to log out?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(dialogContext).pop(false),
-                        child: const Text(AppStrings.cancel),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(dialogContext).pop(true),
-                        child: const Text(AppStrings.logout),
-                      ),
-                    ],
-                  ),
+                final confirmed = await showConfirmDialog(
+                  context,
+                  title: AppStrings.logout,
+                  message: AppStrings.logoutConfirm,
+                  confirmLabel: AppStrings.logout,
+                  confirmColor: AppColors.error,
                 );
-                if (confirmed == true && context.mounted) {
+                if (confirmed && context.mounted) {
                   await context.read<AuthProvider>().logout();
                 }
               },

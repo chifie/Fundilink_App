@@ -9,6 +9,7 @@ import '../../../models/service_request.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/chat_provider.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/dialogs/confirm_dialog.dart';
 import '../../../widgets/status_chip.dart';
 import '../../../widgets/write_review_sheet.dart';
 import '../../chat/screens/chat_thread_screen.dart';
@@ -23,26 +24,15 @@ class RequestDetailScreen extends StatelessWidget {
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     final provider = context.read<RequestProvider>();
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Cancel this request?'),
-        content: const Text(
-          'The fundi will be notified that this request was cancelled.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text(AppStrings.no),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text(AppStrings.yes),
-          ),
-        ],
-      ),
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'Cancel this request?',
+      message: 'The fundi will be notified that this request was cancelled.',
+      confirmLabel: AppStrings.yes,
+      cancelLabel: AppStrings.no,
+      confirmColor: AppColors.error,
     );
-    if (confirmed != true) return;
+    if (!confirmed) return;
     await provider.updateStatus(current.id, RequestStatus.rejected);
     messenger.showSnackBar(const SnackBar(content: Text('Request cancelled.')));
     navigator.pop();
