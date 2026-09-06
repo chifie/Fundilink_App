@@ -106,8 +106,8 @@ class RequestProgressTracker extends StatelessWidget {
                 ),
             ],
           ],
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
