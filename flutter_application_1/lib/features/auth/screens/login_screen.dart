@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/constants/demo_accounts.dart';
 import '../../../core/utils/validators.dart';
 import '../../../providers/auth_provider.dart';
 import 'register_screen.dart';
@@ -18,8 +19,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController(text: 'brian@example.com');
-  final _passwordController = TextEditingController(text: 'fundilink');
+  final _emailController = TextEditingController(text: DemoAccounts.customerEmail);
+  final _passwordController = TextEditingController(text: DemoAccounts.password);
 
   bool _obscurePassword = true;
   bool _submitting = false;
@@ -52,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _forgotPassword() async {
     final controller = TextEditingController();
-    final messenger = ScaffoldMessenger.of(context);
     final auth = context.read<AuthProvider>();
     await showDialog<void>(
       context: context,
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               if (dialogContext.mounted) {
                 Navigator.of(dialogContext).pop();
               }
-              if (context.mounted) {
+              if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -209,8 +209,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: AppDimensions.spaceL),
                 OutlinedButton.icon(
                   onPressed: () {
-                    _emailController.text = 'brian@example.com';
-                    _passwordController.text = 'fundilink';
+                    _emailController.text = DemoAccounts.customerEmail;
+                    _passwordController.text = DemoAccounts.password;
                   },
                   icon: const Icon(Icons.play_arrow, size: 18),
                   label: const Text('Use demo account'),
@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: AppDimensions.spaceS),
                 Text(
-                  'Demo fundi login: james@example.com',
+                  'Demo fundi login: ${DemoAccounts.fundiEmail}',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: AppColors.textHint,
