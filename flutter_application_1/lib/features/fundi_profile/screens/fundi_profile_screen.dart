@@ -309,7 +309,7 @@ class _AvailabilityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final workingDays = availability.workingDays as List<String>;
+    final workingDays = availability.workingDays;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
       child: Row(
