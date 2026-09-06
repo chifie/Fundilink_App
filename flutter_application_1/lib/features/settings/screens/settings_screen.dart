@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
+import '../../../core/constants/app_info.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
 
@@ -113,8 +114,8 @@ class SettingsScreen extends StatelessWidget {
                     context: context,
                     builder: (dialogContext) => AlertDialog(
                       title: const Text(AppStrings.help),
-                      content: const Text(
-                        'Reach our support team at support@fundilink.example.com '
+                      content: Text(
+                        'Reach our support team at ${AppInfo.supportEmail} '
                         'or visit the help centre in the app menu.',
                       ),
                       actions: [
@@ -132,9 +133,9 @@ class SettingsScreen extends StatelessWidget {
                   title: AppStrings.aboutApp,
                   onTap: () => showAboutDialog(
                     context: context,
-                    applicationName: AppStrings.appName,
-                    applicationVersion: '1.0.0',
-                    applicationLegalese: AppStrings.appTagline,
+                    applicationName: AppInfo.appName,
+                    applicationVersion: AppInfo.version,
+                    applicationLegalese: AppInfo.tagline,
                     children: const [
                       Text(
                         'Connect with trusted local fundis for all your '
