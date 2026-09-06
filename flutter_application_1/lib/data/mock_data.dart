@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_strings.dart';
+import '../core/constants/demo_accounts.dart';
 import '../models/availability.dart';
 import '../models/chat_message.dart';
 import '../models/conversation.dart';
@@ -17,7 +18,7 @@ import '../models/user_model.dart';
 const User mockCustomer = User(
   id: 'u1',
   fullName: 'Brian Kimani',
-  email: 'brian@example.com',
+  email: DemoAccounts.customerEmail,
   phone: '+254711223344',
   role: UserRole.customer,
   location: 'Nairobi, Kenya',
@@ -26,7 +27,7 @@ const User mockCustomer = User(
 const User mockFundiUser = User(
   id: 'uf1',
   fullName: 'James Otieno',
-  email: 'james@example.com',
+  email: DemoAccounts.fundiEmail,
   phone: '+254722556677',
   role: UserRole.fundi,
   location: 'Nairobi, Kenya',
