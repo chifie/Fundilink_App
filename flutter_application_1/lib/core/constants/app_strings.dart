@@ -208,6 +208,7 @@ class AppStrings {
   static const String yes = 'Yes';
   static const String no = 'No';
   static const String ok = 'OK';
+  static const String comingSoon = 'This feature is coming soon';
   static const String done = 'Done';
   static const String next = 'Next';
   static const String previous = 'Previous';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_strings.dart';
 
 /// Helper class for showing toast messages and snackbars.
 class Toast {
@@ -11,6 +12,15 @@ class Toast {
         content: Text(message),
         duration: duration ?? const Duration(seconds: 3),
       ),
+    );
+  }
+
+  /// Shows a brief snackbar for features that are not implemented yet.
+  static void showComingSoon(BuildContext context, {String? message}) {
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(
+      SnackBar(content: Text(message ?? AppStrings.comingSoon)),
     );
   }
 

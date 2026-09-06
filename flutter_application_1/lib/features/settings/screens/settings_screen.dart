@@ -8,6 +8,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../widgets/dialogs/confirm_dialog.dart';
+import '../../../widgets/feedback/toast.dart';
 
 /// App settings and account management screen.
 class SettingsScreen extends StatelessWidget {
@@ -33,25 +34,19 @@ class SettingsScreen extends StatelessWidget {
                 _SettingsTile(
                   icon: Icons.person_outline,
                   title: AppStrings.editProfile,
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Profile editing coming soon'),
-                      ),
-                    );
-                  },
+                  onTap: () => Toast.showComingSoon(
+                    context,
+                    message: 'Profile editing is on the way',
+                  ),
                 ),
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
                   icon: Icons.lock_outline,
                   title: 'Change Password',
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Password change coming soon'),
-                      ),
-                    );
-                  },
+                  onTap: () => Toast.showComingSoon(
+                    context,
+                    message: 'Password change is on the way',
+                  ),
                 ),
               ],
             ),
@@ -69,13 +64,10 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.language_outlined,
                   title: AppStrings.language,
                   subtitle: 'English',
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Language selection coming soon'),
-                      ),
-                    );
-                  },
+                  onTap: () => Toast.showComingSoon(
+                    context,
+                    message: 'Language selection is on the way',
+                  ),
                 ),
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
@@ -163,25 +155,19 @@ class SettingsScreen extends StatelessWidget {
                 _SettingsTile(
                   icon: Icons.description_outlined,
                   title: AppStrings.privacyPolicy,
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Privacy policy coming soon'),
-                      ),
-                    );
-                  },
+                  onTap: () => Toast.showComingSoon(
+                    context,
+                    message: 'Privacy policy is on the way',
+                  ),
                 ),
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
                   icon: Icons.gavel_outlined,
                   title: AppStrings.termsOfService,
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Terms of service coming soon'),
-                      ),
-                    );
-                  },
+                  onTap: () => Toast.showComingSoon(
+                    context,
+                    message: 'Terms of service is on the way',
+                  ),
                 ),
               ],
             ),
