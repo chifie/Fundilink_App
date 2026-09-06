@@ -24,7 +24,7 @@ class InfoRow extends StatelessWidget {
               style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, height: 1.4),
             ),
           ),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       ),
     );
