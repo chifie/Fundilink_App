@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'fundi_model.dart';
 
 /// Additional helpers for the Fundi model.
