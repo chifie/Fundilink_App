@@ -22,16 +22,16 @@ class PortfolioUploadCard extends StatelessWidget {
             strokeAlign: BorderSide.strokeAlignCenter,
           ),
         ),
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.add_photo_alternate_outlined,
               size: 40,
               color: AppColors.forestGreen,
             ),
-            SizedBox(height: AppDimensions.spaceS),
-            Text(
+            const SizedBox(height: AppDimensions.spaceS),
+            const Text(
               AppStrings.addWork,
               style: TextStyle(
                 color: AppColors.forestGreen,
@@ -39,7 +39,7 @@ class PortfolioUploadCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               'Upload a photo of\nyour work',
               textAlign: TextAlign.center,
