@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/utils/haptics.dart';
 import '../../../models/service_request.dart';
 import '../../../providers/request_provider.dart';
 import '../../../widgets/dialogs/confirm_dialog.dart';
@@ -21,6 +22,7 @@ class FundiRequestDetailScreen extends StatelessWidget {
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     final provider = context.read<RequestProvider>();
+    Haptics.strong();
     await provider.updateStatus(request.id, status);
     messenger.showSnackBar(SnackBar(content: Text('Request ${status.label.toLowerCase()}.')));
     navigator.pop();

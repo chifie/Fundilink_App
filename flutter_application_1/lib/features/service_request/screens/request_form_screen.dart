@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/utils/haptics.dart';
 import '../../../core/utils/validators.dart';
 import '../../../models/fundi_model.dart';
 import '../../../providers/auth_provider.dart';
@@ -67,6 +68,7 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    Haptics.medium();
     setState(() => _submitting = true);
 
     final user = context.read<AuthProvider>().user;

@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/constants/demo_accounts.dart';
+import '../../../core/utils/haptics.dart';
 import '../../../core/utils/validators.dart';
 import '../../../providers/auth_provider.dart';
 import 'register_screen.dart';
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+    Haptics.light();
     setState(() => _submitting = true);
     final messenger = ScaffoldMessenger.of(context);
     try {
