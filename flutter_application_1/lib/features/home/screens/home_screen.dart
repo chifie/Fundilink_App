@@ -154,14 +154,14 @@ class _NewArrivalsBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDimensions.radiusS),
         border: Border.all(color: AppColors.forestGreen.withValues(alpha: 0.3)),
       ),
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.eco, size: 12, color: AppColors.forestGreen),
-          SizedBox(width: 4),
+          const Icon(Icons.eco, size: 12, color: AppColors.forestGreen),
+          const SizedBox(width: 4),
           Text(
-            'New arrivals available',
-            style: TextStyle(
+            AppStrings.newArrivalsAvailable,
+            style: const TextStyle(
               color: AppColors.forestGreen,
               fontSize: 11,
               fontWeight: FontWeight.w600,
@@ -194,9 +194,12 @@ class _Greeting extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'What service do you need today?',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+          Text(
+            AppStrings.homeSubtitle,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+            ),
           ),
         ],
       ),

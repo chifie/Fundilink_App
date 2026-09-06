@@ -93,9 +93,18 @@ class _SearchScreenState extends State<SearchScreen> {
             initialValue: _sortBy,
             onSelected: _sort,
             itemBuilder: (_) => const [
-              PopupMenuItem(value: 'rating', child: Text('Highest rated')),
-              PopupMenuItem(value: 'price', child: Text('Lowest price')),
-              PopupMenuItem(value: 'distance', child: Text('Nearest first')),
+              PopupMenuItem(
+                value: 'rating',
+                child: Text(AppStrings.sortHighestRated),
+              ),
+              PopupMenuItem(
+                value: 'price',
+                child: Text(AppStrings.sortLowestPrice),
+              ),
+              PopupMenuItem(
+                value: 'distance',
+                child: Text(AppStrings.sortNearestFirst),
+              ),
             ],
           ),
         ],

@@ -51,12 +51,17 @@ class AppStrings {
 
   // Home Screen
   static const String greeting = 'Hello, ';
+  static const String homeSubtitle = 'What service do you need today?';
   static const String searchHint = 'What service do you need?';
   static const String popularCategories = 'Popular Categories';
   static const String viewAll = 'View All';
   static const String recommendedFundi = 'Recommended Fundis';
   static const String nearbyFundi = 'Nearby Fundis';
   static const String highlyRated = 'Highly Rated';
+  static const String newArrivalsAvailable = 'New arrivals available';
+  static const String sortHighestRated = 'Highest rated';
+  static const String sortLowestPrice = 'Lowest price';
+  static const String sortNearestFirst = 'Nearest first';
   static const String recentRequests = 'Recent Requests';
   static const String noResults = 'No results found';
   static const String noFundiAvailable = 'No fundis available nearby';
