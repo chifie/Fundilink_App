@@ -39,18 +39,6 @@ class ProfileScreen extends StatelessWidget {
     navigator.popUntil((route) => route.isFirst);
   }
 
-  void _showAbout(BuildContext context) {
-    showAboutDialog(
-      context: context,
-      applicationName: AppStrings.appName,
-      applicationVersion: '1.0.0',
-      applicationLegalese: AppStrings.appTagline,
-      children: const [
-        Text('Connect with trusted local fundis for all your service needs.'),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
