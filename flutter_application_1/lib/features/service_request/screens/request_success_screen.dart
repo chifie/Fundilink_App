@@ -29,7 +29,7 @@ class RequestSuccessScreen extends StatelessWidget {
                 Container(
                   width: 112,
                   height: 112,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColors.forestGreen.withValues(alpha: 0.12),
                     shape: BoxShape.circle,
                   ),
