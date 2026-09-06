@@ -8,7 +8,11 @@ class ResponseTimeBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = minutes <= 15 ? AppColors.success : minutes <= 30 ? AppColors.warning : AppColors.error;
+    final color = minutes <= 15
+        ? AppColors.success
+        : minutes <= 30
+        ? AppColors.warning
+        : AppColors.error;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
@@ -22,7 +26,11 @@ class ResponseTimeBadge extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             '${minutes}min response',
-            style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: color,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

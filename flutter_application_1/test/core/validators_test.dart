@@ -24,7 +24,10 @@ void main() {
 
     test('rejects empty and short passwords', () {
       expect(Validators.validatePassword(''), AppStrings.passwordRequired);
-      expect(Validators.validatePassword('12345'), AppStrings.passwordMinLength);
+      expect(
+        Validators.validatePassword('12345'),
+        AppStrings.passwordMinLength,
+      );
     });
   });
 
@@ -34,10 +37,7 @@ void main() {
         Validators.validateConfirmPassword('abc123', 'abc124'),
         AppStrings.passwordMismatch,
       );
-      expect(
-        Validators.validateConfirmPassword('abc123', 'abc123'),
-        isNull,
-      );
+      expect(Validators.validateConfirmPassword('abc123', 'abc123'), isNull);
     });
   });
 

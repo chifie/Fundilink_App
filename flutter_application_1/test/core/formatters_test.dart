@@ -18,10 +18,22 @@ void main() {
   group('Formatters.timeAgo', () {
     test('returns human-friendly relative labels', () {
       final now = DateTime.now();
-      expect(Formatters.timeAgo(now.subtract(const Duration(seconds: 5))), 'just now');
-      expect(Formatters.timeAgo(now.subtract(const Duration(minutes: 10))), '10m ago');
-      expect(Formatters.timeAgo(now.subtract(const Duration(hours: 3))), '3h ago');
-      expect(Formatters.timeAgo(now.subtract(const Duration(days: 2))), '2d ago');
+      expect(
+        Formatters.timeAgo(now.subtract(const Duration(seconds: 5))),
+        'just now',
+      );
+      expect(
+        Formatters.timeAgo(now.subtract(const Duration(minutes: 10))),
+        '10m ago',
+      );
+      expect(
+        Formatters.timeAgo(now.subtract(const Duration(hours: 3))),
+        '3h ago',
+      );
+      expect(
+        Formatters.timeAgo(now.subtract(const Duration(days: 2))),
+        '2d ago',
+      );
     });
   });
 

@@ -27,10 +27,7 @@ class FundiBadgeDisplay extends StatelessWidget {
     return Wrap(
       spacing: AppDimensions.spaceS,
       runSpacing: AppDimensions.spaceS,
-      children: [
-        for (final badge in badges)
-          _BadgeChip(badge: badge),
-      ],
+      children: [for (final badge in badges) _BadgeChip(badge: badge)],
     );
   }
 }

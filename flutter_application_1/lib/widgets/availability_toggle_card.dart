@@ -47,7 +47,9 @@ class AvailabilityToggleCard extends StatelessWidget {
                 Text(
                   isAvailable ? 'You\'re online' : 'You\'re offline',
                   style: TextStyle(
-                    color: isAvailable ? AppColors.success : AppColors.textSecondary,
+                    color: isAvailable
+                        ? AppColors.success
+                        : AppColors.textSecondary,
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),
@@ -57,7 +59,10 @@ class AvailabilityToggleCard extends StatelessWidget {
                   isAvailable
                       ? 'Accepting new service requests'
                       : 'Not receiving new requests',
-                  style: const TextStyle(color: AppColors.textHint, fontSize: 12),
+                  style: const TextStyle(
+                    color: AppColors.textHint,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

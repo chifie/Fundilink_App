@@ -11,15 +11,19 @@ void main() {
 
   group('AuthRepository', () {
     test('login returns the fundi demo account for its email', () async {
-      final user =
-          await repository.login(email: mockFundiUser.email, password: 'x');
+      final user = await repository.login(
+        email: mockFundiUser.email,
+        password: 'x',
+      );
       expect(user.id, mockFundiUser.id);
       expect(user.role, UserRole.fundi);
     });
 
     test('login returns the customer demo account otherwise', () async {
-      final user =
-          await repository.login(email: 'anyone@example.com', password: 'x');
+      final user = await repository.login(
+        email: 'anyone@example.com',
+        password: 'x',
+      );
       expect(user.id, mockCustomer.id);
       expect(user.role, UserRole.customer);
     });

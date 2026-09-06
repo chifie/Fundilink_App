@@ -179,9 +179,7 @@ class SettingsScreen extends StatelessWidget {
             height: AppDimensions.buttonHeight,
             child: OutlinedButton.icon(
               onPressed: () => _logout(context),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.error,
-              ),
+              style: OutlinedButton.styleFrom(foregroundColor: AppColors.error),
               icon: const Icon(Icons.logout, size: 18),
               label: const Text(AppStrings.logout),
             ),
@@ -190,10 +188,7 @@ class SettingsScreen extends StatelessWidget {
           Text(
             'Signed in as ${user?.email ?? ''}',
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: AppColors.textHint,
-              fontSize: 12,
-            ),
+            style: const TextStyle(color: AppColors.textHint, fontSize: 12),
           ),
         ],
       ),
@@ -267,13 +262,11 @@ class _SettingsTile extends StatelessWidget {
       subtitle: subtitle != null
           ? Text(
               subtitle!,
-              style: const TextStyle(
-                color: AppColors.textHint,
-                fontSize: 12,
-              ),
+              style: const TextStyle(color: AppColors.textHint, fontSize: 12),
             )
           : null,
-      trailing: trailing ??
+      trailing:
+          trailing ??
           const Icon(Icons.chevron_right, color: AppColors.textHint, size: 20),
       onTap: onTap,
     );

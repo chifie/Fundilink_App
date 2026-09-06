@@ -185,11 +185,32 @@ class _StatsShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Row(
       children: [
-        Expanded(child: ShimmerLoading(child: SizedBox(height: 80, child: ColoredBox(color: AppColors.surfaceVariant)))),
+        Expanded(
+          child: ShimmerLoading(
+            child: SizedBox(
+              height: 80,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
         SizedBox(width: AppDimensions.spaceS),
-        Expanded(child: ShimmerLoading(child: SizedBox(height: 80, child: ColoredBox(color: AppColors.surfaceVariant)))),
+        Expanded(
+          child: ShimmerLoading(
+            child: SizedBox(
+              height: 80,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
         SizedBox(width: AppDimensions.spaceS),
-        Expanded(child: ShimmerLoading(child: SizedBox(height: 80, child: ColoredBox(color: AppColors.surfaceVariant)))),
+        Expanded(
+          child: ShimmerLoading(
+            child: SizedBox(
+              height: 80,
+              child: ColoredBox(color: AppColors.surfaceVariant),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -201,16 +222,24 @@ class _ActivityShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: List.generate(3, (_) => const Padding(
-        padding: EdgeInsets.only(bottom: AppDimensions.spaceS),
-        child: ShimmerFundiCard(),
-      )),
+      children: List.generate(
+        3,
+        (_) => const Padding(
+          padding: EdgeInsets.only(bottom: AppDimensions.spaceS),
+          child: ShimmerFundiCard(),
+        ),
+      ),
     );
   }
 }
 
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.title, this.actionLabel, this.onActionTap});
+  const SectionHeader({
+    super.key,
+    required this.title,
+    this.actionLabel,
+    this.onActionTap,
+  });
 
   final String title;
   final String? actionLabel;

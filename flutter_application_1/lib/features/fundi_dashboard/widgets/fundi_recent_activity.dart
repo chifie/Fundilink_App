@@ -27,10 +27,7 @@ class FundiRecentActivity extends StatelessWidget {
       );
     }
     return Column(
-      children: [
-        for (final request in recent)
-          _ActivityTile(request: request),
-      ],
+      children: [for (final request in recent) _ActivityTile(request: request)],
     );
   }
 }
@@ -52,7 +49,11 @@ class _ActivityTile extends StatelessWidget {
         ),
         leading: CircleAvatar(
           backgroundColor: request.status.lightColor,
-          child: Icon(request.status.icon, color: request.status.color, size: 20),
+          child: Icon(
+            request.status.icon,
+            color: request.status.color,
+            size: 20,
+          ),
         ),
         title: Text(
           request.customerName,

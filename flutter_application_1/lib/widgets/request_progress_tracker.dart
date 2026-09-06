@@ -35,7 +35,10 @@ class RequestProgressTracker extends StatelessWidget {
             SizedBox(width: 8),
             Text(
               'This request was cancelled',
-              style: TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: AppColors.error,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
@@ -71,16 +74,22 @@ class RequestProgressTracker extends StatelessWidget {
                       height: 28,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: i <= currentIndex ? AppColors.forestGreen : AppColors.surfaceVariant,
+                        color: i <= currentIndex
+                            ? AppColors.forestGreen
+                            : AppColors.surfaceVariant,
                         border: Border.all(
-                          color: i <= currentIndex ? AppColors.forestGreen : AppColors.border,
+                          color: i <= currentIndex
+                              ? AppColors.forestGreen
+                              : AppColors.border,
                           width: 2,
                         ),
                       ),
                       child: Icon(
                         _steps[i].$3,
                         size: 14,
-                        color: i <= currentIndex ? AppColors.textOnPrimary : AppColors.textHint,
+                        color: i <= currentIndex
+                            ? AppColors.textOnPrimary
+                            : AppColors.textHint,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -90,8 +99,12 @@ class RequestProgressTracker extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 9,
-                        fontWeight: i == currentIndex ? FontWeight.w700 : FontWeight.w500,
-                        color: i <= currentIndex ? AppColors.forestGreen : AppColors.textHint,
+                        fontWeight: i == currentIndex
+                            ? FontWeight.w700
+                            : FontWeight.w500,
+                        color: i <= currentIndex
+                            ? AppColors.forestGreen
+                            : AppColors.textHint,
                       ),
                     ),
                   ],
@@ -102,7 +115,9 @@ class RequestProgressTracker extends StatelessWidget {
                 Container(
                   width: 20,
                   height: 2,
-                  color: i < currentIndex ? AppColors.primary : AppColors.border,
+                  color: i < currentIndex
+                      ? AppColors.primary
+                      : AppColors.border,
                 ),
             ],
           ],

@@ -7,7 +7,7 @@ import '../repositories/chat_repository.dart';
 /// Manages conversations and the active message thread.
 class ChatProvider extends ChangeNotifier {
   ChatProvider({ChatRepository? repository})
-      : _repository = repository ?? ChatRepository();
+    : _repository = repository ?? ChatRepository();
 
   final ChatRepository _repository;
 
@@ -42,8 +42,7 @@ class ChatProvider extends ChangeNotifier {
       ..clear()
       ..addAll(await _repository.getMessages(conversationId));
     await _repository.markConversationRead(conversationId);
-    final index =
-        _conversations.indexWhere((c) => c.id == conversationId);
+    final index = _conversations.indexWhere((c) => c.id == conversationId);
     if (index != -1) {
       _conversations[index] = _conversations[index].copyWith(unreadCount: 0);
     }
@@ -82,8 +81,7 @@ class ChatProvider extends ChangeNotifier {
 
   Future<void> markRead(String conversationId) async {
     await _repository.markConversationRead(conversationId);
-    final index =
-        _conversations.indexWhere((c) => c.id == conversationId);
+    final index = _conversations.indexWhere((c) => c.id == conversationId);
     if (index != -1) {
       _conversations[index] = _conversations[index].copyWith(unreadCount: 0);
     }

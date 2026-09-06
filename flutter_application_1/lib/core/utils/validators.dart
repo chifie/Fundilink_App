@@ -4,13 +4,9 @@ import '../constants/app_strings.dart';
 class Validators {
   Validators._();
 
-  static final RegExp _emailRegExp = RegExp(
-    r'^[\w.+-]+@[\w-]+\.[\w.-]+$',
-  );
+  static final RegExp _emailRegExp = RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$');
 
-  static final RegExp _phoneRegExp = RegExp(
-    r'^\+?[0-9]{9,15}$',
-  );
+  static final RegExp _phoneRegExp = RegExp(r'^\+?[0-9]{9,15}$');
 
   static String? validateEmail(String? value) {
     final trimmed = value?.trim() ?? '';

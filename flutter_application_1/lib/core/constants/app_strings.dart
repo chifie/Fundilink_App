@@ -34,7 +34,8 @@ class AppStrings {
   static const String emailRequired = 'Email is required';
   static const String emailInvalid = 'Please enter a valid email';
   static const String passwordRequired = 'Password is required';
-  static const String passwordMinLength = 'Password must be at least 6 characters';
+  static const String passwordMinLength =
+      'Password must be at least 6 characters';
   static const String passwordMismatch = 'Passwords do not match';
   static const String nameRequired = 'Name is required';
   static const String phoneRequired = 'Phone number is required';
@@ -108,7 +109,8 @@ class AppStrings {
   static const String optional = 'Optional';
   static const String submitRequest = 'Submit Request';
   static const String requestSubmitted = 'Request Submitted!';
-  static const String requestConfirmed = 'Your request has been sent to the fundi';
+  static const String requestConfirmed =
+      'Your request has been sent to the fundi';
   static const String requestPending = 'Waiting for fundi to accept';
   static const String estimatedCost = 'Estimated Cost';
 
@@ -221,16 +223,20 @@ class AppStrings {
 
   // Onboarding
   static const String onboardingTitle1 = 'Find Trusted Fundis';
-  static const String onboardingDesc1 = 'Connect with verified and skilled fundis in your area for all your service needs.';
+  static const String onboardingDesc1 =
+      'Connect with verified and skilled fundis in your area for all your service needs.';
   static const String onboardingTitle2 = 'Book Services Easily';
-  static const String onboardingDesc2 = 'Describe your problem, choose a time, and book a fundi with just a few taps.';
+  static const String onboardingDesc2 =
+      'Describe your problem, choose a time, and book a fundi with just a few taps.';
   static const String onboardingTitle3 = 'Track & Review';
-  static const String onboardingDesc3 = 'Track your service requests in real-time and leave reviews to help others.';
+  static const String onboardingDesc3 =
+      'Track your service requests in real-time and leave reviews to help others.';
   static const String getStarted = 'Get Started';
   static const String skip = 'Skip';
 
   // Error Messages
   static const String somethingWentWrong = 'Something went wrong';
-  static const String networkError = 'Network error. Please check your connection.';
+  static const String networkError =
+      'Network error. Please check your connection.';
   static const String sessionExpired = 'Session expired. Please login again.';
 }

@@ -14,8 +14,13 @@ void main() {
   group('DateHelper.dayName', () {
     test('maps each weekday to its English name', () {
       const expected = [
-        'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
-        'Saturday', 'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
       ];
       // Monday, 7 September 2026 is a known weekday; derive others from it.
       for (var i = 0; i < 7; i++) {

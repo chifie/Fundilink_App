@@ -29,7 +29,11 @@ class Toast {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check_circle, color: AppColors.textOnPrimary, size: 18),
+            const Icon(
+              Icons.check_circle,
+              color: AppColors.textOnPrimary,
+              size: 18,
+            ),
             const SizedBox(width: 8),
             Expanded(child: Text(message)),
           ],
@@ -45,7 +49,11 @@ class Toast {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.error_outline, color: AppColors.textOnPrimary, size: 18),
+            const Icon(
+              Icons.error_outline,
+              color: AppColors.textOnPrimary,
+              size: 18,
+            ),
             const SizedBox(width: 8),
             Expanded(child: Text(message)),
           ],

@@ -46,27 +46,27 @@ class User {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'fullName': fullName,
-        'email': email,
-        'phone': phone,
-        'role': role.name,
-        'avatarUrl': avatarUrl,
-        'location': location,
-        'createdAt': createdAt,
-      };
+    'id': id,
+    'fullName': fullName,
+    'email': email,
+    'phone': phone,
+    'role': role.name,
+    'avatarUrl': avatarUrl,
+    'location': location,
+    'createdAt': createdAt,
+  };
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json['id'] as String,
-        fullName: json['fullName'] as String,
-        email: json['email'] as String,
-        phone: json['phone'] as String? ?? '',
-        role: UserRole.values.firstWhere(
-          (r) => r.name == json['role'],
-          orElse: () => UserRole.customer,
-        ),
-        avatarUrl: json['avatarUrl'] as String?,
-        location: json['location'] as String?,
-        createdAt: json['createdAt'] as String?,
-      );
+    id: json['id'] as String,
+    fullName: json['fullName'] as String,
+    email: json['email'] as String,
+    phone: json['phone'] as String? ?? '',
+    role: UserRole.values.firstWhere(
+      (r) => r.name == json['role'],
+      orElse: () => UserRole.customer,
+    ),
+    avatarUrl: json['avatarUrl'] as String?,
+    location: json['location'] as String?,
+    createdAt: json['createdAt'] as String?,
+  );
 }

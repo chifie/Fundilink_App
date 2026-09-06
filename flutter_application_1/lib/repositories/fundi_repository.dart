@@ -29,15 +29,19 @@ class FundiRepository {
     final search = query?.trim().toLowerCase() ?? '';
     if (search.isNotEmpty) {
       results = results.where((f) {
-        final haystack = '${f.fullName} ${f.categoryName} ${f.location} '
-            '${f.serviceTags.join(' ')}'.toLowerCase();
+        final haystack =
+            '${f.fullName} ${f.categoryName} ${f.location} '
+                    '${f.serviceTags.join(' ')}'
+                .toLowerCase();
         return haystack.contains(search);
       }).toList();
     }
 
     if (location != null && location.isNotEmpty) {
       final area = location.trim().toLowerCase();
-      results = results.where((f) => f.city.toLowerCase().contains(area)).toList();
+      results = results
+          .where((f) => f.city.toLowerCase().contains(area))
+          .toList();
     }
 
     switch (sortBy) {

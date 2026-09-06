@@ -7,11 +7,13 @@ class Helpers {
     final parts = name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty);
     if (parts.isEmpty) return '?';
     if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
-    return (parts.first.substring(0, 1) + parts.last.substring(0, 1)).toUpperCase();
+    return (parts.first.substring(0, 1) + parts.last.substring(0, 1))
+        .toUpperCase();
   }
 
   /// Maps a name to a stable color for initials avatars.
-  static int colorSeed(String name) => name.codeUnits.fold(0, (acc, c) => acc + c);
+  static int colorSeed(String name) =>
+      name.codeUnits.fold(0, (acc, c) => acc + c);
 
   /// A short "KES 0" amount keyed by total, used in copy strings.
   static String shortAmount(double amount) {

@@ -16,8 +16,9 @@ class CustomerTabs {
   static final ValueNotifier<int> index = ValueNotifier<int>(home);
 
   /// Category id requested from the home screen; the search tab consumes it.
-  static final ValueNotifier<String?> categoryRequest =
-      ValueNotifier<String?>(null);
+  static final ValueNotifier<String?> categoryRequest = ValueNotifier<String?>(
+    null,
+  );
 
   /// Switches the shell to a tab and resets any pending category filter.
   static void goTo(int tab) {

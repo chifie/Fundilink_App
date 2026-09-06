@@ -7,7 +7,7 @@ import '../repositories/request_repository.dart';
 /// Manages service requests for the signed-in customer or fundi.
 class RequestProvider extends ChangeNotifier {
   RequestProvider({RequestRepository? repository})
-      : _repository = repository ?? RequestRepository();
+    : _repository = repository ?? RequestRepository();
 
   final RequestRepository _repository;
 
@@ -95,19 +95,26 @@ class RequestProvider extends ChangeNotifier {
     _customerRequests = _customerRequests
         .map((r) => r.id == updated.id ? updated : r)
         .toList();
-    _fundiRequests =
-        _fundiRequests.map((r) => r.id == updated.id ? updated : r).toList();
+    _fundiRequests = _fundiRequests
+        .map((r) => r.id == updated.id ? updated : r)
+        .toList();
   }
 
   // Convenience counts used by the fundi dashboard.
   int get pendingCount =>
       _fundiRequests.where((r) => r.status == RequestStatus.pending).length;
   int get activeCount => _fundiRequests
-      .where((r) => r.status == RequestStatus.accepted ||
-          r.status == RequestStatus.inProgress)
+      .where(
+        (r) =>
+            r.status == RequestStatus.accepted ||
+            r.status == RequestStatus.inProgress,
+      )
       .length;
   int get completedCount => _fundiRequests
-      .where((r) => r.status == RequestStatus.completed ||
-          r.status == RequestStatus.reviewed)
+      .where(
+        (r) =>
+            r.status == RequestStatus.completed ||
+            r.status == RequestStatus.reviewed,
+      )
       .length;
 }

@@ -35,22 +35,38 @@ class FundiJobsScreen extends StatelessWidget {
           ),
         ),
         body: isLoading
-            ? ListView(children: List.generate(3, (_) => const Padding(
-                padding: EdgeInsets.only(bottom: AppDimensions.spaceS, top: AppDimensions.paddingS),
-                child: ShimmerFundiCard(),
-              )))
+            ? ListView(
+                children: List.generate(
+                  3,
+                  (_) => const Padding(
+                    padding: EdgeInsets.only(
+                      bottom: AppDimensions.spaceS,
+                      top: AppDimensions.paddingS,
+                    ),
+                    child: ShimmerFundiCard(),
+                  ),
+                ),
+              )
             : TabBarView(
                 children: [
                   _JobList(
                     requests: provider.fundiRequests
-                        .where((r) => r.status == RequestStatus.accepted || r.status == RequestStatus.inProgress)
+                        .where(
+                          (r) =>
+                              r.status == RequestStatus.accepted ||
+                              r.status == RequestStatus.inProgress,
+                        )
                         .toList(),
                     emptyMessage: AppStrings.noActiveJobs,
                     onRefresh: () => _reloadFundiRequests(context),
                   ),
                   _JobList(
                     requests: provider.fundiRequests
-                        .where((r) => r.status == RequestStatus.completed || r.status == RequestStatus.reviewed)
+                        .where(
+                          (r) =>
+                              r.status == RequestStatus.completed ||
+                              r.status == RequestStatus.reviewed,
+                        )
                         .toList(),
                     emptyMessage: AppStrings.noCompletedJobs,
                     onRefresh: () => _reloadFundiRequests(context),
@@ -103,22 +119,38 @@ class _JobList extends StatelessWidget {
         itemBuilder: (context, index) {
           final request = requests[index];
           return Card(
-            margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM, vertical: AppDimensions.paddingS),
+            margin: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.paddingM,
+              vertical: AppDimensions.paddingS,
+            ),
             child: ListTile(
               onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(builder: (_) => RequestDetailScreen(request: request)),
+                MaterialPageRoute<void>(
+                  builder: (_) => RequestDetailScreen(request: request),
+                ),
               ),
               leading: CircleAvatar(
                 backgroundColor: request.status.lightColor,
-                child: Icon(request.status.icon, color: request.status.color, size: 20),
+                child: Icon(
+                  request.status.icon,
+                  color: request.status.color,
+                  size: 20,
+                ),
               ),
               title: Text(
                 request.customerName,
-                style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               subtitle: Text(
                 '${request.categoryName} · ${request.preferredDate}',
-                style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 12,
+                ),
               ),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +160,11 @@ class _JobList extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     Formatters.currency(request.estimatedCost),
-                    style: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),

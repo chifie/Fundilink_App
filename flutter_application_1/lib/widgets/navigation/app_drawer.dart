@@ -32,10 +32,7 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FundiAvatar(
-                    name: user?.fullName ?? '?',
-                    radius: 28,
-                  ),
+                  FundiAvatar(name: user?.fullName ?? '?', radius: 28),
                   const SizedBox(height: AppDimensions.spaceM),
                   Text(
                     user?.fullName ?? '',
@@ -58,12 +55,18 @@ class AppDrawer extends StatelessWidget {
             ),
             const SizedBox(height: AppDimensions.spaceM),
             ListTile(
-              leading: const Icon(Icons.home_outlined, color: AppColors.primary),
+              leading: const Icon(
+                Icons.home_outlined,
+                color: AppColors.primary,
+              ),
               title: const Text(AppStrings.home),
               onTap: () => Navigator.of(context).pop(),
             ),
             ListTile(
-              leading: const Icon(Icons.settings_outlined, color: AppColors.primary),
+              leading: const Icon(
+                Icons.settings_outlined,
+                color: AppColors.primary,
+              ),
               title: const Text(AppStrings.settings),
               onTap: () => Navigator.of(context).pop(),
             ),
@@ -71,7 +74,10 @@ class AppDrawer extends StatelessWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout, color: AppColors.error),
-              title: const Text(AppStrings.logout, style: TextStyle(color: AppColors.error)),
+              title: const Text(
+                AppStrings.logout,
+                style: TextStyle(color: AppColors.error),
+              ),
               onTap: () async {
                 Navigator.of(context).pop();
                 final confirmed = await showConfirmDialog(

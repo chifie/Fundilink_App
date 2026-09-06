@@ -5,9 +5,7 @@ import 'package:fundi_link/widgets/request_progress_tracker.dart';
 
 Widget _wrap(RequestStatus status) {
   return MaterialApp(
-    home: Scaffold(
-      body: RequestProgressTracker(status: status),
-    ),
+    home: Scaffold(body: RequestProgressTracker(status: status)),
   );
 }
 
@@ -21,12 +19,20 @@ void main() {
   testWidgets('renders all five step labels', (tester) async {
     await tester.pumpWidget(_wrap(RequestStatus.pending));
 
-    for (final label in ['Pending', 'Accepted', 'In Progress', 'Completed', 'Reviewed']) {
+    for (final label in [
+      'Pending',
+      'Accepted',
+      'In Progress',
+      'Completed',
+      'Reviewed',
+    ]) {
       expect(find.text(label), findsOneWidget);
     }
   });
 
-  testWidgets('shows the cancelled banner for a rejected request', (tester) async {
+  testWidgets('shows the cancelled banner for a rejected request', (
+    tester,
+  ) async {
     await tester.pumpWidget(_wrap(RequestStatus.rejected));
 
     expect(find.text('This request was cancelled'), findsOneWidget);

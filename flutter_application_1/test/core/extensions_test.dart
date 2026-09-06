@@ -34,13 +34,19 @@ void main() {
     });
 
     test('isYesterday matches the previous calendar day', () {
-      expect(DateTime.now().subtract(const Duration(days: 1)).isYesterday, isTrue);
+      expect(
+        DateTime.now().subtract(const Duration(days: 1)).isYesterday,
+        isTrue,
+      );
       expect(DateTime.now().isYesterday, isFalse);
     });
 
     test('isThisWeek covers dates within the last seven days', () {
       expect(DateTime.now().isThisWeek, isTrue);
-      expect(DateTime.now().subtract(const Duration(days: 2)).isThisWeek, isTrue);
+      expect(
+        DateTime.now().subtract(const Duration(days: 2)).isThisWeek,
+        isTrue,
+      );
     });
 
     test('timeAgo returns human-friendly labels', () {

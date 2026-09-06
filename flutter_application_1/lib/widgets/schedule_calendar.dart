@@ -15,7 +15,15 @@ class ScheduleCalendar extends StatelessWidget {
   final String startTime;
   final String endTime;
 
-  static const List<String> _allDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  static const List<String> _allDays = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,11 @@ class ScheduleCalendar extends StatelessWidget {
         // Time range
         Row(
           children: [
-            const Icon(Icons.access_time, size: 16, color: AppColors.forestGreen),
+            const Icon(
+              Icons.access_time,
+              size: 16,
+              color: AppColors.forestGreen,
+            ),
             const SizedBox(width: 6),
             Text(
               '$startTime – $endTime',
@@ -60,19 +72,13 @@ class ScheduleCalendar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             for (final day in _allDays)
-              _DayCircle(
-                day: day,
-                isWorking: workingDays.contains(day),
-              ),
+              _DayCircle(day: day, isWorking: workingDays.contains(day)),
           ],
         ),
         const SizedBox(height: AppDimensions.spaceM),
         Text(
           'Working hours: $startTime – $endTime',
-          style: const TextStyle(
-            color: AppColors.textHint,
-            fontSize: 11,
-          ),
+          style: const TextStyle(color: AppColors.textHint, fontSize: 11),
         ),
         const SizedBox(height: AppDimensions.spaceS),
         _Legend(),
@@ -131,7 +137,8 @@ class _DayCircle extends StatelessWidget {
       children: [
         Container(
           width: 36,
-          height: 36,              decoration: BoxDecoration(
+          height: 36,
+          decoration: BoxDecoration(
             color: isWorking ? AppColors.forestGreen : AppColors.surfaceVariant,
             shape: BoxShape.circle,
             border: Border.all(

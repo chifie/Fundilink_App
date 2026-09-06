@@ -16,14 +16,15 @@ class SectionDivider extends StatelessWidget {
           const Expanded(child: Divider(color: AppColors.divider)),
           if (label != null || child != null) ...[
             const SizedBox(width: 12),
-            child ?? Text(
-              label!,
-              style: const TextStyle(
-                color: AppColors.textHint,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            child ??
+                Text(
+                  label!,
+                  style: const TextStyle(
+                    color: AppColors.textHint,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
             const SizedBox(width: 12),
           ],
           const Expanded(child: Divider(color: AppColors.divider)),

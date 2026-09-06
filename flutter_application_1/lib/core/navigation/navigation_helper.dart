@@ -22,9 +22,9 @@ class NavigationHelper {
 
   /// Push a new screen and replace the current one.
   static Future<T?> pushReplacement<T>(BuildContext context, Widget page) {
-    return Navigator.of(context).pushReplacement(
-      MaterialPageRoute<T>(builder: (_) => page),
-    );
+    return Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute<T>(builder: (_) => page));
   }
 
   /// Push a new screen and remove all previous routes.

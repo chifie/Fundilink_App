@@ -7,11 +7,21 @@ class EarningsChart extends StatelessWidget {
   const EarningsChart({super.key, required this.dailyEarnings});
   final List<double> dailyEarnings;
 
-  static const List<String> _days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  static const List<String> _days = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final maxVal = dailyEarnings.isEmpty ? 1.0 : dailyEarnings.reduce((a, b) => a > b ? a : b);
+    final maxVal = dailyEarnings.isEmpty
+        ? 1.0
+        : dailyEarnings.reduce((a, b) => a > b ? a : b);
 
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
@@ -25,7 +35,11 @@ class EarningsChart extends StatelessWidget {
         children: [
           const Text(
             'This Week',
-            style: TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: AppDimensions.spaceM),
           SizedBox(
@@ -33,7 +47,9 @@ class EarningsChart extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: List.generate(7, (index) {
-                final value = index < dailyEarnings.length ? dailyEarnings[index] : 0.0;
+                final value = index < dailyEarnings.length
+                    ? dailyEarnings[index]
+                    : 0.0;
                 final height = maxVal > 0 ? (value / maxVal) * 80 : 0.0;
                 final isToday = index == DateTime.now().weekday - 1;
                 return Expanded(
@@ -44,10 +60,14 @@ class EarningsChart extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Text(
-                            value >= 1000 ? '${(value / 1000).toStringAsFixed(0)}K' : value.toStringAsFixed(0),
+                            value >= 1000
+                                ? '${(value / 1000).toStringAsFixed(0)}K'
+                                : value.toStringAsFixed(0),
                             style: TextStyle(
                               fontSize: 8,
-                              color: isToday ? AppColors.forestGreen : AppColors.textHint,
+                              color: isToday
+                                  ? AppColors.forestGreen
+                                  : AppColors.textHint,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -56,7 +76,9 @@ class EarningsChart extends StatelessWidget {
                         duration: const Duration(milliseconds: 500),
                         height: height.clamp(2, 80),
                         decoration: BoxDecoration(
-                          color: isToday ? AppColors.forestGreen : AppColors.forestGreen.withValues(alpha: 0.5),
+                          color: isToday
+                              ? AppColors.forestGreen
+                              : AppColors.forestGreen.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -65,8 +87,12 @@ class EarningsChart extends StatelessWidget {
                         _days[index],
                         style: TextStyle(
                           fontSize: 10,
-                          color: isToday ? AppColors.forestGreen : AppColors.textHint,
-                          fontWeight: isToday ? FontWeight.w700 : FontWeight.w400,
+                          color: isToday
+                              ? AppColors.forestGreen
+                              : AppColors.textHint,
+                          fontWeight: isToday
+                              ? FontWeight.w700
+                              : FontWeight.w400,
                         ),
                       ),
                     ],

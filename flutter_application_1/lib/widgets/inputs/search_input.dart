@@ -4,7 +4,12 @@ import '../../core/utils/debouncer.dart';
 
 /// A search input field with built-in debounce support.
 class SearchInput extends StatefulWidget {
-  const SearchInput({super.key, this.onChanged, this.controller, this.hintText});
+  const SearchInput({
+    super.key,
+    this.onChanged,
+    this.controller,
+    this.hintText,
+  });
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
   final String? hintText;

@@ -77,8 +77,9 @@ void main() {
 
     test('copyWith carries over an existing updatedAt', () {
       final stamp = DateTime(2026, 9, 6);
-      final request =
-          _request().copyWith(status: RequestStatus.accepted).copyWith(updatedAt: stamp);
+      final request = _request()
+          .copyWith(status: RequestStatus.accepted)
+          .copyWith(updatedAt: stamp);
       expect(request.updatedAt, stamp);
     });
   });

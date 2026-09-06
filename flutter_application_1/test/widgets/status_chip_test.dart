@@ -5,7 +5,9 @@ import 'package:fundi_link/widgets/status_chip.dart';
 
 Widget _wrap(RequestStatus status, {bool compact = false}) {
   return MaterialApp(
-    home: Scaffold(body: StatusChip(status: status, compact: compact)),
+    home: Scaffold(
+      body: StatusChip(status: status, compact: compact),
+    ),
   );
 }
 

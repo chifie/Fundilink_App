@@ -63,8 +63,13 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             subtitle: Text(
-              _isAvailable ? 'You are available for new requests' : 'You won\'t receive new requests',
-              style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+              _isAvailable
+                  ? 'You are available for new requests'
+                  : 'You won\'t receive new requests',
+              style: const TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+              ),
             ),
             value: _isAvailable,
             onChanged: (value) => setState(() => _isAvailable = value),
@@ -74,7 +79,11 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           const SizedBox(height: AppDimensions.spaceM),
           const Text(
             'Working Days',
-            style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w700),
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppDimensions.spaceM),
           Wrap(
@@ -96,7 +105,9 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                   },
                   selectedColor: AppColors.forestGreen,
                   labelStyle: TextStyle(
-                    color: _selectedDays.contains(day) ? AppColors.textOnPrimary : AppColors.textSecondary,
+                    color: _selectedDays.contains(day)
+                        ? AppColors.textOnPrimary
+                        : AppColors.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -105,7 +116,11 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           const SizedBox(height: AppDimensions.spaceXL),
           const Text(
             'Working Hours',
-            style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w700),
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppDimensions.spaceM),
           Row(
@@ -118,7 +133,10 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
                 ),
               ),
               const SizedBox(width: AppDimensions.spaceM),
-              const Text('to', style: TextStyle(color: AppColors.textSecondary)),
+              const Text(
+                'to',
+                style: TextStyle(color: AppColors.textSecondary),
+              ),
               const SizedBox(width: AppDimensions.spaceM),
               Expanded(
                 child: _TimePicker(
@@ -136,7 +154,11 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
 }
 
 class _TimePicker extends StatelessWidget {
-  const _TimePicker({required this.label, required this.time, required this.onTap});
+  const _TimePicker({
+    required this.label,
+    required this.time,
+    required this.onTap,
+  });
   final String label;
   final TimeOfDay time;
   final VoidCallback onTap;
@@ -150,7 +172,11 @@ class _TimePicker extends StatelessWidget {
         decoration: InputDecoration(labelText: label),
         child: Text(
           time.format(context),
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );

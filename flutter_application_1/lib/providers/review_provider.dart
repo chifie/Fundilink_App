@@ -6,7 +6,7 @@ import '../repositories/review_repository.dart';
 /// Manages ratings and reviews, cached per fundi.
 class ReviewProvider extends ChangeNotifier {
   ReviewProvider({ReviewRepository? repository})
-      : _repository = repository ?? ReviewRepository();
+    : _repository = repository ?? ReviewRepository();
 
   final ReviewRepository _repository;
 
@@ -15,8 +15,7 @@ class ReviewProvider extends ChangeNotifier {
 
   bool get isLoading => _loading;
 
-  List<Review> reviewsFor(String fundiId) =>
-      _byFundi[fundiId] ?? const [];
+  List<Review> reviewsFor(String fundiId) => _byFundi[fundiId] ?? const [];
 
   Future<void> loadReviews(String fundiId) async {
     _loading = true;

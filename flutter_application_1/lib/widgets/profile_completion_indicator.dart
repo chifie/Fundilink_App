@@ -9,7 +9,11 @@ class ProfileCompletionIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = percentage >= 0.8 ? AppColors.success : percentage >= 0.5 ? AppColors.warning : AppColors.error;
+    final color = percentage >= 0.8
+        ? AppColors.success
+        : percentage >= 0.5
+        ? AppColors.warning
+        : AppColors.error;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -27,7 +31,11 @@ class ProfileCompletionIndicator extends StatelessWidget {
               ),
               Text(
                 '${(percentage * 100).toInt()}%',
-                style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  color: color,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),

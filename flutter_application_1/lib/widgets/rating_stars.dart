@@ -27,7 +27,9 @@ class RatingStars extends StatelessWidget {
                 ? Icons.star
                 : (rating >= i + 0.5 ? Icons.star_half : Icons.star_border),
             size: size,
-            color: rating >= i + 0.5 ? AppColors.starFilled : AppColors.starEmpty,
+            color: rating >= i + 0.5
+                ? AppColors.starFilled
+                : AppColors.starEmpty,
           ),
         if (showValue) ...[
           const SizedBox(width: 4),

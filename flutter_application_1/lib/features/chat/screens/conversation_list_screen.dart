@@ -34,14 +34,14 @@ class ConversationListScreen extends StatelessWidget {
               onAction: () => CustomerTabs.goTo(CustomerTabs.home),
             )
           : RefreshIndicator(
-              onRefresh: () =>
-                  context.read<ChatProvider>().loadConversations(),
+              onRefresh: () => context.read<ChatProvider>().loadConversations(),
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(
                   vertical: AppDimensions.paddingS,
                 ),
                 itemCount: conversations.length,
-                separatorBuilder: (_, _) => const Divider(height: 1, indent: 72),
+                separatorBuilder: (_, _) =>
+                    const Divider(height: 1, indent: 72),
                 itemBuilder: (context, index) {
                   final conversation = conversations[index];
                   return _ConversationTile(

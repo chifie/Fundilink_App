@@ -43,7 +43,10 @@ class ScheduleDisplay extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '${workingDays.length} days per week',
-                  style: const TextStyle(color: AppColors.textHint, fontSize: 12),
+                  style: const TextStyle(
+                    color: AppColors.textHint,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

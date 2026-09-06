@@ -10,7 +10,8 @@ Fundi _fundi({double rating = 4.8, int responseTimeMinutes = 10}) {
     fullName: 'James Otieno',
     categoryId: 'plumbing',
     categoryName: AppStrings.plumbing,
-    description: 'Certified plumber with over 8 years of experience fixing '
+    description:
+        'Certified plumber with over 8 years of experience fixing '
         'leaks, installing fixtures and unblocking drains across the city.',
     experienceYears: 8,
     location: 'Westlands',

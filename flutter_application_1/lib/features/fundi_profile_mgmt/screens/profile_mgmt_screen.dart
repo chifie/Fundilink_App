@@ -65,7 +65,11 @@ class _ProfileMgmtScreenState extends State<ProfileMgmtScreen> {
           TextButton(
             onPressed: _saving ? null : _save,
             child: _saving
-                ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Text(AppStrings.save),
           ),
         ],
@@ -84,7 +88,11 @@ class _ProfileMgmtScreenState extends State<ProfileMgmtScreen> {
                     const CircleAvatar(
                       radius: 48,
                       backgroundColor: AppColors.primarySurface,
-                      child: Icon(Icons.person, size: 48, color: AppColors.primary),
+                      child: Icon(
+                        Icons.person,
+                        size: 48,
+                        color: AppColors.primary,
+                      ),
                     ),
                     Positioned(
                       right: 0,
@@ -95,7 +103,11 @@ class _ProfileMgmtScreenState extends State<ProfileMgmtScreen> {
                           color: AppColors.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.camera_alt, size: 16, color: AppColors.textOnPrimary),
+                        child: const Icon(
+                          Icons.camera_alt,
+                          size: 16,
+                          color: AppColors.textOnPrimary,
+                        ),
                       ),
                     ),
                   ],
@@ -148,7 +160,10 @@ class _ProfileMgmtScreenState extends State<ProfileMgmtScreen> {
                 child: ElevatedButton(
                   onPressed: _saving ? null : _save,
                   child: _saving
-                      ? const CircularProgressIndicator(strokeWidth: 2, color: AppColors.textOnPrimary)
+                      ? const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.textOnPrimary,
+                        )
                       : const Text(AppStrings.save),
                 ),
               ),

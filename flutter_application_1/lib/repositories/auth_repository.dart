@@ -15,10 +15,7 @@ class AuthRepository {
 
   Future<void> _simulateNetwork() => Future<void>.delayed(_latency);
 
-  Future<User> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<User> login({required String email, required String password}) async {
     await _simulateNetwork();
     // Mock auth: any account is accepted; a matching demo account restores
     // its role, otherwise a customer is created on the fly.

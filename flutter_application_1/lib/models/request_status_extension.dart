@@ -36,7 +36,8 @@ extension RequestStatusHelpers on RequestStatus {
   bool get canMarkComplete => this == RequestStatus.inProgress;
 
   /// Returns true if the request is in a terminal state.
-  bool get isTerminal => this == RequestStatus.completed ||
+  bool get isTerminal =>
+      this == RequestStatus.completed ||
       this == RequestStatus.reviewed ||
       this == RequestStatus.rejected;
 

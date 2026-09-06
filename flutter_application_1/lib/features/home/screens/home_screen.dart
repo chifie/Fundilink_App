@@ -24,9 +24,9 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   void _openFundi(BuildContext context, Fundi fundi) {
-    Navigator.of(context).push(
-      SlideUpRoute(page: FundiProfileScreen(fundi: fundi)),
-    );
+    Navigator.of(
+      context,
+    ).push(SlideUpRoute(page: FundiProfileScreen(fundi: fundi)));
   }
 
   @override
@@ -34,7 +34,8 @@ class HomeScreen extends StatelessWidget {
     final fundiProvider = context.watch<FundiProvider>();
     final notificationProvider = context.watch<NotificationProvider>();
     final user = context.watch<AuthProvider>().user;
-    final showNewBadge = fundiProvider.recommended.isNotEmpty && fundiProvider.nearby.isNotEmpty;
+    final showNewBadge =
+        fundiProvider.recommended.isNotEmpty && fundiProvider.nearby.isNotEmpty;
 
     final categories = fundiProvider.categories;
     final isLoading = fundiProvider.isLoading;
@@ -62,81 +63,78 @@ class HomeScreen extends StatelessWidget {
       body: isLoading && !hasContent
           ? const _LoadingSkeleton()
           : fundiProvider.error != null && !hasContent
-              ? ErrorView(
-                  message: fundiProvider.error,
-                  onRetry: () {
-                    fundiProvider.loadCategories();
-                    fundiProvider.loadFundis();
-                  },
-                )
-              : RefreshIndicator(
-                  onRefresh: () async {
-                    await fundiProvider.loadCategories();
-                    await fundiProvider.loadFundis();
-                  },
-                  child: ListView(
-                    padding:
-                        const EdgeInsets.only(bottom: AppDimensions.paddingXL),
-                    children: [
-                      _Greeting(name: user?.fullName ?? 'there'),
-                      const SizedBox(height: AppDimensions.spaceM),
-                      _HeroSearch(
-                        onTap: () => CustomerTabs.goTo(CustomerTabs.search),
-                      ),
-                      const SizedBox(height: AppDimensions.spaceXL),
-                      if (categories.isNotEmpty) ...[
-                        SectionHeader(
-                          title: AppStrings.popularCategories,
-                          actionLabel: AppStrings.viewAll,
-                          onActionTap: () =>
-                              CustomerTabs.goTo(CustomerTabs.search),
-                        ),
-                        const SizedBox(height: AppDimensions.spaceM),
-                        _CategoryGrid(categories: categories),
-                        const SizedBox(height: AppDimensions.spaceXL),
-                      ],
-                      if (fundiProvider.recommended.isNotEmpty) ...[
-                        if (showNewBadge)
-                          _NewArrivalsBanner(),
-                        const SectionHeader(title: AppStrings.recommendedFundi),
-                        const SizedBox(height: AppDimensions.spaceM),
-                        SizedBox(
-                          height: 210,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppDimensions.paddingM,
-                            ),
-                            itemCount: fundiProvider.recommended.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: AppDimensions.spaceM),
-                            itemBuilder: (context, index) {
-                              final fundi = fundiProvider.recommended[index];
-                              return FundiCardCompact(
-                                fundi: fundi,
-                                onTap: () => _openFundi(context, fundi),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: AppDimensions.spaceXL),
-                      ],
-                      if (fundiProvider.nearby.isNotEmpty) ...[
-                        const SectionHeader(title: AppStrings.nearbyFundi),
-                        const SizedBox(height: AppDimensions.spaceS),
-                        for (var i = 0; i < fundiProvider.nearby.length; i++)
-                          _StaggeredItem(
-                            index: i,
-                            child: FundiCard(
-                              fundi: fundiProvider.nearby[i],
-                              onTap: () =>
-                                  _openFundi(context, fundiProvider.nearby[i]),
-                            ),
-                          ),
-                      ],
-                    ],
+          ? ErrorView(
+              message: fundiProvider.error,
+              onRetry: () {
+                fundiProvider.loadCategories();
+                fundiProvider.loadFundis();
+              },
+            )
+          : RefreshIndicator(
+              onRefresh: () async {
+                await fundiProvider.loadCategories();
+                await fundiProvider.loadFundis();
+              },
+              child: ListView(
+                padding: const EdgeInsets.only(bottom: AppDimensions.paddingXL),
+                children: [
+                  _Greeting(name: user?.fullName ?? 'there'),
+                  const SizedBox(height: AppDimensions.spaceM),
+                  _HeroSearch(
+                    onTap: () => CustomerTabs.goTo(CustomerTabs.search),
                   ),
-                ),
+                  const SizedBox(height: AppDimensions.spaceXL),
+                  if (categories.isNotEmpty) ...[
+                    SectionHeader(
+                      title: AppStrings.popularCategories,
+                      actionLabel: AppStrings.viewAll,
+                      onActionTap: () => CustomerTabs.goTo(CustomerTabs.search),
+                    ),
+                    const SizedBox(height: AppDimensions.spaceM),
+                    _CategoryGrid(categories: categories),
+                    const SizedBox(height: AppDimensions.spaceXL),
+                  ],
+                  if (fundiProvider.recommended.isNotEmpty) ...[
+                    if (showNewBadge) _NewArrivalsBanner(),
+                    const SectionHeader(title: AppStrings.recommendedFundi),
+                    const SizedBox(height: AppDimensions.spaceM),
+                    SizedBox(
+                      height: 210,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppDimensions.paddingM,
+                        ),
+                        itemCount: fundiProvider.recommended.length,
+                        separatorBuilder: (_, _) =>
+                            const SizedBox(width: AppDimensions.spaceM),
+                        itemBuilder: (context, index) {
+                          final fundi = fundiProvider.recommended[index];
+                          return FundiCardCompact(
+                            fundi: fundi,
+                            onTap: () => _openFundi(context, fundi),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: AppDimensions.spaceXL),
+                  ],
+                  if (fundiProvider.nearby.isNotEmpty) ...[
+                    const SectionHeader(title: AppStrings.nearbyFundi),
+                    const SizedBox(height: AppDimensions.spaceS),
+                    for (var i = 0; i < fundiProvider.nearby.length; i++)
+                      _StaggeredItem(
+                        index: i,
+                        child: FundiCard(
+                          fundi: fundiProvider.nearby[i],
+                          onTap: () =>
+                              _openFundi(context, fundiProvider.nearby[i]),
+                        ),
+                      ),
+                  ],
+                ],
+              ),
+            ),
     );
   }
 }
@@ -148,7 +146,10 @@ class _NewArrivalsBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: AppDimensions.spaceM),
-      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM, vertical: 6),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppDimensions.paddingM,
+        vertical: 6,
+      ),
       decoration: BoxDecoration(
         color: AppColors.forestGreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.radiusS),
@@ -459,17 +460,11 @@ class _StaggeredItemState extends State<_StaggeredItem>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _opacity = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    );
+    _opacity = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     _slide = Tween<Offset>(
       begin: const Offset(0, 0.1),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
     // Start the animation after a staggered delay using the ticker.
     _controller.forward();
   }

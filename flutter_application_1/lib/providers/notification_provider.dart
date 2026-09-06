@@ -6,7 +6,7 @@ import '../repositories/notification_repository.dart';
 /// Manages the in-app notification inbox.
 class NotificationProvider extends ChangeNotifier {
   NotificationProvider({NotificationRepository? repository})
-      : _repository = repository ?? NotificationRepository();
+    : _repository = repository ?? NotificationRepository();
 
   final NotificationRepository _repository;
 
@@ -16,8 +16,7 @@ class NotificationProvider extends ChangeNotifier {
   List<NotificationItem> get notifications => _notifications;
   bool get isLoading => _loading;
 
-  int get unreadCount =>
-      _notifications.where((n) => !n.isRead).length;
+  int get unreadCount => _notifications.where((n) => !n.isRead).length;
 
   Future<void> load() async {
     _loading = true;
@@ -29,8 +28,9 @@ class NotificationProvider extends ChangeNotifier {
 
   Future<void> markAllRead() async {
     await _repository.markAllRead();
-    _notifications =
-        _notifications.map((n) => n.copyWith(isRead: true)).toList();
+    _notifications = _notifications
+        .map((n) => n.copyWith(isRead: true))
+        .toList();
     notifyListeners();
   }
 

@@ -18,10 +18,10 @@ class ApiService {
     required String email,
     required String password,
   }) async {
-    final data = await _client.post(ApiConstants.login, body: {
-      'email': email,
-      'password': password,
-    });
+    final data = await _client.post(
+      ApiConstants.login,
+      body: {'email': email, 'password': password},
+    );
     return data as Map<String, dynamic>;
   }
 
@@ -32,13 +32,16 @@ class ApiService {
     required String password,
     required String role,
   }) async {
-    final data = await _client.post(ApiConstants.register, body: {
-      'fullName': fullName,
-      'email': email,
-      'phone': phone,
-      'password': password,
-      'role': role,
-    });
+    final data = await _client.post(
+      ApiConstants.register,
+      body: {
+        'fullName': fullName,
+        'email': email,
+        'phone': phone,
+        'password': password,
+        'role': role,
+      },
+    );
     return data as Map<String, dynamic>;
   }
 
@@ -58,12 +61,16 @@ class ApiService {
     String? location,
     String? sort,
   }) async {
-    return await _client.get(ApiConstants.fundis, query: {
-      ApiConstants.searchParam: ?search,
-      ApiConstants.categoryParam: ?category,
-      ApiConstants.locationParam: ?location,
-      ApiConstants.sortParam: ?sort,
-    }) as List<dynamic>;
+    return await _client.get(
+          ApiConstants.fundis,
+          query: {
+            ApiConstants.searchParam: ?search,
+            ApiConstants.categoryParam: ?category,
+            ApiConstants.locationParam: ?location,
+            ApiConstants.sortParam: ?sort,
+          },
+        )
+        as List<dynamic>;
   }
 
   Future<Map<String, dynamic>> getFundi(String id) async =>
@@ -89,9 +96,10 @@ class ApiService {
     String status,
   ) async {
     return await _client.put(
-      '${ApiConstants.updateRequestStatus}/$requestId',
-      body: {'status': status},
-    ) as Map<String, dynamic>;
+          '${ApiConstants.updateRequestStatus}/$requestId',
+          body: {'status': status},
+        )
+        as Map<String, dynamic>;
   }
 
   // ---------------------------------------------------------------------------

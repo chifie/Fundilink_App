@@ -15,7 +15,9 @@ class NotificationRepository {
   Future<void> markAllRead() async {
     await Future<void>.delayed(const Duration(milliseconds: 200));
     for (var i = 0; i < MockData.notifications.length; i++) {
-      MockData.notifications[i] = MockData.notifications[i].copyWith(isRead: true);
+      MockData.notifications[i] = MockData.notifications[i].copyWith(
+        isRead: true,
+      );
     }
   }
 
@@ -23,8 +25,9 @@ class NotificationRepository {
     await Future<void>.delayed(const Duration(milliseconds: 100));
     final index = MockData.notifications.indexWhere((n) => n.id == id);
     if (index != -1) {
-      MockData.notifications[index] =
-          MockData.notifications[index].copyWith(isRead: true);
+      MockData.notifications[index] = MockData.notifications[index].copyWith(
+        isRead: true,
+      );
     }
   }
 }

@@ -52,10 +52,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -75,7 +72,10 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: const BorderSide(color: AppColors.primaryLight, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.primaryLight,
+            width: 1.5,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -85,14 +85,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
-        hintStyle: const TextStyle(
-          color: Color(0xFF94A3B8),
-          fontSize: 14,
-        ),
-        labelStyle: const TextStyle(
-          color: Color(0xFFCBD5E1),
-          fontSize: 14,
-        ),
+        hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
+        labelStyle: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 14),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Color(0xFF1E293B),
@@ -173,10 +167,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -187,19 +178,13 @@ class AppTheme {
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           ),
           side: const BorderSide(color: AppColors.primary, width: 1.5),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -229,10 +214,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           borderSide: const BorderSide(color: AppColors.error, width: 1.5),
         ),
-        hintStyle: const TextStyle(
-          color: AppColors.textHint,
-          fontSize: 14,
-        ),
+        hintStyle: const TextStyle(color: AppColors.textHint, fontSize: 14),
         labelStyle: const TextStyle(
           color: AppColors.textSecondary,
           fontSize: 14,
@@ -253,10 +235,7 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surfaceVariant,
         selectedColor: AppColors.primaryLight,
-        labelStyle: const TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 13,
-        ),
+        labelStyle: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
         ),

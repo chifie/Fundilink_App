@@ -9,14 +9,14 @@ import 'package:provider/provider.dart';
 Widget _wrap(ChatProvider chat) {
   return ChangeNotifierProvider<ChatProvider>.value(
     value: chat,
-    child: const MaterialApp(
-      home: ConversationListScreen(currentUserId: 'u1'),
-    ),
+    child: const MaterialApp(home: ConversationListScreen(currentUserId: 'u1')),
   );
 }
 
 void main() {
-  testWidgets('conversation list opens a thread and can send messages', (tester) async {
+  testWidgets('conversation list opens a thread and can send messages', (
+    tester,
+  ) async {
     final chat = ChatProvider();
     unawaited(chat.loadConversations());
     await tester.pumpWidget(_wrap(chat));

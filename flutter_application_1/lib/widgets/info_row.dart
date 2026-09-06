@@ -4,7 +4,12 @@ import '../core/constants/app_dimensions.dart';
 
 /// A reusable row with an icon and text, used for detail screens.
 class InfoRow extends StatelessWidget {
-  const InfoRow({super.key, required this.icon, required this.text, this.trailing});
+  const InfoRow({
+    super.key,
+    required this.icon,
+    required this.text,
+    this.trailing,
+  });
   final IconData icon;
   final String text;
   final Widget? trailing;
@@ -21,7 +26,11 @@ class InfoRow extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, height: 1.4),
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 14,
+                height: 1.4,
+              ),
             ),
           ),
           ?trailing,

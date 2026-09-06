@@ -21,7 +21,8 @@ class Formatters {
 
   static String time(DateTime date) => _time.format(date);
 
-  static String dateTime(DateTime date) => '${_shortDate.format(date)} · ${_time.format(date)}';
+  static String dateTime(DateTime date) =>
+      '${_shortDate.format(date)} · ${_time.format(date)}';
 
   /// Compact human-friendly relative time, e.g. "2h ago", "just now".
   static String timeAgo(DateTime date) {

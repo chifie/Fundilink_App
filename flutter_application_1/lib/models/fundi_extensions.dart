@@ -11,7 +11,8 @@ extension FundiHelpers on Fundi {
   bool get hasServiceTags => serviceTags.isNotEmpty;
 
   /// Returns a display string for the starting price.
-  String get priceDisplay => 'KES ${startingPrice.toStringAsFixed(0)}$priceUnit';
+  String get priceDisplay =>
+      'KES ${startingPrice.toStringAsFixed(0)}$priceUnit';
 
   /// Returns a short description (first 100 characters).
   String get shortDescription {

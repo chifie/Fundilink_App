@@ -64,7 +64,11 @@ class ActionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, color: AppColors.textHint, size: 20),
+              const Icon(
+                Icons.chevron_right,
+                color: AppColors.textHint,
+                size: 20,
+              ),
             ],
           ),
         ),

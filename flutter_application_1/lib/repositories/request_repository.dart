@@ -1,4 +1,3 @@
-
 import 'package:uuid/uuid.dart';
 
 import '../data/mock_data.dart';
@@ -79,9 +78,11 @@ class RequestRepository {
   /// Total earnings: the sum of cost estimates for paid-out jobs.
   Future<double> totalEarnings(String fundiId) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
-    final jobs = MockData.requestsForFundi(fundiId).where((r) =>
-        r.status == RequestStatus.completed ||
-        r.status == RequestStatus.reviewed);
+    final jobs = MockData.requestsForFundi(fundiId).where(
+      (r) =>
+          r.status == RequestStatus.completed ||
+          r.status == RequestStatus.reviewed,
+    );
     return jobs.fold<double>(0, (sum, r) => sum + r.estimatedCost);
   }
 }

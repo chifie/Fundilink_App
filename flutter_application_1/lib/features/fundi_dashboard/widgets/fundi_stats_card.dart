@@ -42,10 +42,7 @@ class FundiStatsCard extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: AppColors.textHint,
-              fontSize: 11,
-            ),
+            style: const TextStyle(color: AppColors.textHint, fontSize: 11),
           ),
         ],
       ),

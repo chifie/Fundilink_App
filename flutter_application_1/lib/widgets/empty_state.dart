@@ -41,10 +41,7 @@ class _EmptyStateState extends State<EmptyState>
       TweenSequenceItem(tween: Tween(begin: 1.2, end: 0.95), weight: 20),
       TweenSequenceItem(tween: Tween(begin: 0.95, end: 1.05), weight: 20),
       TweenSequenceItem(tween: Tween(begin: 1.05, end: 1.0), weight: 20),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
     _controller.forward();
   }
 

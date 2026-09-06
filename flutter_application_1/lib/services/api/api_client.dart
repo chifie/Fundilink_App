@@ -10,8 +10,8 @@ import '../../core/constants/api_constants.dart';
 /// repositories only deal with typed data.
 class ApiClient {
   ApiClient({http.Client? client, String? baseUrl, this._authToken})
-      : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ?? ApiConstants.baseUrl;
+    : _client = client ?? http.Client(),
+      _baseUrl = baseUrl ?? ApiConstants.baseUrl;
 
   final http.Client _client;
   final String _baseUrl;
@@ -20,10 +20,10 @@ class ApiClient {
   void setAuthToken(String? token) => _authToken = token;
 
   Map<String, String> get _headers => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        if (_authToken != null) 'Authorization': 'Bearer $_authToken',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    if (_authToken != null) 'Authorization': 'Bearer $_authToken',
+  };
 
   Uri _uri(String path, [Map<String, String>? query]) {
     return Uri.parse('$_baseUrl$path').replace(queryParameters: query);

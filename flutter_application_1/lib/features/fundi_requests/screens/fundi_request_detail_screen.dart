@@ -24,7 +24,9 @@ class FundiRequestDetailScreen extends StatelessWidget {
     final provider = context.read<RequestProvider>();
     Haptics.strong();
     await provider.updateStatus(request.id, status);
-    messenger.showSnackBar(SnackBar(content: Text('Request ${status.label.toLowerCase()}.')));
+    messenger.showSnackBar(
+      SnackBar(content: Text('Request ${status.label.toLowerCase()}.')),
+    );
     navigator.pop();
   }
 
@@ -60,7 +62,11 @@ class FundiRequestDetailScreen extends StatelessWidget {
               const Spacer(),
               Text(
                 Formatters.currency(current.estimatedCost),
-                style: const TextStyle(color: AppColors.forestGreen, fontSize: 16, fontWeight: FontWeight.w800),
+                style: const TextStyle(
+                  color: AppColors.forestGreen,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ],
           ),
@@ -69,7 +75,11 @@ class FundiRequestDetailScreen extends StatelessWidget {
           const SizedBox(height: AppDimensions.spaceL),
           Text(
             current.customerName,
-            style: const TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: AppDimensions.spaceL),
           Card(
@@ -79,13 +89,26 @@ class FundiRequestDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _InfoRow(icon: Icons.description_outlined, text: current.description),
+                  _InfoRow(
+                    icon: Icons.description_outlined,
+                    text: current.description,
+                  ),
                   const Divider(height: 24),
-                  _InfoRow(icon: Icons.category_outlined, text: current.categoryName),
+                  _InfoRow(
+                    icon: Icons.category_outlined,
+                    text: current.categoryName,
+                  ),
                   const Divider(height: 24),
-                  _InfoRow(icon: Icons.calendar_today_outlined, text: '${current.preferredDate} at ${current.preferredTime}'),
+                  _InfoRow(
+                    icon: Icons.calendar_today_outlined,
+                    text:
+                        '${current.preferredDate} at ${current.preferredTime}',
+                  ),
                   const Divider(height: 24),
-                  _InfoRow(icon: Icons.location_on_outlined, text: current.location),
+                  _InfoRow(
+                    icon: Icons.location_on_outlined,
+                    text: current.location,
+                  ),
                 ],
               ),
             ),
@@ -97,7 +120,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: current.images.length,
-                separatorBuilder: (_, _) => const SizedBox(width: AppDimensions.spaceM),
+                separatorBuilder: (_, _) =>
+                    const SizedBox(width: AppDimensions.spaceM),
                 itemBuilder: (context, index) => ClipRRect(
                   borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                   child: Image.network(
@@ -107,7 +131,10 @@ class FundiRequestDetailScreen extends StatelessWidget {
                     errorBuilder: (_, _, _) => Container(
                       width: 200,
                       color: AppColors.surfaceVariant,
-                      child: const Icon(Icons.image_not_supported_outlined, color: AppColors.textHint),
+                      child: const Icon(
+                        Icons.image_not_supported_outlined,
+                        color: AppColors.textHint,
+                      ),
                     ),
                   ),
                 ),
@@ -124,7 +151,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
                 onPressed: () => _confirmAction(
                   context,
                   title: 'Accept this request?',
-                  message: 'You\'ll be expected to contact the customer and complete the work.',
+                  message:
+                      'You\'ll be expected to contact the customer and complete the work.',
                   status: RequestStatus.accepted,
                 ),
                 icon: const Icon(Icons.check, size: 18),
@@ -142,7 +170,9 @@ class FundiRequestDetailScreen extends StatelessWidget {
                   message: 'The customer will be notified that you declined.',
                   status: RequestStatus.rejected,
                 ),
-                style: OutlinedButton.styleFrom(foregroundColor: AppColors.error),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.error,
+                ),
                 icon: const Icon(Icons.close, size: 18),
                 label: const Text(AppStrings.reject),
               ),
@@ -172,7 +202,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
                 onPressed: () => _confirmAction(
                   context,
                   title: 'Mark as complete?',
-                  message: 'The customer will be notified that the work is done.',
+                  message:
+                      'The customer will be notified that the work is done.',
                   status: RequestStatus.completed,
                 ),
                 icon: const Icon(Icons.check_circle_outline, size: 18),
@@ -201,7 +232,14 @@ class _InfoRow extends StatelessWidget {
           Icon(icon, size: 18, color: AppColors.textHint),
           const SizedBox(width: AppDimensions.spaceM),
           Expanded(
-            child: Text(text, style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, height: 1.4)),
+            child: Text(
+              text,
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 14,
+                height: 1.4,
+              ),
+            ),
           ),
         ],
       ),

@@ -57,7 +57,8 @@ class MockData {
       name: AppStrings.electrical,
       icon: Icons.electrical_services,
       color: AppColors.categoryElectrical,
-      description: 'Wiring, lighting, sockets, switches and electrical repairs.',
+      description:
+          'Wiring, lighting, sockets, switches and electrical repairs.',
       jobCount: 980,
     ),
     const ServiceCategory(
@@ -507,7 +508,8 @@ class MockData {
       fundiName: 'Peter Kiprono',
       categoryId: 'cat_carpentry',
       categoryName: AppStrings.carpentry,
-      description: 'Build and install 4 custom kitchen cabinet doors with soft close hinges.',
+      description:
+          'Build and install 4 custom kitchen cabinet doors with soft close hinges.',
       status: RequestStatus.accepted,
       preferredDate: 'Sep 8, 2026',
       preferredTime: '9:30 AM',
@@ -544,7 +546,8 @@ class MockData {
       fundiName: 'James Otieno',
       categoryId: 'cat_plumbing',
       categoryName: AppStrings.plumbing,
-      description: 'Toilet keeps running after flushing. Please fix the flush valve.',
+      description:
+          'Toilet keeps running after flushing. Please fix the flush valve.',
       status: RequestStatus.pending,
       preferredDate: 'Sep 5, 2026',
       preferredTime: '8:00 AM',
@@ -561,7 +564,8 @@ class MockData {
       fundiName: 'James Otieno',
       categoryId: 'cat_plumbing',
       categoryName: AppStrings.plumbing,
-      description: 'Install a new kitchen sink and connect the dishwasher outlet.',
+      description:
+          'Install a new kitchen sink and connect the dishwasher outlet.',
       status: RequestStatus.accepted,
       preferredDate: 'Sep 7, 2026',
       preferredTime: '1:00 PM',
@@ -579,7 +583,8 @@ class MockData {
       fundiName: 'James Otieno',
       categoryId: 'cat_plumbing',
       categoryName: AppStrings.plumbing,
-      description: 'Burst pipe under the bathroom sink leaking into the kitchen ceiling.',
+      description:
+          'Burst pipe under the bathroom sink leaking into the kitchen ceiling.',
       status: RequestStatus.inProgress,
       preferredDate: 'Sep 3, 2026',
       preferredTime: '3:00 PM',
@@ -766,7 +771,8 @@ class MockData {
       fundiId: 'f1',
       customerName: 'Ann Wairimu',
       rating: 5,
-      comment: 'James fixed our burst pipe quickly and left everything clean. Highly recommend!',
+      comment:
+          'James fixed our burst pipe quickly and left everything clean. Highly recommend!',
       createdAt: _minutesAgo(1500),
     ),
     Review(
@@ -774,7 +780,8 @@ class MockData {
       fundiId: 'f1',
       customerName: 'Tom Ochieng',
       rating: 4.5,
-      comment: 'Good work on the water heater. Arrived on time and gave fair pricing.',
+      comment:
+          'Good work on the water heater. Arrived on time and gave fair pricing.',
       createdAt: _minutesAgo(4000),
     ),
     Review(
@@ -806,7 +813,8 @@ class MockData {
       fundiId: 'f4',
       customerName: 'Brian Kimani',
       rating: 5,
-      comment: 'The apartment has never been this clean. Great attention to detail.',
+      comment:
+          'The apartment has never been this clean. Great attention to detail.',
       createdAt: _minutesAgo(150),
     ),
     Review(
@@ -913,7 +921,8 @@ class MockData {
       id: 'p3',
       fundiId: 'f1',
       title: 'Kitchen drain unblocking',
-      description: 'Unblocked a stubborn kitchen drain using a jetting machine.',
+      description:
+          'Unblocked a stubborn kitchen drain using a jetting machine.',
       imageUrl: 'https://picsum.photos/seed/plumb3/600/600',
     ),
     const PortfolioItem(

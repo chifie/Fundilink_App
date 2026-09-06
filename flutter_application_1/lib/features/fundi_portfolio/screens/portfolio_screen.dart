@@ -84,7 +84,10 @@ class _PortfolioTile extends StatelessWidget {
             fit: BoxFit.cover,
             errorBuilder: (_, _, _) => Container(
               color: AppColors.surfaceVariant,
-              child: const Icon(Icons.image_not_supported_outlined, color: AppColors.textHint),
+              child: const Icon(
+                Icons.image_not_supported_outlined,
+                color: AppColors.textHint,
+              ),
             ),
           ),
           Positioned(

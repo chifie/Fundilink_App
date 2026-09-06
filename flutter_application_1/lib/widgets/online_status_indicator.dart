@@ -3,7 +3,11 @@ import '../core/constants/app_colors.dart';
 
 /// Shows a fundi's online/offline status with a pulsing dot.
 class OnlineStatusIndicator extends StatefulWidget {
-  const OnlineStatusIndicator({super.key, required this.isOnline, this.size = 10});
+  const OnlineStatusIndicator({
+    super.key,
+    required this.isOnline,
+    this.size = 10,
+  });
   final bool isOnline;
   final double size;
 
@@ -57,7 +61,9 @@ class _OnlineStatusIndicatorState extends State<OnlineStatusIndicator>
             boxShadow: widget.isOnline
                 ? [
                     BoxShadow(
-                      color: color.withValues(alpha: 0.3 + _controller.value * 0.4),
+                      color: color.withValues(
+                        alpha: 0.3 + _controller.value * 0.4,
+                      ),
                       blurRadius: 4 + _controller.value * 4,
                       spreadRadius: _controller.value * 2,
                     ),

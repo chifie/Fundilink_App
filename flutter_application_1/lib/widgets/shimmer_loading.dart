@@ -40,7 +40,10 @@ class ShimmerFundiCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(radius: 24, backgroundColor: AppColors.surfaceVariant),
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: AppColors.surfaceVariant,
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

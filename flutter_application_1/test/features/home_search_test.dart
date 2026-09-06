@@ -29,7 +29,9 @@ Future<void> _useTallViewport(WidgetTester tester) async {
 }
 
 void main() {
-  testWidgets('home renders categories and fundi rows after load', (tester) async {
+  testWidgets('home renders categories and fundi rows after load', (
+    tester,
+  ) async {
     await _useTallViewport(tester);
     final fundi = FundiProvider();
     unawaited(fundi.loadCategories());
@@ -65,7 +67,9 @@ void main() {
     expect(find.textContaining('Certified plumber'), findsOneWidget);
   });
 
-  testWidgets('home category chip asks the search tab to filter', (tester) async {
+  testWidgets('home category chip asks the search tab to filter', (
+    tester,
+  ) async {
     await _useTallViewport(tester);
     final fundi = FundiProvider();
     unawaited(fundi.loadCategories());

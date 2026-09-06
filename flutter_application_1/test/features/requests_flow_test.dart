@@ -28,9 +28,7 @@ Widget _wrapForm(RequestProvider requests, AuthProvider auth) {
       ChangeNotifierProvider.value(value: requests),
       ChangeNotifierProvider.value(value: auth),
     ],
-    child: MaterialApp(
-      home: RequestFormScreen(fundi: MockData.fundis.first),
-    ),
+    child: MaterialApp(home: RequestFormScreen(fundi: MockData.fundis.first)),
   );
 }
 
@@ -49,7 +47,9 @@ void main() {
     expect(find.text(AppStrings.inProgress), findsWidgets);
   });
 
-  testWidgets('cancelling a pending request updates its status', (tester) async {
+  testWidgets('cancelling a pending request updates its status', (
+    tester,
+  ) async {
     final requests = RequestProvider();
     unawaited(requests.loadCustomerRequests('u1'));
     await tester.pumpWidget(_wrapRequests(requests, AuthProvider()));
@@ -83,7 +83,10 @@ void main() {
     await tester.pumpWidget(_wrapForm(requests, auth));
     await tester.pump();
 
-    final submit = find.widgetWithText(ElevatedButton, AppStrings.submitRequest);
+    final submit = find.widgetWithText(
+      ElevatedButton,
+      AppStrings.submitRequest,
+    );
     await tester.ensureVisible(submit);
     await tester.pump();
     await tester.tap(submit);
@@ -93,7 +96,9 @@ void main() {
     expect(find.text(AppStrings.addLocation), findsOneWidget);
   });
 
-  testWidgets('submitting a booking reaches the success screen', (tester) async {
+  testWidgets('submitting a booking reaches the success screen', (
+    tester,
+  ) async {
     final requests = RequestProvider();
     final auth = AuthProvider();
     // Complete sign-in before the form builds so the user and their
@@ -115,7 +120,10 @@ void main() {
     );
     await tester.pump();
 
-    final submit = find.widgetWithText(ElevatedButton, AppStrings.submitRequest);
+    final submit = find.widgetWithText(
+      ElevatedButton,
+      AppStrings.submitRequest,
+    );
     await tester.ensureVisible(submit);
     await tester.pump();
     await tester.tap(submit);

@@ -4,7 +4,12 @@ import '../../core/utils/formatters.dart';
 
 /// A read-only text field that opens a date picker on tap.
 class DatePickerField extends StatelessWidget {
-  const DatePickerField({super.key, required this.label, required this.date, required this.onPicked});
+  const DatePickerField({
+    super.key,
+    required this.label,
+    required this.date,
+    required this.onPicked,
+  });
   final String label;
   final DateTime date;
   final ValueChanged<DateTime> onPicked;
@@ -23,10 +28,17 @@ class DatePickerField extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(12),
       child: InputDecorator(
-        decoration: InputDecoration(labelText: label, prefixIcon: const Icon(Icons.calendar_today_outlined, size: 20)),
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: const Icon(Icons.calendar_today_outlined, size: 20),
+        ),
         child: Text(
           Formatters.date(date),
-          style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );

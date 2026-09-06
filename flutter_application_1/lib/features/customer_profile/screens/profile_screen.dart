@@ -47,10 +47,7 @@ class ProfileScreen extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  AppColors.primary,
-                  AppColors.primaryDark,
-                ],
+                colors: [AppColors.primary, AppColors.primaryDark],
               ),
               borderRadius: BorderRadius.circular(AppDimensions.radiusL),
             ),
@@ -146,9 +143,7 @@ class ProfileScreen extends StatelessWidget {
             icon: Icons.settings_outlined,
             title: AppStrings.settings,
             onTap: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => const SettingsScreen(),
-              ),
+              MaterialPageRoute<void>(builder: (_) => const SettingsScreen()),
             ),
           ),
           const SizedBox(height: AppDimensions.spaceL),

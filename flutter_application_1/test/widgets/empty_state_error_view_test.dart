@@ -22,7 +22,10 @@ void main() {
 
       expect(find.byIcon(Icons.inbox_outlined), findsOneWidget);
       expect(find.text('Nothing here'), findsOneWidget);
-      expect(find.text('It will appear once there is content.'), findsOneWidget);
+      expect(
+        find.text('It will appear once there is content.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('fires the action when the button is tapped', (tester) async {

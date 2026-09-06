@@ -167,7 +167,11 @@ class _HeaderCard extends StatelessWidget {
               ),
               if (fundi.verified) ...[
                 const SizedBox(width: 6),
-                const Icon(Icons.verified, size: 20, color: AppColors.forestGreen),
+                const Icon(
+                  Icons.verified,
+                  size: 20,
+                  color: AppColors.forestGreen,
+                ),
               ],
             ],
           ),
@@ -567,7 +571,10 @@ class _ActionCta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppDimensions.paddingL,
+        vertical: 8,
+      ),
       decoration: BoxDecoration(
         color: AppColors.forestGreen.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -576,7 +583,11 @@ class _ActionCta extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.chat_bubble_outline, size: 16, color: AppColors.forestGreen),
+          const Icon(
+            Icons.chat_bubble_outline,
+            size: 16,
+            color: AppColors.forestGreen,
+          ),
           const SizedBox(width: 6),
           Text(
             'Chat with ${fundi.fullName}',
@@ -593,10 +604,7 @@ class _ActionCta extends StatelessWidget {
 }
 
 class _ActionBar extends StatelessWidget {
-  const _ActionBar({
-    required this.onChat,
-    required this.onRequest,
-  });
+  const _ActionBar({required this.onChat, required this.onRequest});
 
   final VoidCallback onChat;
   final VoidCallback onRequest;

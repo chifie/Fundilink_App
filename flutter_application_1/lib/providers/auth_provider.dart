@@ -8,7 +8,7 @@ enum AuthStatus { unknown, unauthenticated, authenticated }
 /// Manages the signed-in user and session lifecycle.
 class AuthProvider extends ChangeNotifier {
   AuthProvider({AuthRepository? repository})
-      : _repository = repository ?? AuthRepository();
+    : _repository = repository ?? AuthRepository();
 
   final AuthRepository _repository;
 
@@ -39,10 +39,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> login({required String email, required String password}) async {
     _loading = true;
     _error = null;
     notifyListeners();

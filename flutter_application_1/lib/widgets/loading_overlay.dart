@@ -3,7 +3,11 @@ import '../core/constants/app_colors.dart';
 
 /// A semi-transparent loading overlay that blocks user interaction.
 class LoadingOverlay extends StatelessWidget {
-  const LoadingOverlay({super.key, required this.isLoading, required this.child});
+  const LoadingOverlay({
+    super.key,
+    required this.isLoading,
+    required this.child,
+  });
   final bool isLoading;
   final Widget child;
 

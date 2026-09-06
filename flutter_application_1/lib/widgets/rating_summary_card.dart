@@ -20,7 +20,9 @@ class RatingSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxCount = distribution.isEmpty ? 1 : distribution.reduce((a, b) => a > b ? a : b);
+    final maxCount = distribution.isEmpty
+        ? 1
+        : distribution.reduce((a, b) => a > b ? a : b);
 
     return Container(
       padding: EdgeInsets.all(
@@ -51,7 +53,10 @@ class RatingSummaryCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   '$totalReviews reviews',
-                  style: const TextStyle(color: AppColors.textHint, fontSize: 11),
+                  style: const TextStyle(
+                    color: AppColors.textHint,
+                    fontSize: 11,
+                  ),
                 ),
               ],
             ),
@@ -61,7 +66,9 @@ class RatingSummaryCard extends StatelessWidget {
           Expanded(
             child: Column(
               children: List.generate(5, (index) {
-                final starCount = index < distribution.length ? distribution[index] : 0;
+                final starCount = index < distribution.length
+                    ? distribution[index]
+                    : 0;
                 final percentage = maxCount > 0 ? starCount / maxCount : 0.0;
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 2),
@@ -69,7 +76,10 @@ class RatingSummaryCard extends StatelessWidget {
                     children: [
                       Text(
                         '${5 - index}',
-                        style: const TextStyle(color: AppColors.textHint, fontSize: 11),
+                        style: const TextStyle(
+                          color: AppColors.textHint,
+                          fontSize: 11,
+                        ),
                       ),
                       const SizedBox(width: 4),
                       Icon(Icons.star, size: 10, color: AppColors.starFilled),
@@ -91,7 +101,10 @@ class RatingSummaryCard extends StatelessWidget {
                         child: Text(
                           '$starCount',
                           textAlign: TextAlign.right,
-                          style: const TextStyle(color: AppColors.textHint, fontSize: 10),
+                          style: const TextStyle(
+                            color: AppColors.textHint,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
                     ],

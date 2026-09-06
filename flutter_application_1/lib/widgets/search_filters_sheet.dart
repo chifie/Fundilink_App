@@ -55,7 +55,8 @@ Future<SearchFilterOptions?> showSearchFilters(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     showDragHandle: true,
-    builder: (_) => _SearchFiltersSheet(current: current, categories: categories),
+    builder: (_) =>
+        _SearchFiltersSheet(current: current, categories: categories),
   );
 }
 
@@ -89,7 +90,8 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
       padding: EdgeInsets.only(
         left: AppDimensions.paddingL,
         right: AppDimensions.paddingL,
-        bottom: MediaQuery.of(context).viewInsets.bottom + AppDimensions.paddingL,
+        bottom:
+            MediaQuery.of(context).viewInsets.bottom + AppDimensions.paddingL,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -107,9 +109,24 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
           Wrap(
             spacing: AppDimensions.spaceS,
             children: [
-              _SortChip(label: 'Highest Rated', value: 'rating', selected: _sortBy, onTap: (v) => setState(() => _sortBy = v)),
-              _SortChip(label: 'Lowest Price', value: 'price', selected: _sortBy, onTap: (v) => setState(() => _sortBy = v)),
-              _SortChip(label: 'Nearest', value: 'distance', selected: _sortBy, onTap: (v) => setState(() => _sortBy = v)),
+              _SortChip(
+                label: 'Highest Rated',
+                value: 'rating',
+                selected: _sortBy,
+                onTap: (v) => setState(() => _sortBy = v),
+              ),
+              _SortChip(
+                label: 'Lowest Price',
+                value: 'price',
+                selected: _sortBy,
+                onTap: (v) => setState(() => _sortBy = v),
+              ),
+              _SortChip(
+                label: 'Nearest',
+                value: 'distance',
+                selected: _sortBy,
+                onTap: (v) => setState(() => _sortBy = v),
+              ),
             ],
           ),
           const SizedBox(height: AppDimensions.spaceL),
@@ -160,12 +177,14 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
             height: AppDimensions.buttonHeight,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(SearchFilterOptions(
-                  categoryId: _categoryId,
-                  sortBy: _sortBy,
-                  onlyAvailable: _onlyAvailable,
-                  onlyVerified: _onlyVerified,
-                ));
+                Navigator.of(context).pop(
+                  SearchFilterOptions(
+                    categoryId: _categoryId,
+                    sortBy: _sortBy,
+                    onlyAvailable: _onlyAvailable,
+                    onlyVerified: _onlyVerified,
+                  ),
+                );
               },
               child: const Text(AppStrings.apply),
             ),
@@ -177,7 +196,12 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
 }
 
 class _SortChip extends StatelessWidget {
-  const _SortChip({required this.label, required this.value, required this.selected, required this.onTap});
+  const _SortChip({
+    required this.label,
+    required this.value,
+    required this.selected,
+    required this.onTap,
+  });
   final String label;
   final String value;
   final String selected;

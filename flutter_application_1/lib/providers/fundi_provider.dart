@@ -10,7 +10,7 @@ import '../repositories/fundi_repository.dart';
 /// Manages service categories and fundi listings.
 class FundiProvider extends ChangeNotifier {
   FundiProvider({FundiRepository? repository})
-      : _repository = repository ?? FundiRepository();
+    : _repository = repository ?? FundiRepository();
 
   final FundiRepository _repository;
 

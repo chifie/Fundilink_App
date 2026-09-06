@@ -38,14 +38,14 @@ class NotificationsScreen extends StatelessWidget {
                   'Updates about your requests and chats will appear here.',
             )
           : RefreshIndicator(
-              onRefresh: () =>
-                  context.read<NotificationProvider>().load(),
+              onRefresh: () => context.read<NotificationProvider>().load(),
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(
                   vertical: AppDimensions.paddingS,
                 ),
                 itemCount: notifications.length,
-                separatorBuilder: (_, _) => const Divider(height: 1, indent: 72),
+                separatorBuilder: (_, _) =>
+                    const Divider(height: 1, indent: 72),
                 itemBuilder: (context, index) =>
                     _NotificationTile(notification: notifications[index]),
               ),

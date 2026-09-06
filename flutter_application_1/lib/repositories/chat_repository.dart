@@ -45,7 +45,9 @@ class ChatRepository {
     );
     messages.add(message);
 
-    final index = MockData.conversations.indexWhere((c) => c.id == conversationId);
+    final index = MockData.conversations.indexWhere(
+      (c) => c.id == conversationId,
+    );
     if (index != -1) {
       MockData.conversations[index] = MockData.conversations[index].copyWith(
         lastMessage: text,
@@ -65,8 +67,9 @@ class ChatRepository {
     required String requestTitle,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 200));
-    final existing = MockData.conversations.where((c) =>
-        c.otherUserId == otherUserId && c.requestId == requestId);
+    final existing = MockData.conversations.where(
+      (c) => c.otherUserId == otherUserId && c.requestId == requestId,
+    );
     if (existing.isNotEmpty) return existing.first;
 
     final conversation = Conversation(
@@ -86,10 +89,13 @@ class ChatRepository {
   /// Marks all messages in a conversation as read.
   Future<void> markConversationRead(String conversationId) async {
     await Future<void>.delayed(const Duration(milliseconds: 100));
-    final index = MockData.conversations.indexWhere((c) => c.id == conversationId);
+    final index = MockData.conversations.indexWhere(
+      (c) => c.id == conversationId,
+    );
     if (index != -1) {
-      MockData.conversations[index] =
-          MockData.conversations[index].copyWith(unreadCount: 0);
+      MockData.conversations[index] = MockData.conversations[index].copyWith(
+        unreadCount: 0,
+      );
     }
   }
 }

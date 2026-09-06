@@ -29,8 +29,9 @@ void main() {
     });
 
     test('getFundis filters by category', () async {
-      final plumbing =
-          await FundiRepository().getFundis(categoryId: 'cat_plumbing');
+      final plumbing = await FundiRepository().getFundis(
+        categoryId: 'cat_plumbing',
+      );
       expect(plumbing, isNotEmpty);
       expect(plumbing.every((f) => f.categoryId == 'cat_plumbing'), isTrue);
     });
@@ -39,9 +40,11 @@ void main() {
       final results = await FundiRepository().getFundis(query: 'carpentry');
       expect(results, isNotEmpty);
       expect(
-        results.every((f) =>
-            f.categoryName.toLowerCase().contains('carpentry') ||
-            f.fullName.toLowerCase().contains('carpentry')),
+        results.every(
+          (f) =>
+              f.categoryName.toLowerCase().contains('carpentry') ||
+              f.fullName.toLowerCase().contains('carpentry'),
+        ),
         isTrue,
       );
     });
