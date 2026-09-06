@@ -6,6 +6,7 @@ import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_info.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../providers/settings_provider.dart';
 import '../../../widgets/dialogs/confirm_dialog.dart';
 
 /// App settings and account management screen.
@@ -15,6 +16,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
+    final settings = context.watch<SettingsProvider>();
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.settings)),
@@ -74,6 +76,18 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     );
                   },
+                ),
+                const Divider(height: 1, indent: 52),
+                _SettingsTile(
+                  icon: Icons.dark_mode_outlined,
+                  title: 'Dark mode',
+                  trailing: Switch(
+                    value: settings.isDarkMode,
+                    onChanged: (value) =>
+                        context.read<SettingsProvider>().setDarkMode(value),
+                    activeThumbColor: AppColors.forestGreen,
+                  ),
+                  onTap: () {},
                 ),
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
