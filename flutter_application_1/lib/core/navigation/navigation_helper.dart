@@ -23,14 +23,14 @@ class NavigationHelper {
   /// Push a new screen and replace the current one.
   static Future<T?> pushReplacement<T>(BuildContext context, Widget page) {
     return Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(builder: (_) => page),
+      MaterialPageRoute<T>(builder: (_) => page),
     );
   }
 
   /// Push a new screen and remove all previous routes.
   static Future<T?> pushAndRemoveAll<T>(BuildContext context, Widget page) {
     return Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute<void>(builder: (_) => page),
+      MaterialPageRoute<T>(builder: (_) => page),
       (route) => false,
     );
   }
@@ -48,7 +48,7 @@ class NavigationHelper {
   }) {
     return Navigator.of(context).push<T>(
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => page,
+        pageBuilder: (_, _, _) => page,
         transitionDuration: duration,
         reverseTransitionDuration: duration,
       ),
