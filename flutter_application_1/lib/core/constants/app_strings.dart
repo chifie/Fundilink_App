@@ -159,6 +159,12 @@ class AppStrings {
   static const String totalEarnings = 'Total Earnings';
   static const String recentActivity = 'Recent Activity';
 
+  // Jobs
+  static const String jobsActive = 'Active';
+  static const String jobsCompleted = 'Completed';
+  static const String noActiveJobs = 'No active jobs right now.';
+  static const String noCompletedJobs = 'Completed jobs will appear here.';
+
   // Fundi Profile Management
   static const String manageProfile = 'Manage Profile';
   static const String serviceCategories = 'Service Categories';

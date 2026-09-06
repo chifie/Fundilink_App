@@ -6,6 +6,7 @@ import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
+import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/shimmer_loading.dart';
@@ -28,8 +29,8 @@ class FundiJobsScreen extends StatelessWidget {
           title: const Text(AppStrings.jobs),
           bottom: const TabBar(
             tabs: [
-              Tab(text: 'Active'),
-              Tab(text: 'Completed'),
+              Tab(text: AppStrings.jobsActive),
+              Tab(text: AppStrings.jobsCompleted),
             ],
           ),
         ),
@@ -44,33 +45,58 @@ class FundiJobsScreen extends StatelessWidget {
                     requests: provider.fundiRequests
                         .where((r) => r.status == RequestStatus.accepted || r.status == RequestStatus.inProgress)
                         .toList(),
-                    emptyMessage: 'No active jobs right now.',
+                    emptyMessage: AppStrings.noActiveJobs,
+                    onRefresh: () => _reloadFundiRequests(context),
                   ),
                   _JobList(
                     requests: provider.fundiRequests
                         .where((r) => r.status == RequestStatus.completed || r.status == RequestStatus.reviewed)
                         .toList(),
-                    emptyMessage: 'Completed jobs will appear here.',
+                    emptyMessage: AppStrings.noCompletedJobs,
+                    onRefresh: () => _reloadFundiRequests(context),
                   ),
                 ],
               ),
       ),
     );
   }
+
+  /// Reloads the fundi's requests for pull-to-refresh.
+  Future<void> _reloadFundiRequests(BuildContext context) async {
+    final user = context.read<AuthProvider>().user;
+    if (user == null) return;
+    await context.read<RequestProvider>().loadFundiRequests(user.id);
+  }
 }
 
 class _JobList extends StatelessWidget {
-  const _JobList({required this.requests, required this.emptyMessage});
+  const _JobList({
+    required this.requests,
+    required this.emptyMessage,
+    required this.onRefresh,
+  });
   final List<ServiceRequest> requests;
   final String emptyMessage;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
     if (requests.isEmpty) {
-      return EmptyState(icon: Icons.work_outline, title: emptyMessage);
+      return RefreshIndicator(
+        onRefresh: onRefresh,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: 400,
+              child: EmptyState(icon: Icons.work_outline, title: emptyMessage),
+            ),
+          ],
+        ),
+      );
     }
     return RefreshIndicator(
-      onRefresh: () async {},
+      onRefresh: onRefresh,
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
         itemCount: requests.length,
