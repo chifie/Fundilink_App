@@ -213,7 +213,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     _passwordController.text = DemoAccounts.password;
                   },
                   icon: const Icon(Icons.play_arrow, size: 18),
-                  label: const Text('Use demo account'),
+                  label: const Text(AppStrings.useDemoAccount),
+                ),
+                const SizedBox(height: AppDimensions.spaceS),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    _emailController.text = DemoAccounts.fundiEmail;
+                    _passwordController.text = DemoAccounts.password;
+                  },
+                  icon: const Icon(Icons.engineering_outlined, size: 18),
+                  label: const Text(AppStrings.useDemoFundi),
                 ),
                 const SizedBox(height: AppDimensions.spaceXXL),
                 Row(
@@ -232,15 +241,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(AppStrings.register),
                     ),
                   ],
-                ),
-                const SizedBox(height: AppDimensions.spaceS),
-                Text(
-                  'Demo fundi login: ${DemoAccounts.fundiEmail}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.textHint,
-                    fontSize: 11,
-                  ),
                 ),
               ],
             ),

@@ -21,6 +21,8 @@ class AppStrings {
   static const String noAccount = "Don't have an account?";
   static const String hasAccount = 'Already have an account?';
   static const String createAccount = 'Create Account';
+  static const String useDemoAccount = 'Use demo account';
+  static const String useDemoFundi = 'Use fundi demo';
   static const String selectRole = 'I want to';
   static const String findFundi = 'Find a Fundi';
   static const String offerServices = 'Offer Services';
