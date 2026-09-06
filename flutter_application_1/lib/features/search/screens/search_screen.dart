@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/navigation/customer_tabs.dart';
+import '../../../core/utils/debouncer.dart';
 import '../../../models/fundi_model.dart';
 import '../../../providers/fundi_provider.dart';
 import '../../../widgets/empty_state.dart';
@@ -25,7 +24,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _queryController = TextEditingController();
-  Timer? _debounce;
+  final Debouncer _debounce = Debouncer();
   String? _appliedCategoryId;
   String _sortBy = 'rating';
 
@@ -38,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
+    _debounce.dispose();
     CustomerTabs.categoryRequest.removeListener(_onCategoryRequest);
     _queryController.dispose();
     super.dispose();
@@ -53,8 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _scheduleSearch(String query) {
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 350), () {
+    _debounce.run(() {
       context.read<FundiProvider>().search(query.trim(), sortBy: _sortBy);
     });
   }
