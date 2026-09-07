@@ -3,10 +3,22 @@ import 'package:shimmer/shimmer.dart';
 
 import '../core/constants/app_colors.dart';
 
-/// A shimmer loading skeleton effect used while content loads.
-///
-/// Wraps a child widget with a shimmer animation to indicate loading.
-/// Can be customized with base and highlight colors.
+/**
+ * A shimmer loading skeleton effect used while content loads.
+ *
+ * Wraps a child widget with a shimmer animation to indicate loading.
+ * Can be customized with base and highlight colors, direction, and
+ * duration.
+ *
+ * Example:
+ * ```dart
+ * ShimmerLoading(
+ *   direction: ShimmerDirection.rtl,
+ *   enabled: true,
+ *   child: Container(height: 100, width: 200),
+ * )
+ * ```
+ */
 class ShimmerLoading extends StatelessWidget {
   const ShimmerLoading({
     super.key,
