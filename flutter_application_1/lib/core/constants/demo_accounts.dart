@@ -7,4 +7,7 @@ class DemoAccounts {
   static const String customerEmail = 'brian@example.com';
   static const String fundiEmail = 'james@example.com';
   static const String password = 'fundilink';
+
+  /// Demo credentials help text shown in the login screen.
+  static const String helpText = 'Use the demo accounts to explore the app';
 }
