@@ -59,6 +59,7 @@ class _EmptyStateState extends State<EmptyState>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            _buildIcon(),
             ScaleTransition(
               scale: _bounceAnimation,
               child: Container(
