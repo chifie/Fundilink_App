@@ -50,6 +50,8 @@ extension RequestStatusHelpers on RequestStatus {
       this == RequestStatus.rejected;
 
   /// Returns the next status in the workflow.
+  ///
+  /// Returns null when the request has reached a terminal state.
   RequestStatus? get nextStatus {
     switch (this) {
       case RequestStatus.pending:
