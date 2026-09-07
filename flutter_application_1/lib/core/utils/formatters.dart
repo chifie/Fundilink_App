@@ -11,6 +11,9 @@ class Formatters {
     decimalDigits: 0,
   );
 
+  /// Locale-aware currency formatting for Kenyan shillings.
+  static String kenyanShillings(double amount) => currency(amount);
+
   static final DateFormat _date = DateFormat('MMM d, yyyy');
   static final DateFormat _shortDate = DateFormat('MMM d');
   static final DateFormat _time = DateFormat('h:mm a');
