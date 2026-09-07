@@ -98,31 +98,34 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(
-            'Filter & Sort',
+            AppStrings.filterAndSort,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: AppDimensions.spaceL),
 
           // Sort by
-          const Text('Sort by', style: TextStyle(fontWeight: FontWeight.w600)),
+          const Text(
+            AppStrings.sortByLabel,
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: AppDimensions.spaceS),
           Wrap(
             spacing: AppDimensions.spaceS,
             children: [
               _SortChip(
-                label: 'Highest Rated',
+                label: AppStrings.highestRated,
                 value: 'rating',
                 selected: _sortBy,
                 onTap: (v) => setState(() => _sortBy = v),
               ),
               _SortChip(
-                label: 'Lowest Price',
+                label: AppStrings.lowestPrice,
                 value: 'price',
                 selected: _sortBy,
                 onTap: (v) => setState(() => _sortBy = v),
               ),
               _SortChip(
-                label: 'Nearest',
+                label: AppStrings.nearest,
                 value: 'distance',
                 selected: _sortBy,
                 onTap: (v) => setState(() => _sortBy = v),
@@ -132,14 +135,17 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
           const SizedBox(height: AppDimensions.spaceL),
 
           // Category
-          const Text('Category', style: TextStyle(fontWeight: FontWeight.w600)),
+          const Text(
+            AppStrings.categoryLabel,
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: AppDimensions.spaceS),
           Wrap(
             spacing: AppDimensions.spaceS,
             runSpacing: AppDimensions.spaceS,
             children: [
               _SortChip(
-                label: 'All',
+                label: AppStrings.all,
                 value: '',
                 selected: _categoryId ?? '',
                 onTap: (v) => setState(() => _categoryId = null),
@@ -158,14 +164,20 @@ class _SearchFiltersSheetState extends State<_SearchFiltersSheet> {
           // Toggles
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Available only', style: TextStyle(fontSize: 14)),
+            title: const Text(
+              AppStrings.availableOnly,
+              style: TextStyle(fontSize: 14),
+            ),
             value: _onlyAvailable,
             onChanged: (v) => setState(() => _onlyAvailable = v),
             activeThumbColor: AppColors.primary,
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Verified only', style: TextStyle(fontSize: 14)),
+            title: const Text(
+              AppStrings.verifiedOnly,
+              style: TextStyle(fontSize: 14),
+            ),
             value: _onlyVerified,
             onChanged: (v) => setState(() => _onlyVerified = v),
             activeThumbColor: AppColors.primary,

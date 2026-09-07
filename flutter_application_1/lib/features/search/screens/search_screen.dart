@@ -150,7 +150,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               children: [
                 _CategoryFilterChip(
-                  label: 'All',
+                  label: AppStrings.all,
                   selected: _appliedCategoryId == null,
                   onTap: () => _selectCategory(null),
                 ),
@@ -197,10 +197,12 @@ class _SearchScreenState extends State<SearchScreen> {
     if (fundis.isEmpty) {
       return EmptyState(
         icon: Icons.search_off,
-        title: hasQuery ? AppStrings.noResults : 'Discover fundis near you',
+        title: hasQuery
+            ? AppStrings.noResults
+            : AppStrings.discoverFundisNearYou,
         message: hasQuery
-            ? 'Try a different search term or category.'
-            : 'Type a service, name or location above, or pick a category.',
+            ? AppStrings.noResultsHint
+            : AppStrings.searchEmptyMessage,
       );
     }
     return RefreshIndicator(

@@ -17,6 +17,8 @@ class AppStrings {
   static const String forgotPassword = 'Forgot Password?';
   static const String resetPassword = 'Reset Password';
   static const String sendResetLink = 'Send Reset Link';
+  static const String resetLinkSent =
+      'If the account exists, a reset link has been sent.';
   static const String logoutConfirm = 'Are you sure you want to log out?';
   static const String backToLogin = 'Back to Login';
   static const String noAccount = "Don't have an account?";
@@ -217,6 +219,25 @@ class AppStrings {
   static const String apply = 'Apply';
   static const String filter = 'Filter';
   static const String sort = 'Sort';
+  static const String all = 'All';
+  static const String filterAndSort = 'Filter & Sort';
+  static const String sortByLabel = 'Sort by';
+  static const String categoryLabel = 'Category';
+  static const String highestRated = 'Highest Rated';
+  static const String lowestPrice = 'Lowest Price';
+  static const String nearest = 'Nearest';
+  static const String availableOnly = 'Available only';
+  static const String verifiedOnly = 'Verified only';
+  static const String discoverFundisNearYou = 'Discover fundis near you';
+  static const String searchEmptyMessage =
+      'Type a service, name or location above, or pick a category.';
+  static const String noResultsHint =
+      'Try a different search term or category.';
+
+  // Image Picker
+  static const String selectImageSource = 'Select Image Source';
+  static const String camera = 'Camera';
+  static const String gallery = 'Gallery';
   static const String km = 'km away';
   static const String perHour = '/hour';
   static const String perJob = '/job';

@@ -85,11 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               }
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'If the account exists, a reset link has been sent.',
-                    ),
-                  ),
+                  const SnackBar(content: Text(AppStrings.resetLinkSent)),
                 );
               }
             },

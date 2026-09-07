@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../constants/app_strings.dart';
+
 /// Helper for picking images from camera or gallery.
 class ImagePickerHelper {
   ImagePickerHelper._();
@@ -22,19 +24,22 @@ class ImagePickerHelper {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Select Image Source',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              Text(
+                AppStrings.selectImageSource,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 16),
               ListTile(
                 leading: const Icon(Icons.camera_alt, color: Colors.blue),
-                title: const Text('Camera'),
+                title: const Text(AppStrings.camera),
                 onTap: () => Navigator.of(context).pop(ImageSource.camera),
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library, color: Colors.blue),
-                title: const Text('Gallery'),
+                title: const Text(AppStrings.gallery),
                 onTap: () => Navigator.of(context).pop(ImageSource.gallery),
               ),
             ],
