@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../widgets/feedback/toast.dart';
 
 /// Manage working days and hours for the fundi.
 class AvailabilityScreen extends StatefulWidget {
@@ -44,9 +45,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Availability saved')),
-              );
+              Toast.show(context, AppStrings.availabilitySaved);
               Navigator.of(context).pop();
             },
             child: const Text(AppStrings.save),
@@ -64,8 +63,8 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
             ),
             subtitle: Text(
               _isAvailable
-                  ? 'You are available for new requests'
-                  : 'You won\'t receive new requests',
+                  ? AppStrings.availableForNewRequests
+                  : AppStrings.unavailableForNewRequests,
               style: const TextStyle(
                 color: AppColors.textSecondary,
                 fontSize: 13,
@@ -78,7 +77,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           const Divider(),
           const SizedBox(height: AppDimensions.spaceM),
           const Text(
-            'Working Days',
+            AppStrings.workingDays,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 16,
@@ -115,7 +114,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
           ),
           const SizedBox(height: AppDimensions.spaceXL),
           const Text(
-            'Working Hours',
+            AppStrings.workingHours,
             style: TextStyle(
               color: AppColors.textPrimary,
               fontSize: 16,
@@ -127,7 +126,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
             children: [
               Expanded(
                 child: _TimePicker(
-                  label: 'Start Time',
+                  label: AppStrings.startTime,
                   time: _startTime,
                   onTap: () => _pickTime(isStart: true),
                 ),
@@ -140,7 +139,7 @@ class _AvailabilityScreenState extends State<AvailabilityScreen> {
               const SizedBox(width: AppDimensions.spaceM),
               Expanded(
                 child: _TimePicker(
-                  label: 'End Time',
+                  label: AppStrings.endTime,
                   time: _endTime,
                   onTap: () => _pickTime(isStart: false),
                 ),

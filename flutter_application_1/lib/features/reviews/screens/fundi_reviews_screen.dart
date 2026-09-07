@@ -53,7 +53,7 @@ class _FundiReviewsScreenState extends State<FundiReviewsScreen> {
           ? const EmptyState(
               icon: Icons.rate_review_outlined,
               title: AppStrings.noReviews,
-              message: 'Reviews from customers will appear here.',
+              message: AppStrings.noReviewsHint,
             )
           : ListView(
               padding: const EdgeInsets.all(AppDimensions.paddingL),

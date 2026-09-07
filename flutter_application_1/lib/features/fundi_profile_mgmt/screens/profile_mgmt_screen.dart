@@ -6,6 +6,7 @@ import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/validators.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../widgets/feedback/toast.dart';
 
 /// Screen for fundis to manage their public profile information.
 class ProfileMgmtScreen extends StatefulWidget {
@@ -49,9 +50,7 @@ class _ProfileMgmtScreenState extends State<ProfileMgmtScreen> {
     await Future<void>.delayed(const Duration(milliseconds: 500));
     if (mounted) {
       setState(() => _saving = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully')),
-      );
+      Toast.show(context, AppStrings.profileUpdated);
       Navigator.of(context).pop();
     }
   }

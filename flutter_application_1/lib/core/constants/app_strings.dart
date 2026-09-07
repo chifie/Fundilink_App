@@ -191,6 +191,8 @@ class AppStrings {
   static const String reviewText = 'Your Review';
   static const String submitReview = 'Submit Review';
   static const String noReviews = 'No reviews yet';
+  static const String noReviewsHint =
+      'Reviews from customers will appear here.';
   static const String averageRating = 'Average Rating';
 
   // Fundi Dashboard
@@ -221,13 +223,28 @@ class AppStrings {
   static const String myPortfolio = 'My Portfolio';
   static const String addWork = 'Add Work';
   static const String noPortfolio = 'No portfolio items yet';
+  static const String noPortfolioHint =
+      'Showcase your best work to attract more customers.';
   static const String uploadWork = 'Upload Work Image';
+
+  // Availability
+  static const String workingDays = 'Working Days';
+  static const String workingHours = 'Working Hours';
+  static const String startTime = 'Start Time';
+  static const String endTime = 'End Time';
+  static const String availableForNewRequests =
+      'You are available for new requests';
+  static const String unavailableForNewRequests =
+      "You won't receive new requests";
+  static const String availabilitySaved = 'Availability saved';
 
   // Earnings
   static const String myEarnings = 'My Earnings';
   static const String totalEarned = 'Total Earned';
   static const String thisMonth = 'This Month';
   static const String jobHistory = 'Job History';
+
+  static const String profileUpdated = 'Profile updated successfully';
 
   // Common
   static const String loading = 'Loading...';

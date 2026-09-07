@@ -9,6 +9,7 @@ import '../../../models/portfolio_item.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/fundi_provider.dart';
 import '../../../widgets/empty_state.dart';
+import '../../../widgets/feedback/toast.dart';
 
 /// Manage portfolio items (work samples) for the fundi.
 class PortfolioScreen extends StatelessWidget {
@@ -24,11 +25,8 @@ class PortfolioScreen extends StatelessWidget {
         title: const Text(AppStrings.myPortfolio),
         actions: [
           IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Add portfolio item coming soon')),
-              );
-            },
+            tooltip: AppStrings.addWork,
+            onPressed: () => Toast.showComingSoon(context),
             icon: const Icon(Icons.add_photo_alternate_outlined),
           ),
         ],
@@ -44,7 +42,7 @@ class PortfolioScreen extends StatelessWidget {
             return const EmptyState(
               icon: Icons.photo_library_outlined,
               title: AppStrings.noPortfolio,
-              message: 'Showcase your best work to attract more customers.',
+              message: AppStrings.noPortfolioHint,
               actionLabel: AppStrings.addWork,
             );
           }
