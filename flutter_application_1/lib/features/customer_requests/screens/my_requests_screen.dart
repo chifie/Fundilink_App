@@ -10,6 +10,7 @@ import '../../../models/service_request.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
 import '../../../widgets/empty_state.dart';
+import '../../../widgets/requests/request_filter_bar.dart';
 import '../../../widgets/status_chip.dart';
 import 'request_detail_screen.dart';
 
@@ -22,38 +23,11 @@ class MyRequestsScreen extends StatefulWidget {
 }
 
 class _MyRequestsScreenState extends State<MyRequestsScreen> {
-  String _filter = 'all';
-
-  List<ServiceRequest> _applyFilter(List<ServiceRequest> requests) {
-    switch (_filter) {
-      case 'pending':
-        return requests
-            .where((r) => r.status == RequestStatus.pending)
-            .toList();
-      case 'active':
-        return requests
-            .where(
-              (r) =>
-                  r.status == RequestStatus.accepted ||
-                  r.status == RequestStatus.inProgress,
-            )
-            .toList();
-      case 'completed':
-        return requests
-            .where(
-              (r) =>
-                  r.status == RequestStatus.completed ||
-                  r.status == RequestStatus.reviewed,
-            )
-            .toList();
-      default:
-        return requests;
-    }
-  }
+  RequestFilter _filter = RequestFilter.all;
 
   @override
   Widget build(BuildContext context) {
-    final requests = _applyFilter(
+    final requests = _filter.apply(
       context.watch<RequestProvider>().customerRequests,
     );
 
@@ -61,38 +35,10 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
       appBar: AppBar(title: const Text(AppStrings.myRequests)),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: AppDimensions.paddingS),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.paddingM,
-              ),
-              child: Row(
-                children: [
-                  _FilterChip(
-                    label: AppStrings.all,
-                    selected: _filter == 'all',
-                    onTap: () => setState(() => _filter = 'all'),
-                  ),
-                  _FilterChip(
-                    label: AppStrings.pending,
-                    selected: _filter == 'pending',
-                    onTap: () => setState(() => _filter = 'pending'),
-                  ),
-                  _FilterChip(
-                    label: AppStrings.inProgress,
-                    selected: _filter == 'active',
-                    onTap: () => setState(() => _filter = 'active'),
-                  ),
-                  _FilterChip(
-                    label: AppStrings.completed,
-                    selected: _filter == 'completed',
-                    onTap: () => setState(() => _filter = 'completed'),
-                  ),
-                ],
-              ),
-            ),
+          const SizedBox(height: AppDimensions.paddingS),
+          RequestFilterBar(
+            current: _filter,
+            onChanged: (filter) => setState(() => _filter = filter),
           ),
           const SizedBox(height: AppDimensions.spaceS),
           Expanded(
@@ -126,42 +72,6 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
                   ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: ChoiceChip(
-        label: Text(label),
-        selected: selected,
-        onSelected: (_) => onTap(),
-        selectedColor: AppColors.primarySurface,
-        labelStyle: TextStyle(
-          color: selected ? AppColors.primary : AppColors.textSecondary,
-          fontWeight: FontWeight.w600,
-          fontSize: 13,
-        ),
-        side: BorderSide(
-          color: selected ? AppColors.primary : AppColors.border,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-        ),
       ),
     );
   }
