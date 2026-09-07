@@ -18,6 +18,10 @@ class FundiRepository {
     String? query,
     String? location,
     String? sortBy,
+    bool? onlyAvailable,
+    bool? onlyVerified,
+    double? minRating,
+    double? maxPrice,
   }) async {
     await Future<void>.delayed(_latency);
     var results = List<Fundi>.of(MockData.fundis);
@@ -42,6 +46,19 @@ class FundiRepository {
       results = results
           .where((f) => f.city.toLowerCase().contains(area))
           .toList();
+    }
+
+    if (onlyAvailable == true) {
+      results = results.where((f) => f.isAvailable).toList();
+    }
+    if (onlyVerified == true) {
+      results = results.where((f) => f.verified).toList();
+    }
+    if (minRating != null) {
+      results = results.where((f) => f.rating >= minRating).toList();
+    }
+    if (maxPrice != null) {
+      results = results.where((f) => f.startingPrice <= maxPrice).toList();
     }
 
     switch (sortBy) {

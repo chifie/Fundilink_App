@@ -59,6 +59,30 @@ void main() {
         );
       }
     });
+
+    test('getFundis filters to available fundis only', () async {
+      final results = await FundiRepository().getFundis(onlyAvailable: true);
+      expect(results, isNotEmpty);
+      expect(results.every((f) => f.isAvailable), isTrue);
+    });
+
+    test('getFundis filters to verified fundis only', () async {
+      final results = await FundiRepository().getFundis(onlyVerified: true);
+      expect(results, isNotEmpty);
+      expect(results.every((f) => f.verified), isTrue);
+    });
+
+    test('getFundis filters by a minimum rating', () async {
+      final results = await FundiRepository().getFundis(minRating: 4.8);
+      expect(results, isNotEmpty);
+      expect(results.every((f) => f.rating >= 4.8), isTrue);
+    });
+
+    test('getFundis filters by a maximum starting price', () async {
+      final results = await FundiRepository().getFundis(maxPrice: 800);
+      expect(results, isNotEmpty);
+      expect(results.every((f) => f.startingPrice <= 800), isTrue);
+    });
   });
 
   group('Fundi helpers', () {

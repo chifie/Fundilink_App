@@ -55,6 +55,10 @@ class FundiProvider extends ChangeNotifier {
     String? query,
     String? location,
     String? sortBy,
+    bool? onlyAvailable,
+    bool? onlyVerified,
+    double? minRating,
+    double? maxPrice,
   }) async {
     _loading = true;
     _error = null;
@@ -65,6 +69,10 @@ class FundiProvider extends ChangeNotifier {
         query: query,
         location: location,
         sortBy: sortBy,
+        onlyAvailable: onlyAvailable,
+        onlyVerified: onlyVerified,
+        minRating: minRating,
+        maxPrice: maxPrice,
       );
     } catch (e) {
       _error = e.toString();
