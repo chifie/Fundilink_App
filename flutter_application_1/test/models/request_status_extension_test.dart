@@ -25,6 +25,26 @@ void main() {
     });
   });
 
+  group('RequestStatusHelpers.isActive / isPaidOut', () {
+    test('isActive matches accepted and inProgress only', () {
+      expect(RequestStatus.accepted.isActive, isTrue);
+      expect(RequestStatus.inProgress.isActive, isTrue);
+      expect(RequestStatus.pending.isActive, isFalse);
+      expect(RequestStatus.completed.isActive, isFalse);
+      expect(RequestStatus.reviewed.isActive, isFalse);
+      expect(RequestStatus.rejected.isActive, isFalse);
+    });
+
+    test('isPaidOut matches completed and reviewed only', () {
+      expect(RequestStatus.completed.isPaidOut, isTrue);
+      expect(RequestStatus.reviewed.isPaidOut, isTrue);
+      expect(RequestStatus.pending.isPaidOut, isFalse);
+      expect(RequestStatus.accepted.isPaidOut, isFalse);
+      expect(RequestStatus.inProgress.isPaidOut, isFalse);
+      expect(RequestStatus.rejected.isPaidOut, isFalse);
+    });
+  });
+
   group('RequestStatusHelpers.isTerminal', () {
     test('completed, reviewed and rejected are terminal', () {
       for (final status in RequestStatus.values) {
