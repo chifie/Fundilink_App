@@ -71,7 +71,7 @@ class RequestSuccessScreen extends StatelessWidget {
                 const SizedBox(height: AppDimensions.spaceM),
                 TextButton(
                   onPressed: () => _goToTab(context, CustomerTabs.home),
-                  child: const Text('Back to Home'),
+                  child: const Text(AppStrings.backToHome),
                 ),
               ],
             ),

@@ -71,7 +71,7 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
               child: Row(
                 children: [
                   _FilterChip(
-                    label: 'All',
+                    label: AppStrings.all,
                     selected: _filter == 'all',
                     onTap: () => setState(() => _filter = 'all'),
                   ),
@@ -100,8 +100,7 @@ class _MyRequestsScreenState extends State<MyRequestsScreen> {
                 ? EmptyState(
                     icon: Icons.assignment_outlined,
                     title: AppStrings.noRequests,
-                    message:
-                        'Browse fundis and request a service to get started.',
+                    message: AppStrings.requestsEmptyHint,
                     actionLabel: AppStrings.findFundi,
                     onAction: () => CustomerTabs.goTo(CustomerTabs.home),
                   )

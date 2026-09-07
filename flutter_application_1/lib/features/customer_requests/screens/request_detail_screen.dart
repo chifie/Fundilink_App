@@ -26,15 +26,17 @@ class RequestDetailScreen extends StatelessWidget {
     final provider = context.read<RequestProvider>();
     final confirmed = await showConfirmDialog(
       context,
-      title: 'Cancel this request?',
-      message: 'The fundi will be notified that this request was cancelled.',
+      title: AppStrings.cancelThisRequest,
+      message: AppStrings.cancelRequestHint,
       confirmLabel: AppStrings.yes,
       cancelLabel: AppStrings.no,
       confirmColor: AppColors.error,
     );
     if (!confirmed) return;
     await provider.updateStatus(current.id, RequestStatus.rejected);
-    messenger.showSnackBar(const SnackBar(content: Text('Request cancelled.')));
+    messenger.showSnackBar(
+      const SnackBar(content: Text(AppStrings.requestCancelled)),
+    );
     navigator.pop();
   }
 
@@ -146,7 +148,7 @@ class RequestDetailScreen extends StatelessWidget {
           OutlinedButton.icon(
             onPressed: () => _chatWithFundi(context),
             icon: const Icon(Icons.chat_bubble_outline, size: 18),
-            label: const Text('Message fundi'),
+            label: const Text(AppStrings.messageFundi),
           ),
           if (current.status == RequestStatus.pending) ...[
             const SizedBox(height: AppDimensions.spaceM),

@@ -96,10 +96,10 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
           builder: (_) => RequestSuccessScreen(fundiName: fundi.fullName),
         ),
       );
-    } catch (e) {
+    } catch (_) {
       if (mounted) {
         messenger.showSnackBar(
-          SnackBar(content: Text('Failed to submit request: $e')),
+          const SnackBar(content: Text(AppStrings.requestSubmitFailed)),
         );
         setState(() => _submitting = false);
       }

@@ -127,12 +127,22 @@ class AppStrings {
   // Requests
   static const String myRequests = 'My Requests';
   static const String noRequests = 'No service requests yet';
+  static const String requestsEmptyHint =
+      'Browse fundis and request a service to get started.';
   static const String requestDetails = 'Request Details';
   static const String accept = 'Accept';
   static const String reject = 'Reject';
   static const String startWork = 'Start Work';
   static const String markComplete = 'Mark as Complete';
   static const String cancelRequest = 'Cancel Request';
+  static const String cancelThisRequest = 'Cancel this request?';
+  static const String cancelRequestHint =
+      'The fundi will be notified that this request was cancelled.';
+  static const String requestCancelled = 'Request cancelled.';
+  static const String messageFundi = 'Message fundi';
+  static const String requestSubmitFailed =
+      'Failed to submit your request. Please try again.';
+  static const String backToHome = 'Back to Home';
 
   // Chat
   static const String typeMessage = 'Type a message...';
