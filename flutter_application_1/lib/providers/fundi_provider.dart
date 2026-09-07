@@ -88,6 +88,9 @@ class FundiProvider extends ChangeNotifier {
   Future<void> filterByCategory(String? categoryId, {String? sortBy}) =>
       loadFundis(categoryId: categoryId, sortBy: sortBy);
 
+  /// Returns true if the provider is showing results.
+  bool get hasResults => _fundis.isNotEmpty;
+
   Future<void> updateProfile(Fundi updated) async {
     await _repository.updateFundiProfile(updated);
     await loadFundis();
