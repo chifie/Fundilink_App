@@ -12,4 +12,7 @@ class Haptics {
 
   /// Heavier tap for status changes and completions.
   static Future<void> strong() => HapticFeedback.heavyImpact();
+
+  /// Success tick for confirmations such as saving a form.
+  static Future<void> success() => HapticFeedback.mediumImpact();
 }
