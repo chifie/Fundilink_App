@@ -84,4 +84,17 @@ class RequestRepository {
     ).where((r) => r.status.isPaidOut);
     return jobs.fold<double>(0, (sum, r) => sum + r.estimatedCost);
   }
+
+  /// Today's earnings for a fundi: sum of paid-out jobs created today.
+  Future<double> todaysEarnings(String fundiId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    final now = DateTime.now();
+    final jobs = MockData.requestsForFundi(fundiId).where((r) {
+      if (!r.status.isPaidOut) return false;
+      return r.createdAt.year == now.year &&
+          r.createdAt.month == now.month &&
+          r.createdAt.day == now.day;
+    });
+    return jobs.fold<double>(0, (sum, r) => sum + r.estimatedCost);
+  }
 }
