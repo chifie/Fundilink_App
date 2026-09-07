@@ -20,6 +20,9 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Returns a human-friendly relative time string.
+  ///
+  /// Examples: "just now", "5m ago", "2h ago", "3d ago", "1w ago",
+  /// "2mo ago".
   String get timeAgo {
     final diff = DateTime.now().difference(this);
     if (diff.inSeconds < 60) return 'just now';
