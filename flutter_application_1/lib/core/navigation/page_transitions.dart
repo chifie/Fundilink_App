@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// Custom page route with a slide-up fade transition.
+///
+/// The transition uses a 350ms forward / 300ms reverse duration with an
+/// ease-out-cubic forward curve and ease-in-cubic reverse curve.
 class SlideUpRoute<T> extends PageRouteBuilder<T> {
   SlideUpRoute({required this.page})
     : super(
