@@ -57,6 +57,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   /// Runs the current query against the provider with every active filter.
+  ///
+  /// The [FundiProvider.loadFundis] call is idempotent so rapid taps on
+  /// the filter chips are safe.
   void _applySearch() {
     final query = _queryController.text.trim();
     context.read<FundiProvider>().loadFundis(
