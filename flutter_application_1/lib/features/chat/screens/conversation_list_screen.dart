@@ -9,6 +9,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../models/conversation.dart';
 import '../../../providers/chat_provider.dart';
 import '../../../widgets/empty_state.dart';
+import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_avatar.dart';
 import 'chat_thread_screen.dart';
 
@@ -20,11 +21,19 @@ class ConversationListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final conversations = context.watch<ChatProvider>().conversations;
+    final chat = context.watch<ChatProvider>();
+    final conversations = chat.conversations;
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.messages)),
-      body: conversations.isEmpty
+      body: chat.isLoading && conversations.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : chat.error != null && conversations.isEmpty
+          ? ErrorView(
+              message: chat.error,
+              onRetry: () => context.read<ChatProvider>().loadConversations(),
+            )
+          : conversations.isEmpty
           ? EmptyState(
               icon: Icons.forum_outlined,
               title: AppStrings.noConversations,
