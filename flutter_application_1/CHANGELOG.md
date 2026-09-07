@@ -28,12 +28,23 @@ All notable changes to FundiLink are documented here. This project follows
 ### Fixed
 - Notification and chat providers now expose load errors instead of silently
   showing empty states.
+- The shared profile tab now badges accounts by their actual role instead of
+  always showing "Customer".
+- Fundi jobs and dashboard activity open the fundi-side request detail
+  (accept/start/complete) rather than the customer actions screen.
 
 ### Tests
 - Added provider tests for auth, chat, fundi, notifications, requests,
   reviews and settings.
-- Added unit tests for `Helpers` and the request-status helpers.
+- Added unit tests for `Helpers`, the request-status helpers and the shared
+  `RequestFilterBar`.
 - Added widget tests for `FundiAvatar`.
+
+### Internal
+- `RequestStatus` exposes `isActive`/`isPaidOut` used by filters, jobs,
+  earnings, providers and the repository.
+- The dashboard reuses the shared `SectionHeader` and profile/settings share
+  one `signOut` action.
 
 ## [1.0.0] - 2026-09-05
 
