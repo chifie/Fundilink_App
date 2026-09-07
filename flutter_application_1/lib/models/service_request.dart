@@ -157,4 +157,8 @@ class ServiceRequest {
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
+
+  /// Returns the estimated cost formatted as a currency string.
+  String get formattedCost =>
+      estimatedCost > 0 ? 'KES ${estimatedCost.toInt()}' : 'KES 0';
 }
