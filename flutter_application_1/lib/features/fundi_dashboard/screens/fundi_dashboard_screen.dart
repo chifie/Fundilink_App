@@ -7,6 +7,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/notification_provider.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/section_header.dart';
 import '../../../widgets/shimmer_loading.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../widgets/fundi_quick_actions.dart';
@@ -228,52 +229,6 @@ class _ActivityShimmer extends StatelessWidget {
           padding: EdgeInsets.only(bottom: AppDimensions.spaceS),
           child: ShimmerFundiCard(),
         ),
-      ),
-    );
-  }
-}
-
-class SectionHeader extends StatelessWidget {
-  const SectionHeader({
-    super.key,
-    required this.title,
-    this.actionLabel,
-    this.onActionTap,
-  });
-
-  final String title;
-  final String? actionLabel;
-  final VoidCallback? onActionTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          if (actionLabel != null)
-            GestureDetector(
-              onTap: onActionTap,
-              child: Text(
-                actionLabel!,
-                style: const TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-        ],
       ),
     );
   }
