@@ -8,6 +8,13 @@ class Validators {
 
   static final RegExp _phoneRegExp = RegExp(r'^\+?[0-9]{9,15}$');
 
+  /// Quick email format check without loading AppStrings.
+  static bool isEmailFormat(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return false;
+    return _emailRegExp.hasMatch(trimmed);
+  }
+
   static String? validateEmail(String? value) {
     final trimmed = value?.trim() ?? '';
     if (trimmed.isEmpty) return AppStrings.emailRequired;
