@@ -62,6 +62,9 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
     final messages = chat.activeConversationId == conversation.id
         ? chat.messages
         : const [];
+    // Newest first so the reversed list keeps the latest bubble pinned to
+    // the bottom as new messages arrive.
+    final newestFirst = messages.reversed.toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -101,10 +104,11 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
                     message: AppStrings.noMessages,
                   )
                 : ListView.builder(
+                    reverse: true,
                     padding: const EdgeInsets.all(AppDimensions.paddingM),
-                    itemCount: messages.length,
+                    itemCount: newestFirst.length,
                     itemBuilder: (context, index) {
-                      final message = messages[index];
+                      final message = newestFirst[index];
                       final isMine = message.senderId == widget.currentUserId;
                       return _MessageBubble(message: message, isMine: isMine);
                     },
