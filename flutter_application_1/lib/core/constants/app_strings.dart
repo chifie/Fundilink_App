@@ -55,6 +55,9 @@ class AppStrings {
 
   // Home Screen
   static const String greeting = 'Hello, ';
+  static const String goodMorning = 'Good morning';
+  static const String goodAfternoon = 'Good afternoon';
+  static const String goodEvening = 'Good evening';
   static const String homeSubtitle = 'What service do you need today?';
   static const String searchHint = 'What service do you need?';
   static const String popularCategories = 'Popular Categories';

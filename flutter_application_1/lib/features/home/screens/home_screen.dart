@@ -6,6 +6,7 @@ import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/navigation/customer_tabs.dart';
 import '../../../core/navigation/page_transitions.dart';
+import '../../../core/utils/helpers.dart';
 import '../../../models/fundi_model.dart';
 import '../../../models/service_category.dart';
 import '../../../providers/auth_provider.dart';
@@ -187,7 +188,7 @@ class _Greeting extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${AppStrings.greeting}$name 👋',
+            '${Helpers.greetingFor(DateTime.now())}, $name 👋',
             style: const TextStyle(
               color: AppColors.textPrimary,
               fontSize: 22,
