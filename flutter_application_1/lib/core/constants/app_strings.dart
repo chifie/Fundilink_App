@@ -345,4 +345,8 @@ class AppStrings {
   static const String networkError =
       'Network error. Please check your connection.';
   static const String sessionExpired = 'Session expired. Please login again.';
+
+  /// Copy for the in-app currency display.
+  static const String currencyCode = 'KES';
+  static const String currencySymbol = 'KSh';
 }
