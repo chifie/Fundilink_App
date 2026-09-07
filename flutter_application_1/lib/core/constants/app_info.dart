@@ -1,4 +1,5 @@
 /// Static app metadata surfaced in the about and help dialogs.
+/// Metadata about the app for display in about screens and logs.
 class AppInfo {
   AppInfo._();
 
