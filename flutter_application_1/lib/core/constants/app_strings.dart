@@ -72,6 +72,8 @@ class AppStrings {
   static const String recentRequests = 'Recent Requests';
   static const String noResults = 'No results found';
   static const String noFundiAvailable = 'No fundis available nearby';
+  static const String popularSearches = 'Popular searches';
+  static const String trendingServices = 'Trending services';
 
   // Categories
   static const String categories = 'Service Categories';
