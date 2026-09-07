@@ -7,29 +7,14 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/navigation/customer_tabs.dart';
 import '../../../models/user_model.dart';
 import '../../../providers/auth_provider.dart';
-import '../../../widgets/dialogs/confirm_dialog.dart';
 import '../../../widgets/fundi_avatar.dart';
+import '../../auth/logout_action.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../settings/screens/settings_screen.dart';
 
 /// Account overview for the signed-in customer with quick links and logout.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  Future<void> _logout(BuildContext context) async {
-    final navigator = Navigator.of(context);
-    final auth = context.read<AuthProvider>();
-    final confirmed = await showConfirmDialog(
-      context,
-      title: AppStrings.logout,
-      message: AppStrings.logoutConfirm,
-      confirmLabel: AppStrings.logout,
-      confirmColor: AppColors.error,
-    );
-    if (!confirmed) return;
-    await auth.logout();
-    navigator.popUntil((route) => route.isFirst);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +139,7 @@ class ProfileScreen extends StatelessWidget {
           SizedBox(
             height: AppDimensions.buttonHeight,
             child: OutlinedButton.icon(
-              onPressed: () => _logout(context),
+              onPressed: () => signOut(context),
               style: OutlinedButton.styleFrom(foregroundColor: AppColors.error),
               icon: const Icon(Icons.logout, size: 18),
               label: const Text(AppStrings.logout),

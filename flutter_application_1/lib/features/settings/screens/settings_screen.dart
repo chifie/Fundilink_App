@@ -7,8 +7,8 @@ import '../../../core/constants/app_info.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/settings_provider.dart';
-import '../../../widgets/dialogs/confirm_dialog.dart';
 import '../../../widgets/feedback/toast.dart';
+import '../../auth/logout_action.dart';
 
 /// App settings and account management screen.
 class SettingsScreen extends StatelessWidget {
@@ -178,7 +178,7 @@ class SettingsScreen extends StatelessWidget {
           SizedBox(
             height: AppDimensions.buttonHeight,
             child: OutlinedButton.icon(
-              onPressed: () => _logout(context),
+              onPressed: () => signOut(context),
               style: OutlinedButton.styleFrom(foregroundColor: AppColors.error),
               icon: const Icon(Icons.logout, size: 18),
               label: const Text(AppStrings.logout),
@@ -193,21 +193,6 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future<void> _logout(BuildContext context) async {
-    final navigator = Navigator.of(context);
-    final auth = context.read<AuthProvider>();
-    final confirmed = await showConfirmDialog(
-      context,
-      title: AppStrings.logout,
-      message: AppStrings.logoutConfirm,
-      confirmLabel: AppStrings.logout,
-      confirmColor: AppColors.error,
-    );
-    if (!confirmed) return;
-    await auth.logout();
-    navigator.popUntil((route) => route.isFirst);
   }
 }
 
