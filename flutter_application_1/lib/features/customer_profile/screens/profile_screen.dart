@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/navigation/customer_tabs.dart';
+import '../../../models/user_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../widgets/dialogs/confirm_dialog.dart';
 import '../../../widgets/fundi_avatar.dart';
@@ -33,6 +34,9 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
+    final roleLabel = user?.role == UserRole.fundi
+        ? AppStrings.roleFundi
+        : AppStrings.roleCustomer;
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.myProfile)),
@@ -63,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user?.fullName ?? 'Customer',
+                        user?.fullName ?? roleLabel,
                         style: const TextStyle(
                           color: AppColors.textOnPrimary,
                           fontSize: 19,
@@ -82,9 +86,9 @@ class ProfileScreen extends StatelessWidget {
                             AppDimensions.radiusFull,
                           ),
                         ),
-                        child: const Text(
-                          'Customer',
-                          style: TextStyle(
+                        child: Text(
+                          roleLabel,
+                          style: const TextStyle(
                             color: AppColors.textOnPrimary,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,

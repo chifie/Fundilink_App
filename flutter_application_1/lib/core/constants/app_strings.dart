@@ -181,6 +181,8 @@ class AppStrings {
   // Profile
   static const String myProfile = 'My Profile';
   static const String editProfile = 'Edit Profile';
+  static const String roleCustomer = 'Customer';
+  static const String roleFundi = 'Fundi';
   static const String settings = 'Settings';
   static const String language = 'Language';
   static const String help = 'Help & Support';
