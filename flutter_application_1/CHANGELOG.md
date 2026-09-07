@@ -64,6 +64,35 @@ All notable changes to FundiLink are documented here. This project follows
 - randomElement helper on ListExtensions and debouncer isActive flag.
 - more model and provider unit tests.
 
+### Added
+- Enhanced EmptyState widget with accessibility, responsive sizing, theme-aware colors, and customization options
+- Enhanced ErrorView widget with customizable icon, button styling, and support for additional actions
+- Enhanced ShimmerLoading widget with customizable direction, duration, and disabled state
+- Enhanced LoadingOverlay widget with customizable opacity, colors, alignment, and custom indicators
+- Enhanced FundiAvatar widget with online indicator, custom colors, and better diameter support
+- Enhanced OnlineStatusIndicator with customizable colors, pulse duration, and toggle for animation
+- Enhanced RatingStars widget with customizable colors, thresholds, and extended functionality
+- Enhanced StatusChip widget with tap support, custom colors, elevation, and flexible styling
+- Enhanced SectionHeader widget with description support, custom styling, divider, and icon options
+- Enhanced GradientHeader widget with multiple gradient types, tap support, and extensive customization
+- Enhanced PriceTag widget with full customization, tap support, and display options
+- Enhanced CompletionRateBadge widget with extensive customization and helper methods
+- Enhanced VerifiedBadge widget with label support, custom styling, and animation options
+- Enhanced InfoRow widget with tap support, dividers, custom styling, and layout options
+- Enhanced SectionDivider widget with customizable dividers, spacing, and styling options
+- Enhanced ReviewTile widget with extensive customization and interactive options
+- Enhanced ScheduleDisplay widget with extensive customization and formatting options
+- Enhanced PortfolioUploadCard with drag-drop support, full customization, and animation options
+- Enhanced FundiBadgeDisplay with empty state placeholder and animation support
+- Enhanced FundiCard widget with selective display options and custom styling
+- Added ColorUtils utility class with common color manipulation functions
+- Added SizeUtils utility class with responsive sizing helpers
+- Added AnimationUtils utility class with animation helpers and staggered controllers
+- Added TextUtils utility class with text manipulation and formatting helpers
+- Added DateUtils utility class with comprehensive date and time helpers
+- Added ListUtils utility class with comprehensive list manipulation helpers
+- Enhanced AppTheme with comprehensive theming and Material 3 support
+
 ## [1.0.0] - 2026-09-05
 
 ### Added
