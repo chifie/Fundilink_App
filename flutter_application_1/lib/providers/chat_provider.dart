@@ -15,11 +15,13 @@ class ChatProvider extends ChangeNotifier {
   final List<ChatMessage> _messages = [];
   String? _activeConversationId;
   bool _loading = false;
+  String? _error;
 
   List<Conversation> get conversations => _conversations;
   List<ChatMessage> get messages => List.unmodifiable(_messages);
   String? get activeConversationId => _activeConversationId;
   bool get isLoading => _loading;
+  String? get error => _error;
 
   int get unreadTotal =>
       _conversations.fold(0, (sum, c) => sum + c.unreadCount);
@@ -30,21 +32,33 @@ class ChatProvider extends ChangeNotifier {
 
   Future<void> loadConversations() async {
     _loading = true;
+    _error = null;
     notifyListeners();
-    _conversations = await _repository.getConversations(_currentUserId);
-    _loading = false;
-    notifyListeners();
+    try {
+      _conversations = await _repository.getConversations(_currentUserId);
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> openConversation(String conversationId) async {
     _activeConversationId = conversationId;
-    _messages
-      ..clear()
-      ..addAll(await _repository.getMessages(conversationId));
-    await _repository.markConversationRead(conversationId);
-    final index = _conversations.indexWhere((c) => c.id == conversationId);
-    if (index != -1) {
-      _conversations[index] = _conversations[index].copyWith(unreadCount: 0);
+    _error = null;
+    try {
+      final messages = await _repository.getMessages(conversationId);
+      await _repository.markConversationRead(conversationId);
+      _messages
+        ..clear()
+        ..addAll(messages);
+      final index = _conversations.indexWhere((c) => c.id == conversationId);
+      if (index != -1) {
+        _conversations[index] = _conversations[index].copyWith(unreadCount: 0);
+      }
+    } catch (e) {
+      _error = e.toString();
     }
     notifyListeners();
   }
