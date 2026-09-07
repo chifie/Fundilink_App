@@ -34,6 +34,7 @@ class ApiClient {
     return _decode(response);
   }
 
+  /// Posts [body] to [path] and decodes the JSON response.
   Future<dynamic> post(String path, {Map<String, dynamic>? body}) async {
     final response = await _client.post(
       _uri(path),
