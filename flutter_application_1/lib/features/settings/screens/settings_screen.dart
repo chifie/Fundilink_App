@@ -25,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(AppDimensions.paddingL),
         children: [
           // Account section
-          const _SectionLabel(label: 'Account'),
+          const _SectionLabel(label: AppStrings.accountSection),
           const SizedBox(height: AppDimensions.spaceS),
           Card(
             margin: EdgeInsets.zero,
@@ -36,16 +36,16 @@ class SettingsScreen extends StatelessWidget {
                   title: AppStrings.editProfile,
                   onTap: () => Toast.showComingSoon(
                     context,
-                    message: 'Profile editing is on the way',
+                    message: AppStrings.profileEditingComingSoon,
                   ),
                 ),
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
                   icon: Icons.lock_outline,
-                  title: 'Change Password',
+                  title: AppStrings.changePassword,
                   onTap: () => Toast.showComingSoon(
                     context,
-                    message: 'Password change is on the way',
+                    message: AppStrings.passwordChangeComingSoon,
                   ),
                 ),
               ],
@@ -54,7 +54,7 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: AppDimensions.spaceXL),
 
           // App section
-          const _SectionLabel(label: 'App'),
+          const _SectionLabel(label: AppStrings.appSection),
           const SizedBox(height: AppDimensions.spaceS),
           Card(
             margin: EdgeInsets.zero,
@@ -63,16 +63,16 @@ class SettingsScreen extends StatelessWidget {
                 _SettingsTile(
                   icon: Icons.language_outlined,
                   title: AppStrings.language,
-                  subtitle: 'English',
+                  subtitle: AppStrings.english,
                   onTap: () => Toast.showComingSoon(
                     context,
-                    message: 'Language selection is on the way',
+                    message: AppStrings.languageSelectionComingSoon,
                   ),
                 ),
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
                   icon: Icons.dark_mode_outlined,
-                  title: 'Dark mode',
+                  title: AppStrings.darkMode,
                   trailing: Switch(
                     value: settings.isDarkMode,
                     onChanged: (value) =>
@@ -84,20 +84,15 @@ class SettingsScreen extends StatelessWidget {
                 const Divider(height: 1, indent: 52),
                 _SettingsTile(
                   icon: Icons.notifications_outlined,
-                  title: 'Push Notifications',
+                  title: AppStrings.pushNotifications,
                   trailing: Switch(
                     value: true,
-                    onChanged: (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            value
-                                ? 'Notifications enabled'
-                                : 'Notifications disabled',
-                          ),
-                        ),
-                      );
-                    },
+                    onChanged: (value) => Toast.show(
+                      context,
+                      value
+                          ? AppStrings.notificationsEnabled
+                          : AppStrings.notificationsDisabled,
+                    ),
                     activeThumbColor: AppColors.forestGreen,
                   ),
                   onTap: () {},
@@ -108,7 +103,7 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: AppDimensions.spaceXL),
 
           // Support section
-          const _SectionLabel(label: 'Support'),
+          const _SectionLabel(label: AppStrings.supportSection),
           const SizedBox(height: AppDimensions.spaceS),
           Card(
             margin: EdgeInsets.zero,
@@ -157,7 +152,7 @@ class SettingsScreen extends StatelessWidget {
                   title: AppStrings.privacyPolicy,
                   onTap: () => Toast.showComingSoon(
                     context,
-                    message: 'Privacy policy is on the way',
+                    message: AppStrings.privacyPolicyComingSoon,
                   ),
                 ),
                 const Divider(height: 1, indent: 52),
@@ -166,7 +161,7 @@ class SettingsScreen extends StatelessWidget {
                   title: AppStrings.termsOfService,
                   onTap: () => Toast.showComingSoon(
                     context,
-                    message: 'Terms of service is on the way',
+                    message: AppStrings.termsComingSoon,
                   ),
                 ),
               ],

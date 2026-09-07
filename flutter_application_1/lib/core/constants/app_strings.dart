@@ -185,6 +185,25 @@ class AppStrings {
   static const String privacyPolicy = 'Privacy Policy';
   static const String termsOfService = 'Terms of Service';
 
+  // Settings
+  static const String accountSection = 'Account';
+  static const String appSection = 'App';
+  static const String supportSection = 'Support';
+  static const String changePassword = 'Change Password';
+  static const String darkMode = 'Dark mode';
+  static const String pushNotifications = 'Push Notifications';
+  static const String english = 'English';
+  static const String notificationsEnabled = 'Notifications enabled';
+  static const String notificationsDisabled = 'Notifications disabled';
+  static const String profileEditingComingSoon =
+      'Profile editing is on the way';
+  static const String passwordChangeComingSoon =
+      'Password change is on the way';
+  static const String languageSelectionComingSoon =
+      'Language selection is on the way';
+  static const String privacyPolicyComingSoon = 'Privacy policy is on the way';
+  static const String termsComingSoon = 'Terms of service is on the way';
+
   // Reviews
   static const String writeReview = 'Write a Review';
   static const String rating = 'Rating';
