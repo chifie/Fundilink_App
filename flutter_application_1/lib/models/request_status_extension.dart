@@ -59,6 +59,25 @@ extension RequestStatusHelpers on RequestStatus {
     }
   }
 
+  /// Customer-facing one-line hint about this status, referencing the fundi
+  /// by name where relevant.
+  String customerHint(String fundiName) {
+    switch (this) {
+      case RequestStatus.pending:
+        return 'Waiting for fundi to accept';
+      case RequestStatus.accepted:
+        return '$fundiName accepted your request and will be in touch.';
+      case RequestStatus.inProgress:
+        return '$fundiName is working on your request.';
+      case RequestStatus.completed:
+        return 'This job is complete. Leave a review for $fundiName.';
+      case RequestStatus.reviewed:
+        return 'You reviewed this fundi. Thanks for the feedback!';
+      case RequestStatus.rejected:
+        return 'This request was cancelled.';
+    }
+  }
+
   /// Returns a progress value (0.0 to 1.0) for the request workflow.
   double get progress {
     switch (this) {

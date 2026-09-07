@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../models/request_status_extension.dart';
 import '../../../models/service_request.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/chat_provider.dart';
@@ -177,29 +178,8 @@ class RequestDetailScreen extends StatelessWidget {
   }
 
   Widget _statusHint(ServiceRequest current) {
-    final (icon, text) = switch (current.status) {
-      RequestStatus.pending => (Icons.schedule, AppStrings.requestPending),
-      RequestStatus.accepted => (
-        Icons.check_circle_outline,
-        '${current.fundiName} accepted your request and will be in touch.',
-      ),
-      RequestStatus.inProgress => (
-        Icons.build_circle_outlined,
-        '${current.fundiName} is working on your request.',
-      ),
-      RequestStatus.completed => (
-        Icons.verified_outlined,
-        'This job is complete. Leave a review for ${current.fundiName}.',
-      ),
-      RequestStatus.reviewed => (
-        Icons.rate_review_outlined,
-        'You reviewed this fundi. Thanks for the feedback!',
-      ),
-      RequestStatus.rejected => (
-        Icons.cancel_outlined,
-        'This request was cancelled.',
-      ),
-    };
+    final icon = current.status.icon;
+    final text = current.status.customerHint(current.fundiName);
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       decoration: BoxDecoration(
