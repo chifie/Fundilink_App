@@ -35,8 +35,10 @@ class HomeScreen extends StatelessWidget {
     final fundiProvider = context.watch<FundiProvider>();
     final notificationProvider = context.watch<NotificationProvider>();
     final user = context.watch<AuthProvider>().user;
-    final showNewBadge =
-        fundiProvider.recommended.isNotEmpty && fundiProvider.nearby.isNotEmpty;
+    // Computed once per build rather than re-sorted per list item.
+    final recommended = fundiProvider.recommended;
+    final nearby = fundiProvider.nearby;
+    final showNewBadge = recommended.isNotEmpty && nearby.isNotEmpty;
 
     final categories = fundiProvider.categories;
     final isLoading = fundiProvider.isLoading;
@@ -95,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                     _CategoryGrid(categories: categories),
                     const SizedBox(height: AppDimensions.spaceXL),
                   ],
-                  if (fundiProvider.recommended.isNotEmpty) ...[
+                  if (recommended.isNotEmpty) ...[
                     if (showNewBadge) _NewArrivalsBanner(),
                     const SectionHeader(title: AppStrings.recommendedFundi),
                     const SizedBox(height: AppDimensions.spaceM),
@@ -106,11 +108,11 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppDimensions.paddingM,
                         ),
-                        itemCount: fundiProvider.recommended.length,
+                        itemCount: recommended.length,
                         separatorBuilder: (_, _) =>
                             const SizedBox(width: AppDimensions.spaceM),
                         itemBuilder: (context, index) {
-                          final fundi = fundiProvider.recommended[index];
+                          final fundi = recommended[index];
                           return FundiCardCompact(
                             fundi: fundi,
                             onTap: () => _openFundi(context, fundi),
@@ -120,16 +122,15 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppDimensions.spaceXL),
                   ],
-                  if (fundiProvider.nearby.isNotEmpty) ...[
+                  if (nearby.isNotEmpty) ...[
                     const SectionHeader(title: AppStrings.nearbyFundi),
                     const SizedBox(height: AppDimensions.spaceS),
-                    for (var i = 0; i < fundiProvider.nearby.length; i++)
+                    for (var i = 0; i < nearby.length; i++)
                       _StaggeredItem(
                         index: i,
                         child: FundiCard(
-                          fundi: fundiProvider.nearby[i],
-                          onTap: () =>
-                              _openFundi(context, fundiProvider.nearby[i]),
+                          fundi: nearby[i],
+                          onTap: () => _openFundi(context, nearby[i]),
                         ),
                       ),
                   ],
