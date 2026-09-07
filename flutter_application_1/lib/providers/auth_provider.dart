@@ -24,6 +24,9 @@ class AuthProvider extends ChangeNotifier {
   UserRole? get role => _user?.role;
   String? get error => _error;
 
+  /// Returns true when the provider is waiting for a network call.
+  bool get isBusy => _loading;
+
   /// Restores the persisted session on app launch.
   Future<void> restoreSession() async {
     _status = AuthStatus.unknown;
