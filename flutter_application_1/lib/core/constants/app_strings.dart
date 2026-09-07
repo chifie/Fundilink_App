@@ -273,6 +273,7 @@ class AppStrings {
   static const String thisMonth = 'This Month';
   static const String jobHistory = 'Job History';
   static const String earningsGrowing = 'Your earnings are growing';
+  static const String thisWeek = 'This week';
   static const String noCompletedJobsYet = 'No completed jobs yet.';
   static const String noRecentActivityYet = 'No recent activity yet.';
 

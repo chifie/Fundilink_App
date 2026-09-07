@@ -127,6 +127,15 @@ class _EarningsScreenState extends State<EarningsScreen> {
           const SizedBox(height: AppDimensions.spaceL),
 
           // Weekly chart
+          const Text(
+            AppStrings.thisWeek,
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: AppDimensions.spaceM),
           EarningsChart(dailyEarnings: [1200, 800, 2500, 0, 1800, 3200, 0]),
           const SizedBox(height: AppDimensions.spaceXL),
 
