@@ -42,6 +42,9 @@ extension RequestFilterX on RequestFilter {
 }
 
 /// Horizontally scrollable status filter chips for request lists.
+///
+/// The bar is rebuilt when the filter changes; the [onChanged] callback
+/// lets the parent update its list in response.
 class RequestFilterBar extends StatelessWidget {
   const RequestFilterBar({
     super.key,
