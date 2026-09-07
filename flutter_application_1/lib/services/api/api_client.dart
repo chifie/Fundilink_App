@@ -76,15 +76,16 @@ class ApiClient {
       return 'Request failed with status ${response.statusCode}';
     }
   }
-}
+}  /// Thrown when the backend returns a non-2xx response.
+  ///
+  /// The [statusCode] lets callers decide how to surface the failure
+  /// (for example, retry on 503, show a toast on 400).
+  class ApiException implements Exception {
+    const ApiException({required this.statusCode, required this.message});
 
-/// Thrown when the backend returns a non-2xx response.
-class ApiException implements Exception {
-  const ApiException({required this.statusCode, required this.message});
+    final int statusCode;
+    final String message;
 
-  final int statusCode;
-  final String message;
-
-  @override
-  String toString() => 'ApiException($statusCode): $message';
-}
+    @override
+    String toString() => 'ApiException($statusCode): $message';
+  }
