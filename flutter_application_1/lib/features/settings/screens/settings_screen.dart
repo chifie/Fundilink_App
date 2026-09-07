@@ -86,13 +86,18 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.notifications_outlined,
                   title: AppStrings.pushNotifications,
                   trailing: Switch(
-                    value: true,
-                    onChanged: (value) => Toast.show(
-                      context,
-                      value
-                          ? AppStrings.notificationsEnabled
-                          : AppStrings.notificationsDisabled,
-                    ),
+                    value: settings.notificationsEnabled,
+                    onChanged: (value) {
+                      context.read<SettingsProvider>().setNotificationsEnabled(
+                        value,
+                      );
+                      Toast.show(
+                        context,
+                        value
+                            ? AppStrings.notificationsEnabled
+                            : AppStrings.notificationsDisabled,
+                      );
+                    },
                     activeThumbColor: AppColors.forestGreen,
                   ),
                   onTap: () {},
