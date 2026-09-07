@@ -49,5 +49,12 @@ void main() {
         AppStrings.goodEvening,
       );
     });
+
+    test('returns the same greeting for the same hour', () {
+      expect(
+        Helpers.greetingFor(DateTime(2026, 9, 7, 17)),
+        Helpers.greetingFor(DateTime(2026, 9, 8, 17)),
+      );
+    });
   });
 }
