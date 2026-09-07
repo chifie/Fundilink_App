@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_dimensions.dart';
 
+/// Centralized theme configuration for light and dark modes.
+///
+/// Both themes use Material 3 and a 16sp body text size by default.
 class AppTheme {
   AppTheme._();
 
+  /// Dark theme with a slate-based surface and primary accent.
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
