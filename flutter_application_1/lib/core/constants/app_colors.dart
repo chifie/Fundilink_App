@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Brand and surface colors used across the app.
+///
+/// All color values are material-friendly and accessible.
 class AppColors {
   AppColors._();
 
