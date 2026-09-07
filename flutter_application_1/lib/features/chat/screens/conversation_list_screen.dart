@@ -27,9 +27,8 @@ class ConversationListScreen extends StatelessWidget {
       body: conversations.isEmpty
           ? EmptyState(
               icon: Icons.forum_outlined,
-              title: 'No conversations yet',
-              message:
-                  'Request a service or tap chat on a fundi profile to get started.',
+              title: AppStrings.noConversations,
+              message: AppStrings.noConversationsHint,
               actionLabel: AppStrings.findFundi,
               onAction: () => CustomerTabs.goTo(CustomerTabs.home),
             )

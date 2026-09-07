@@ -139,10 +139,15 @@ class AppStrings {
   static const String send = 'Send';
   static const String noMessages = 'No messages yet';
   static const String startConversation = 'Start a conversation';
+  static const String noConversations = 'No conversations yet';
+  static const String noConversationsHint =
+      'Request a service or tap chat on a fundi profile to get started.';
 
   // Notifications
   static const String notifications = 'Notifications';
   static const String noNotifications = 'No notifications';
+  static const String noNotificationsHint =
+      'Updates about your requests and chats will appear here.';
   static const String markAllRead = 'Mark all as read';
 
   // Profile

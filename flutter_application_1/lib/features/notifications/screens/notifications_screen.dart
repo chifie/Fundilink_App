@@ -34,8 +34,7 @@ class NotificationsScreen extends StatelessWidget {
           ? EmptyState(
               icon: Icons.notifications_none,
               title: AppStrings.noNotifications,
-              message:
-                  'Updates about your requests and chats will appear here.',
+              message: AppStrings.noNotificationsHint,
             )
           : RefreshIndicator(
               onRefresh: () => context.read<NotificationProvider>().load(),
