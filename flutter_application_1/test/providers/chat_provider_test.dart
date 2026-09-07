@@ -18,6 +18,20 @@ void main() {
       },
     );
 
+    test('markRead clears unread on a single conversation', () async {
+      final provider = ChatProvider();
+      await provider.loadConversations();
+      expect(provider.unreadTotal, 2);
+
+      await provider.markRead('c1');
+
+      expect(provider.unreadTotal, 0);
+      expect(
+        provider.conversations.firstWhere((c) => c.id == 'c1').unreadCount,
+        0,
+      );
+    });
+
     test('openConversation loads messages and clears unread', () async {
       final provider = ChatProvider();
       await provider.loadConversations();
