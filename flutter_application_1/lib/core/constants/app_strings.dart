@@ -267,6 +267,9 @@ class AppStrings {
   static const String totalEarned = 'Total Earned';
   static const String thisMonth = 'This Month';
   static const String jobHistory = 'Job History';
+  static const String earningsGrowing = 'Your earnings are growing';
+  static const String noCompletedJobsYet = 'No completed jobs yet.';
+  static const String noRecentActivityYet = 'No recent activity yet.';
 
   static const String profileUpdated = 'Profile updated successfully';
 

@@ -114,7 +114,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
                 Icon(Icons.trending_up, size: 16, color: AppColors.forestGreen),
                 SizedBox(width: 6),
                 Text(
-                  'Your earnings are growing',
+                  AppStrings.earningsGrowing,
                   style: TextStyle(
                     color: AppColors.forestGreen,
                     fontSize: 12,
@@ -141,12 +141,12 @@ class _EarningsScreenState extends State<EarningsScreen> {
           ),
           const SizedBox(height: AppDimensions.spaceM),
           if (completedJobs.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(AppDimensions.paddingXL),
+            Padding(
+              padding: const EdgeInsets.all(AppDimensions.paddingXL),
               child: Center(
                 child: Text(
-                  'No completed jobs yet.',
-                  style: TextStyle(color: AppColors.textHint),
+                  AppStrings.noCompletedJobsYet,
+                  style: const TextStyle(color: AppColors.textHint),
                 ),
               ),
             )

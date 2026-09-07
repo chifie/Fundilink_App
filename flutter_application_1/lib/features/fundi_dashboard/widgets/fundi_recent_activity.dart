@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
+import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
 import '../../../widgets/status_chip.dart';
@@ -20,7 +21,7 @@ class FundiRecentActivity extends StatelessWidget {
         padding: EdgeInsets.all(AppDimensions.paddingXL),
         child: Center(
           child: Text(
-            'No recent activity yet.',
+            AppStrings.noRecentActivityYet,
             style: TextStyle(color: AppColors.textHint),
           ),
         ),
