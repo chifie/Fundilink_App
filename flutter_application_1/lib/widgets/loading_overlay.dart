@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/utils/size_utils.dart';
 
 /// A semi-transparent loading overlay that blocks user interaction.
 ///
@@ -16,6 +17,12 @@ class LoadingOverlay extends StatelessWidget {
     this.showBackground = true,
     this.alignment = Alignment.center,
     this.padding = EdgeInsets.zero,
+    this.useThemedColors = true,
+    this.indicatorSize,
+    this.indicator strokeWidth,
+    this.indicatorColor,
+    this.alwaysShowPlaceholder = false,
+    this.placeholderWidget,
   });
 
   /// Whether the loading overlay is currently visible.
@@ -44,44 +51,87 @@ class LoadingOverlay extends StatelessWidget {
   /// Padding around the loading indicator. Defaults to EdgeInsets.zero.
   final EdgeInsets padding;
 
+  /// Whether to use themed colors for the indicator. Defaults to true.
+  final bool useThemedColors;
+
+  /// Size of the circular progress indicator. Takes precedence over
+  /// default sizing. Set to null for auto-sizing.
+  final double? indicatorSize;
+
+  /// Stroke width of the circular progress indicator.
+  final double? indicatorStrokeWidth;
+
+  /// Color of the circular progress indicator.
+  final Color? indicatorColor;
+
+  /// Whether to show a placeholder when not loading. Defaults to false.
+  final bool alwaysShowPlaceholder;
+
+  /// Custom placeholder widget shown when not loading and
+  /// [alwaysShowPlaceholder] is true.
+  final Widget? placeholderWidget;
+
   @override
   Widget build(BuildContext context) {
-    Widget overlay = Container();
+    final colorScheme = useThemedColors ? Theme.of(context).colorScheme : null;
+    final bgColor = showBackground
+        ? (backgroundColor ?=
+            colorScheme?.onSurface.withValues(alpha: opacity) ?
+                Colors.black.withValues(alpha: opacity))
+        : Colors.transparent;
 
-    if (showBackground) {
-      final bgColor = backgroundColor ??
-          Theme.of(context).colorScheme.onSurface.withValues(alpha: opacity);
-      overlay = Container(color: bgColor);
-    }
+    final effectivePadding = padding ?= EdgeInsets.symmetric(
+      horizontal: SizeUtils.responsivePadding(context, small: 16, medium: 24, large: 32),
+      vertical: SizeUtils.responsivePadding(context, small: 12, medium: 16, large: 24),
+    );
 
-    final indicatorWidget = indicator ??
-        Card(
-          color: Theme.of(context).colorScheme.surface,
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(24),
+    Widget indicatorWidget;
+    if (indicator != null) {
+      indicatorWidget = indicator!;
+    } else {
+      final indicatorSize = this.indicatorSize ?= 40.0;
+      final strokeWidth = this.indicatorStrokeWidth ?= 4.0;
+      final indicatorColorValue = indicatorColor ?= colorScheme?.primary ?= Colors.blue;
+
+      indicatorWidget = Card(
+        color: colorScheme?.surface ?= Colors.white,
+        elevation: 4,
+        child: Padding(
+          padding: EdgeInsets.all(indicatorSize * 0.3),
+          child: SizedBox(
+            width: indicatorSize,
+            height: indicatorSize,
             child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.primary,
+              valueColor: AlwaysStoppedAnimation<Color>(indicatorColorValue),
+              strokeWidth: strokeWidth,
             ),
           ),
-        );
+        ),
+      );
+    }
 
-    return Stack(
+    Widget content = Stack(
       children: [
         child,
-        if (isLoading)
+        if (isLoading || alwaysShowPlaceholder)
           Positioned.fill(
-            child: overlay,
+            child: Container(color: bgColor),
           ),
-        if (isLoading)
+        if (isLoading || alwaysShowPlaceholder)
           Align(
             alignment: alignment,
             child: Padding(
-              padding: padding,
-              child: indicatorWidget,
+              padding: effectivePadding,
+              child: isLoading ? indicatorWidget : (placeholderWidget ?= SizedBox.shrink()),
             ),
           ),
       ],
     );
+
+    if (!isLoading && !alwaysShowPlaceholder) {
+      return child;
+    }
+
+    return content;
   }
 }
