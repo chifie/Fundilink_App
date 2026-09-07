@@ -4,23 +4,60 @@ import 'package:shimmer/shimmer.dart';
 import '../core/constants/app_colors.dart';
 
 /// A shimmer loading skeleton effect used while content loads.
+///
+/// Wraps a child widget with a shimmer animation to indicate loading.
+/// Can be customized with base and highlight colors.
 class ShimmerLoading extends StatelessWidget {
   const ShimmerLoading({
     super.key,
     required this.child,
     this.baseColor,
     this.highlightColor,
+    this.enabled = true,
+    this.direction = ShimmerDirection.ltr,
+    this.duration = const Duration(milliseconds: 1500),
   });
 
+  /// The child widget to apply the shimmer effect to.
   final Widget child;
+
+  /// Base color for the shimmer. Defaults to [AppColors.surfaceVariant].
   final Color? baseColor;
+
+  /// Highlight color for the shimmer. Defaults to [AppColors.surface].
   final Color? highlightColor;
+
+  /// Whether the shimmer animation is enabled. Defaults to true.
+  /// Set to false to show static placeholder without animation.
+  final bool enabled;
+
+  /// Direction of the shimmer animation. Defaults to [ShimmerDirection.ltr].
+  final ShimmerDirection direction;
+
+  /// Duration of one shimmer cycle. Defaults to 1500ms.
+  final Duration duration;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final base = baseColor ?? colorScheme.surfaceContainerHighest;
+    final highlight = highlightColor ?? colorScheme.surface;
+
+    if (!enabled) {
+      return Container(
+        decoration: BoxDecoration(
+          color: base,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: child,
+      );
+    }
+
     return Shimmer.fromColors(
-      baseColor: baseColor ?? AppColors.surfaceVariant,
-      highlightColor: highlightColor ?? AppColors.surface,
+      baseColor: base,
+      highlightColor: highlight,
+      direction: direction,
+      period: duration,
       child: child,
     );
   }
@@ -88,10 +125,16 @@ class ShimmerFundiCard extends StatelessWidget {
 
 /// Shimmer placeholder for a horizontal list item (compact fundi card).
 class ShimmerCompactCard extends StatelessWidget {
-  const ShimmerCompactCard({super.key});
+  const ShimmerCompactCard({super.key, this.showOnlineIndicator = true});
+
+  /// Whether to show the online status indicator dot.
+  final bool showOnlineIndicator;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final surfaceVariant = colorScheme.surfaceContainerHighest;
+
     return ShimmerLoading(
       child: SizedBox(
         width: 180,
@@ -106,17 +149,18 @@ class ShimmerCompactCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 22,
-                      backgroundColor: AppColors.surfaceVariant,
+                      backgroundColor: surfaceVariant,
                     ),
                     const Spacer(),
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: AppColors.surfaceVariant,
-                        shape: BoxShape.circle,
+                    if (showOnlineIndicator)
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: surfaceVariant,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -124,7 +168,7 @@ class ShimmerCompactCard extends StatelessWidget {
                   height: 14,
                   width: 100,
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceVariant,
+                    color: surfaceVariant,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -133,7 +177,7 @@ class ShimmerCompactCard extends StatelessWidget {
                   height: 12,
                   width: 70,
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceVariant,
+                    color: surfaceVariant,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -145,8 +189,8 @@ class ShimmerCompactCard extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 2),
                       width: 12,
                       height: 12,
-                      decoration: const BoxDecoration(
-                        color: AppColors.surfaceVariant,
+                      decoration: BoxDecoration(
+                        color: surfaceVariant,
                         shape: BoxShape.circle,
                       ),
                     ),
