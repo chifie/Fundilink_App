@@ -8,6 +8,12 @@ class DateHelper {
     return _formatDate(now);
   }
 
+  /// Returns true if [date] falls on a weekend (Saturday or Sunday).
+  static bool isWeekend(DateTime date) {
+    return date.weekday == DateTime.saturday ||
+        date.weekday == DateTime.sunday;
+  }
+
   /// Returns a date formatted as "MMM d, yyyy".
   static String _formatDate(DateTime date) {
     const months = [
