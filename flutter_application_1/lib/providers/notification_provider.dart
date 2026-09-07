@@ -12,18 +12,26 @@ class NotificationProvider extends ChangeNotifier {
 
   List<NotificationItem> _notifications = [];
   bool _loading = false;
+  String? _error;
 
   List<NotificationItem> get notifications => _notifications;
   bool get isLoading => _loading;
+  String? get error => _error;
 
   int get unreadCount => _notifications.where((n) => !n.isRead).length;
 
   Future<void> load() async {
     _loading = true;
+    _error = null;
     notifyListeners();
-    _notifications = await _repository.getNotifications();
-    _loading = false;
-    notifyListeners();
+    try {
+      _notifications = await _repository.getNotifications();
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> markAllRead() async {
