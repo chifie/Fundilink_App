@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../models/fundi_model.dart';
+import '../models/request_status_extension.dart';
 import '../models/service_request.dart';
 import '../repositories/request_repository.dart';
 
@@ -103,18 +104,7 @@ class RequestProvider extends ChangeNotifier {
   // Convenience counts used by the fundi dashboard.
   int get pendingCount =>
       _fundiRequests.where((r) => r.status == RequestStatus.pending).length;
-  int get activeCount => _fundiRequests
-      .where(
-        (r) =>
-            r.status == RequestStatus.accepted ||
-            r.status == RequestStatus.inProgress,
-      )
-      .length;
-  int get completedCount => _fundiRequests
-      .where(
-        (r) =>
-            r.status == RequestStatus.completed ||
-            r.status == RequestStatus.reviewed,
-      )
-      .length;
+  int get activeCount => _fundiRequests.where((r) => r.status.isActive).length;
+  int get completedCount =>
+      _fundiRequests.where((r) => r.status.isPaidOut).length;
 }

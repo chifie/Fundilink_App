@@ -5,7 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
-import '../../../models/service_request.dart';
+import '../../../models/request_status_extension.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
 import '../../../widgets/earnings_chart.dart';
@@ -44,13 +44,7 @@ class _EarningsScreenState extends State<EarningsScreen> {
   @override
   Widget build(BuildContext context) {
     final requests = context.watch<RequestProvider>().fundiRequests;
-    final completedJobs = requests
-        .where(
-          (r) =>
-              r.status == RequestStatus.completed ||
-              r.status == RequestStatus.reviewed,
-        )
-        .toList();
+    final completedJobs = requests.where((r) => r.status.isPaidOut).toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.myEarnings)),

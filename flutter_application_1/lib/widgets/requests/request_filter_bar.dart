@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_dimensions.dart';
 import '../../core/constants/app_strings.dart';
+import '../../models/request_status_extension.dart';
 import '../../models/service_request.dart';
 
 /// The status buckets both request list screens can filter by.
@@ -19,21 +20,9 @@ extension RequestFilterX on RequestFilter {
             .where((r) => r.status == RequestStatus.pending)
             .toList();
       case RequestFilter.active:
-        return requests
-            .where(
-              (r) =>
-                  r.status == RequestStatus.accepted ||
-                  r.status == RequestStatus.inProgress,
-            )
-            .toList();
+        return requests.where((r) => r.status.isActive).toList();
       case RequestFilter.completed:
-        return requests
-            .where(
-              (r) =>
-                  r.status == RequestStatus.completed ||
-                  r.status == RequestStatus.reviewed,
-            )
-            .toList();
+        return requests.where((r) => r.status.isPaidOut).toList();
     }
   }
 

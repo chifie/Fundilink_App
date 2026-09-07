@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../models/request_status_extension.dart';
 import '../../../models/service_request.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
@@ -51,22 +52,14 @@ class FundiJobsScreen extends StatelessWidget {
                 children: [
                   _JobList(
                     requests: provider.fundiRequests
-                        .where(
-                          (r) =>
-                              r.status == RequestStatus.accepted ||
-                              r.status == RequestStatus.inProgress,
-                        )
+                        .where((r) => r.status.isActive)
                         .toList(),
                     emptyMessage: AppStrings.noActiveJobs,
                     onRefresh: () => _reloadFundiRequests(context),
                   ),
                   _JobList(
                     requests: provider.fundiRequests
-                        .where(
-                          (r) =>
-                              r.status == RequestStatus.completed ||
-                              r.status == RequestStatus.reviewed,
-                        )
+                        .where((r) => r.status.isPaidOut)
                         .toList(),
                     emptyMessage: AppStrings.noCompletedJobs,
                     onRefresh: () => _reloadFundiRequests(context),

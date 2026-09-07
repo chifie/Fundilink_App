@@ -2,6 +2,7 @@ import 'package:uuid/uuid.dart';
 
 import '../data/mock_data.dart';
 import '../models/fundi_model.dart';
+import '../models/request_status_extension.dart';
 import '../models/service_request.dart';
 
 /// Data source for service requests on both customer and fundi sides.
@@ -78,11 +79,9 @@ class RequestRepository {
   /// Total earnings: the sum of cost estimates for paid-out jobs.
   Future<double> totalEarnings(String fundiId) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
-    final jobs = MockData.requestsForFundi(fundiId).where(
-      (r) =>
-          r.status == RequestStatus.completed ||
-          r.status == RequestStatus.reviewed,
-    );
+    final jobs = MockData.requestsForFundi(
+      fundiId,
+    ).where((r) => r.status.isPaidOut);
     return jobs.fold<double>(0, (sum, r) => sum + r.estimatedCost);
   }
 }

@@ -35,6 +35,14 @@ extension RequestStatusHelpers on RequestStatus {
   /// Returns true if the work can be marked as complete.
   bool get canMarkComplete => this == RequestStatus.inProgress;
 
+  /// Returns true if the request is currently being worked on.
+  bool get isActive =>
+      this == RequestStatus.accepted || this == RequestStatus.inProgress;
+
+  /// Returns true if the request reached a paid-out state (completed list).
+  bool get isPaidOut =>
+      this == RequestStatus.completed || this == RequestStatus.reviewed;
+
   /// Returns true if the request is in a terminal state.
   bool get isTerminal =>
       this == RequestStatus.completed ||
