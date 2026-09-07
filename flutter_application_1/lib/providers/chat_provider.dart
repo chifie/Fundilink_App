@@ -101,4 +101,8 @@ class ChatProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  /// Returns the count of conversations with unread messages.
+  int get unreadConversationCount =>
+      _conversations.where((c) => c.unreadCount > 0).length;
 }
