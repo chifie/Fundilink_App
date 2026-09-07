@@ -302,6 +302,9 @@ class AppStrings {
       'Type a service, name or location above, or pick a category.';
   static const String noResultsHint =
       'Try a different search term or category.';
+  static const String clearSearch = 'Clear search';
+  static const String showPassword = 'Show password';
+  static const String hidePassword = 'Hide password';
 
   // Image Picker
   static const String selectImageSource = 'Select Image Source';

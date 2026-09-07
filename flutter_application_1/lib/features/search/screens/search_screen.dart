@@ -132,6 +132,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ? null
                     : IconButton(
                         icon: const Icon(Icons.close),
+                        tooltip: AppStrings.clearSearch,
                         onPressed: () {
                           _queryController.clear();
                           provider.search('', sortBy: _sortBy);

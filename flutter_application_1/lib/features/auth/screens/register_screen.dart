@@ -127,6 +127,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
                       ),
+                      tooltip: _obscurePassword
+                          ? AppStrings.showPassword
+                          : AppStrings.hidePassword,
                       onPressed: () =>
                           setState(() => _obscurePassword = !_obscurePassword),
                     ),
@@ -151,6 +154,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
                       ),
+                      tooltip: _obscureConfirm
+                          ? AppStrings.showPassword
+                          : AppStrings.hidePassword,
                       onPressed: () =>
                           setState(() => _obscureConfirm = !_obscureConfirm),
                     ),

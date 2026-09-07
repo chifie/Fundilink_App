@@ -53,6 +53,7 @@ class _SearchInputState extends State<SearchInput> {
         suffixIcon: _hasText
             ? IconButton(
                 icon: const Icon(Icons.close),
+                tooltip: AppStrings.clearSearch,
                 onPressed: () {
                   _controller.clear();
                   widget.onChanged?.call('');
