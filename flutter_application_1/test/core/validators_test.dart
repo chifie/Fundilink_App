@@ -68,4 +68,17 @@ void main() {
       expect(Validators.required('Dec 5', 'Pick a date'), isNull);
     });
   });
+
+  group('Validators.isEmailFormat', () {
+    test('returns true for valid email shapes', () {
+      expect(Validators.isEmailFormat('brian@example.com'), isTrue);
+      expect(Validators.isEmailFormat('user.name@domain.co'), isTrue);
+    });
+
+    test('returns false for empty or malformed input', () {
+      expect(Validators.isEmailFormat(''), isFalse);
+      expect(Validators.isEmailFormat('not-an-email'), isFalse);
+      expect(Validators.isEmailFormat('brian@'), isFalse);
+    });
+  });
 }
