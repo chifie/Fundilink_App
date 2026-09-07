@@ -15,6 +15,9 @@ class RatingStars extends StatelessWidget {
   final double size;
   final bool showValue;
 
+  /// Returns true if the rating is four stars or higher.
+  bool get isHighRating => rating >= 4.0;
+
   @override
   Widget build(BuildContext context) {
     return Row(
