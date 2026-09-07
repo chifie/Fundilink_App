@@ -42,4 +42,17 @@ void main() {
       expect(<int>[].getOrNull(0), isNull);
     });
   });
+
+  group('ListExtensions.randomElement', () {
+    test('returns an element from a non-empty list', () {
+      final list = [10, 20, 30];
+      final value = list.randomElement();
+      expect(value, isNotNull);
+      expect([10, 20, 30], contains(value));
+    });
+
+    test('returns null for an empty list', () {
+      expect(<int>[].randomElement(), isNull);
+    });
+  });
 }
