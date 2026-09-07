@@ -5,6 +5,9 @@ class Helpers {
   Helpers._();
 
   /// Maps a name to a stable color seed for initials avatars.
+  ///
+  /// The seed is deterministic so the same name always maps to the same
+  /// color, which keeps avatars visually consistent across sessions.
   static int colorSeed(String name) =>
       name.codeUnits.fold(0, (acc, c) => acc + c);
 
