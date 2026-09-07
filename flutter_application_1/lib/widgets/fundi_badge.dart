@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 
@@ -17,18 +18,91 @@ enum FundiBadge {
 }
 
 /// Displays a fundi's achievement badges.
+///
+/// Shows a wrap of badge chips with customizable spacing and styling.
+/// Empty list results in an empty widget.
 class FundiBadgeDisplay extends StatelessWidget {
-  const FundiBadgeDisplay({super.key, required this.badges});
+  const FundiBadgeDisplay({
+    super.key,
+    required this.badges,
+    this.spacing = AppDimensions.spaceS,
+    this.runSpacing = AppDimensions.spaceS,
+    this.showEmptyPlaceholder = false,
+    this.emptyPlaceholderText,
+    this.emptyPlaceholderStyle,
+    this.animate = false,
+    this.padding,
+  });
+
+  /// List of badges to display.
   final List<FundiBadge> badges;
+
+  /// Horizontal spacing between badges. Defaults to spaceS.
+  final double spacing;
+
+  /// Vertical spacing between runs. Defaults to spaceS.
+  final double runSpacing;
+
+  /// Whether to show a placeholder when no badges exist. Defaults to false.
+  final bool showEmptyPlaceholder;
+
+  /// Text for the empty placeholder. Uses 'No badges yet' by default.
+  final String? emptyPlaceholderText;
+
+  /// Style for the empty placeholder text.
+  final TextStyle? emptyPlaceholderStyle;
+
+  /// Whether to animate badge appearance. Defaults to false.
+  final bool animate;
+
+  /// Padding around the badge display.
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
-    if (badges.isEmpty) return const SizedBox.shrink();
-    return Wrap(
-      spacing: AppDimensions.spaceS,
-      runSpacing: AppDimensions.spaceS,
-      children: [for (final badge in badges) _BadgeChip(badge: badge)],
+    if (badges.isEmpty) {
+      if (!showEmptyPlaceholder) return const SizedBox.shrink();
+
+      return Padding(
+        padding: padding ?? EdgeInsets.zero,
+        child: Text(
+          emptyPlaceholderText ?? 'No badges yet',
+          style: emptyPlaceholderStyle ??
+              const TextStyle(
+                color: AppColors.textHint,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    Widget badgeContent = Wrap(
+      spacing: spacing,
+      runSpacing: runSpacing,
+      children: [
+        for (final badge in badges)
+          _BadgeChip(badge: badge),
+      ],
     );
+
+    if (animate) {
+      badgeContent = AnimatedOpacity(
+        duration: const Duration(milliseconds: 300),
+        opacity: 1.0,
+        child: badgeContent,
+      );
+    }
+
+    if (padding != null) {
+      badgeContent = Padding(
+        padding: padding!,
+        child: badgeContent,
+      );
+    }
+
+    return badgeContent;
   }
 }
 
