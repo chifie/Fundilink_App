@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fundi_link/data/mock_data.dart';
 import 'package:fundi_link/models/fundi_model.dart';
 import 'package:fundi_link/models/service_request.dart';
 import 'package:fundi_link/repositories/fundi_repository.dart';
@@ -82,6 +83,13 @@ void main() {
       final results = await FundiRepository().getFundis(maxPrice: 800);
       expect(results, isNotEmpty);
       expect(results.every((f) => f.startingPrice <= 800), isTrue);
+    });
+  });
+
+  group('Demo data alignment', () {
+    test('the fundi demo account maps to a seeded fundi profile', () {
+      expect(mockFundiUser.id, 'f1');
+      expect(MockData.fundiById(mockFundiUser.id), isNotNull);
     });
   });
 

@@ -25,7 +25,7 @@ const User mockCustomer = User(
 );
 
 const User mockFundiUser = User(
-  id: 'uf1',
+  id: 'f1',
   fullName: 'James Otieno',
   email: DemoAccounts.fundiEmail,
   phone: '+254722556677',
