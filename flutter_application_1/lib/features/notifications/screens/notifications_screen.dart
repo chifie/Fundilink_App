@@ -8,6 +8,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../models/notification_item.dart';
 import '../../../providers/notification_provider.dart';
 import '../../../widgets/empty_state.dart';
+import '../../../widgets/error_view.dart';
 
 /// In-app notification inbox for request updates, chats and reviews.
 class NotificationsScreen extends StatelessWidget {
@@ -30,7 +31,14 @@ class NotificationsScreen extends StatelessWidget {
             ),
         ],
       ),
-      body: notifications.isEmpty
+      body: provider.isLoading && notifications.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : provider.error != null && notifications.isEmpty
+          ? ErrorView(
+              message: provider.error,
+              onRetry: () => context.read<NotificationProvider>().load(),
+            )
+          : notifications.isEmpty
           ? EmptyState(
               icon: Icons.notifications_none,
               title: AppStrings.noNotifications,
