@@ -4,10 +4,22 @@ import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 import '../core/constants/app_strings.dart';
 
-/// Centred error state with a retry action for failed async loads.
-///
-/// Displays an error icon, message, and retry button. The icon size,
-/// button style, and spacing are all customizable.
+/**
+ * Centred error state with a retry action for failed async loads.
+ *
+ * Displays an error icon, message, and retry button. The icon size,
+ * button style, and spacing are all customizable.
+ *
+ * Example usage:
+ * ```dart
+ * ErrorView(
+ *   message: 'Unable to load data',
+ *   onRetry: () => loadData(),
+ *   icon: Icons.error_outline,
+ *   isError: true,
+ * )
+ * ```
+ */
 class ErrorView extends StatelessWidget {
   const ErrorView({
     super.key,
