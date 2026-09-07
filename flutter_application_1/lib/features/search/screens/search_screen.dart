@@ -11,6 +11,7 @@ import '../../../providers/fundi_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_card.dart';
+import '../../../widgets/search_filters_sheet.dart';
 import '../../../widgets/shimmer_loading.dart';
 import '../../fundi_profile/screens/fundi_profile_screen.dart';
 
@@ -27,6 +28,10 @@ class _SearchScreenState extends State<SearchScreen> {
   final Debouncer _debounce = Debouncer();
   String? _appliedCategoryId;
   String _sortBy = 'rating';
+  bool _onlyAvailable = false;
+  bool _onlyVerified = false;
+  double? _minRating;
+  double? _maxPrice;
 
   @override
   void initState() {
@@ -48,33 +53,61 @@ class _SearchScreenState extends State<SearchScreen> {
     if (categoryId == null || categoryId == _appliedCategoryId) return;
     _appliedCategoryId = categoryId;
     _queryController.clear();
-    context.read<FundiProvider>().filterByCategory(categoryId, sortBy: _sortBy);
+    _applySearch();
+  }
+
+  /// Runs the current query against the provider with every active filter.
+  void _applySearch() {
+    final query = _queryController.text.trim();
+    context.read<FundiProvider>().loadFundis(
+      categoryId: _appliedCategoryId,
+      query: query.isEmpty ? null : query,
+      sortBy: _sortBy,
+      onlyAvailable: _onlyAvailable,
+      onlyVerified: _onlyVerified,
+      minRating: _minRating,
+      maxPrice: _maxPrice,
+    );
   }
 
   void _scheduleSearch(String query) {
-    _debounce.run(() {
-      context.read<FundiProvider>().search(query.trim(), sortBy: _sortBy);
-    });
+    _debounce.run(_applySearch);
   }
 
   void _selectCategory(String? categoryId) {
     _appliedCategoryId = categoryId;
-    final provider = context.read<FundiProvider>();
-    if (categoryId == null) {
-      provider.search(_queryController.text.trim(), sortBy: _sortBy);
-    } else {
-      provider.filterByCategory(categoryId, sortBy: _sortBy);
-    }
+    _applySearch();
   }
 
   void _sort(String sortBy) {
     _sortBy = sortBy;
+    _applySearch();
+  }
+
+  Future<void> _openFilters() async {
     final provider = context.read<FundiProvider>();
-    if (_appliedCategoryId != null) {
-      provider.filterByCategory(_appliedCategoryId, sortBy: sortBy);
-    } else {
-      provider.search(_queryController.text.trim(), sortBy: sortBy);
-    }
+    final options = await showSearchFilters(
+      context,
+      current: SearchFilterOptions(
+        categoryId: _appliedCategoryId,
+        onlyAvailable: _onlyAvailable,
+        onlyVerified: _onlyVerified,
+        sortBy: _sortBy,
+        minRating: _minRating,
+        maxPrice: _maxPrice,
+      ),
+      categories: provider.categories,
+    );
+    if (options == null || !mounted) return;
+    setState(() {
+      _appliedCategoryId = options.categoryId;
+      _onlyAvailable = options.onlyAvailable;
+      _onlyVerified = options.onlyVerified;
+      _sortBy = options.sortBy;
+      _minRating = options.minRating;
+      _maxPrice = options.maxPrice;
+    });
+    _applySearch();
   }
 
   @override
@@ -87,6 +120,11 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: const Text(AppStrings.search),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            tooltip: AppStrings.filter,
+            onPressed: _openFilters,
+          ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.sort),
             tooltip: AppStrings.sort,
@@ -135,8 +173,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         tooltip: AppStrings.clearSearch,
                         onPressed: () {
                           _queryController.clear();
-                          provider.search('', sortBy: _sortBy);
                           setState(() {});
+                          _applySearch();
                         },
                       ),
               ),
@@ -188,11 +226,7 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
     if (provider.error != null) {
-      return ErrorView(
-        message: provider.error,
-        onRetry: () =>
-            provider.search(_queryController.text.trim(), sortBy: _sortBy),
-      );
+      return ErrorView(message: provider.error, onRetry: _applySearch);
     }
     final fundis = provider.fundis;
     if (fundis.isEmpty) {
@@ -207,9 +241,7 @@ class _SearchScreenState extends State<SearchScreen> {
       );
     }
     return RefreshIndicator(
-      onRefresh: () async {
-        await provider.search(_queryController.text.trim(), sortBy: _sortBy);
-      },
+      onRefresh: () async => _applySearch(),
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
         itemCount: fundis.length,
