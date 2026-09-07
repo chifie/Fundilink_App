@@ -56,6 +56,12 @@ class User {
     'createdAt': createdAt,
   };
 
+  /// Returns a display-safe email that hides most of the address.
+  String get maskedEmail {
+    if (email.length < 8) return email;
+    return '${email.substring(0, 2)}****${email.substring(email.length - 2)}';
+  }
+
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json['id'] as String,
     fullName: json['fullName'] as String,
