@@ -7,16 +7,33 @@ All notable changes to FundiLink are documented here. This project follows
 
 ### Added
 - GitHub Actions CI pipeline that runs `flutter analyze` and `flutter test`.
-- Expanded unit and widget test coverage for core utilities, models and
-  shared widgets.
-- Persisted light/dark theme mode toggle in Settings.
+- Persisted light/dark theme mode and push-notifications toggles in Settings.
 - Haptic feedback on key actions (login and request submission).
 - Demo fundi quick-fill button on the login screen.
+- Time-of-day greeting ("Good morning/afternoon/evening") on the home screen.
+- Auto-scroll keeps the chat thread pinned to the newest message.
+- Loading and error (with retry) states on the conversation list, notification
+  inbox and reviews screen.
+- Tooltips and semantics on icon-only controls and quick actions.
 
 ### Changed
-- Search screen now uses the shared `Debouncer` utility.
-- Logout and request cancellation flows reuse the shared confirm dialog.
-- Hardcoded user-facing copy centralized in `AppStrings`.
+- Remaining hardcoded user-facing copy centralized in `AppStrings`.
+- Request status hints and icons moved into the request-status model.
+- Customer and fundi request lists share one `RequestFilterBar` widget.
+- Relative-time labels unified behind the shared `DateTimeExtensions.timeAgo`.
+- Success/coming-soon feedback routes through the shared `Toast` helper.
+- Removed duplicated and unused helpers (`Helpers.shortAmount`, unused
+  `CurrencyFormatter`).
+
+### Fixed
+- Notification and chat providers now expose load errors instead of silently
+  showing empty states.
+
+### Tests
+- Added provider tests for auth, chat, fundi, notifications, requests,
+  reviews and settings.
+- Added unit tests for `Helpers` and the request-status helpers.
+- Added widget tests for `FundiAvatar`.
 
 ## [1.0.0] - 2026-09-05
 
