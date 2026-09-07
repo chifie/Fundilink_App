@@ -4,14 +4,12 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../../core/utils/formatters.dart';
-import '../../../models/review.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/review_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/error_view.dart';
-import '../../../widgets/fundi_avatar.dart';
 import '../../../widgets/rating_stars.dart';
+import '../../../widgets/review_tile.dart';
 
 /// Reviews screen showing customer reviews for the fundi.
 class FundiReviewsScreen extends StatefulWidget {
@@ -93,66 +91,9 @@ class _FundiReviewsScreenState extends State<FundiReviewsScreen> {
                 const SizedBox(height: AppDimensions.spaceXL),
 
                 // Individual reviews
-                for (final review in reviews) _ReviewTile(review: review),
+                for (final review in reviews) ReviewTile(review: review),
               ],
             ),
-    );
-  }
-}
-
-class _ReviewTile extends StatelessWidget {
-  const _ReviewTile({required this.review});
-  final Review review;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FundiAvatar(name: review.customerName, radius: 16),
-          const SizedBox(width: AppDimensions.spaceM),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        review.customerName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      Formatters.timeAgo(review.createdAt),
-                      style: const TextStyle(
-                        color: AppColors.textHint,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                RatingStars(rating: review.rating, size: 13),
-                const SizedBox(height: 4),
-                Text(
-                  review.comment,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 13,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

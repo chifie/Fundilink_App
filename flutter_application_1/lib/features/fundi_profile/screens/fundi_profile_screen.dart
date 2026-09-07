@@ -16,6 +16,7 @@ import '../../../providers/request_provider.dart';
 import '../../../providers/review_provider.dart';
 import '../../../widgets/fundi_avatar.dart';
 import '../../../widgets/rating_stars.dart';
+import '../../../widgets/review_tile.dart';
 import '../../../widgets/section_header.dart';
 import '../../chat/screens/chat_thread_screen.dart';
 import '../../service_request/screens/request_form_screen.dart';
@@ -498,66 +499,7 @@ class _ReviewsSection extends StatelessWidget {
               ),
             )
           else
-            for (final review in reviews) _ReviewTile(review: review),
-        ],
-      ),
-    );
-  }
-}
-
-class _ReviewTile extends StatelessWidget {
-  const _ReviewTile({required this.review});
-
-  final Review review;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FundiAvatar(name: review.customerName, radius: 16),
-          const SizedBox(width: AppDimensions.spaceM),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        review.customerName,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      Formatters.timeAgo(review.createdAt),
-                      style: const TextStyle(
-                        color: AppColors.textHint,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                RatingStars(rating: review.rating, size: 13),
-                const SizedBox(height: 4),
-                Text(
-                  review.comment,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 13,
-                    height: 1.4,
-                  ),
-                ),
-              ],
-            ),
-          ),
+            for (final review in reviews) ReviewTile(review: review),
         ],
       ),
     );
