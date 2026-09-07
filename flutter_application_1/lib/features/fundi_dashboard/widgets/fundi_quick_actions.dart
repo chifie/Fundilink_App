@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_dimensions.dart';
+import '../../../core/constants/app_strings.dart';
 import '../../earnings/screens/earnings_screen.dart';
 import '../../fundi_availability/screens/availability_screen.dart';
 import '../../fundi_portfolio/screens/portfolio_screen.dart';
@@ -17,28 +18,28 @@ class FundiQuickActions extends StatelessWidget {
       children: [
         _ActionButton(
           icon: Icons.person_outline,
-          label: 'Profile',
+          label: AppStrings.profile,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(builder: (_) => const ProfileMgmtScreen()),
           ),
         ),
         _ActionButton(
           icon: Icons.event_available_outlined,
-          label: 'Schedule',
+          label: AppStrings.schedule,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(builder: (_) => const AvailabilityScreen()),
           ),
         ),
         _ActionButton(
           icon: Icons.photo_library_outlined,
-          label: 'Portfolio',
+          label: AppStrings.portfolio,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(builder: (_) => const PortfolioScreen()),
           ),
         ),
         _ActionButton(
           icon: Icons.account_balance_wallet_outlined,
-          label: 'Earnings',
+          label: AppStrings.earnings,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(builder: (_) => const EarningsScreen()),
           ),

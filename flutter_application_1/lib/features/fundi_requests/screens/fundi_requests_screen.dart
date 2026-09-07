@@ -72,7 +72,7 @@ class _FundiRequestsScreenState extends State<FundiRequestsScreen> {
               child: Row(
                 children: [
                   _FilterChip(
-                    label: 'All',
+                    label: AppStrings.all,
                     selected: _filter == 'all',
                     onTap: () => setState(() => _filter = 'all'),
                   ),
@@ -110,9 +110,8 @@ class _FundiRequestsScreenState extends State<FundiRequestsScreen> {
                 : requests.isEmpty
                 ? const EmptyState(
                     icon: Icons.inbox_outlined,
-                    title: 'No requests',
-                    message:
-                        'When customers request your services, they\'ll appear here.',
+                    title: AppStrings.noRequestsTitle,
+                    message: AppStrings.noFundiRequestsHint,
                   )
                 : RefreshIndicator(
                     onRefresh: () async {

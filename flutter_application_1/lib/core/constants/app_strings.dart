@@ -48,6 +48,7 @@ class AppStrings {
   static const String search = 'Search';
   static const String requests = 'Requests';
   static const String messages = 'Messages';
+  static const String schedule = 'Schedule';
   static const String profile = 'Profile';
   static const String dashboard = 'Dashboard';
   static const String jobs = 'Jobs';
@@ -127,6 +128,9 @@ class AppStrings {
   // Requests
   static const String myRequests = 'My Requests';
   static const String noRequests = 'No service requests yet';
+  static const String noRequestsTitle = 'No requests';
+  static const String noFundiRequestsHint =
+      "When customers request your services, they'll appear here.";
   static const String requestsEmptyHint =
       'Browse fundis and request a service to get started.';
   static const String requestDetails = 'Request Details';
@@ -134,6 +138,17 @@ class AppStrings {
   static const String reject = 'Reject';
   static const String startWork = 'Start Work';
   static const String markComplete = 'Mark as Complete';
+  static const String acceptRequestConfirm = 'Accept this request?';
+  static const String acceptRequestHint =
+      "You'll be expected to contact the customer and complete the work.";
+  static const String rejectRequestConfirm = 'Reject this request?';
+  static const String rejectRequestHint =
+      'The customer will be notified that you declined.';
+  static const String startWorkConfirm = 'Start work?';
+  static const String startWorkHint = 'Mark this request as in progress.';
+  static const String markCompleteConfirm = 'Mark as complete?';
+  static const String markCompleteHint =
+      'The customer will be notified that the work is done.';
   static const String cancelRequest = 'Cancel Request';
   static const String cancelThisRequest = 'Cancel this request?';
   static const String cancelRequestHint =

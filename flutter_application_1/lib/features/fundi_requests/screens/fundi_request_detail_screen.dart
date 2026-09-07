@@ -150,9 +150,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _confirmAction(
                   context,
-                  title: 'Accept this request?',
-                  message:
-                      'You\'ll be expected to contact the customer and complete the work.',
+                  title: AppStrings.acceptRequestConfirm,
+                  message: AppStrings.acceptRequestHint,
                   status: RequestStatus.accepted,
                 ),
                 icon: const Icon(Icons.check, size: 18),
@@ -166,8 +165,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () => _confirmAction(
                   context,
-                  title: 'Reject this request?',
-                  message: 'The customer will be notified that you declined.',
+                  title: AppStrings.rejectRequestConfirm,
+                  message: AppStrings.rejectRequestHint,
                   status: RequestStatus.rejected,
                 ),
                 style: OutlinedButton.styleFrom(
@@ -185,8 +184,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _confirmAction(
                   context,
-                  title: 'Start work?',
-                  message: 'Mark this request as in progress.',
+                  title: AppStrings.startWorkConfirm,
+                  message: AppStrings.startWorkHint,
                   status: RequestStatus.inProgress,
                 ),
                 icon: const Icon(Icons.play_arrow, size: 18),
@@ -201,9 +200,8 @@ class FundiRequestDetailScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _confirmAction(
                   context,
-                  title: 'Mark as complete?',
-                  message:
-                      'The customer will be notified that the work is done.',
+                  title: AppStrings.markCompleteConfirm,
+                  message: AppStrings.markCompleteHint,
                   status: RequestStatus.completed,
                 ),
                 icon: const Icon(Icons.check_circle_outline, size: 18),
