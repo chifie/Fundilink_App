@@ -2,6 +2,9 @@
 class NotificationItem {
   final String id;
   final String type; // request | chat | review | system
+
+  /// Returns true if this notification has not been read.
+  bool get isUnread => !isRead;
   final String title;
   final String body;
   final DateTime createdAt;
