@@ -8,6 +8,17 @@ import '../core/constants/app_dimensions.dart';
 /// Displays an animated icon, title, optional message, and optional
 /// action button. The icon bounces gently on appear to draw attention
 /// without being distracting.
+///
+/// Example:
+/// ```dart
+/// EmptyState(
+///   icon: Icons.search,
+///   title: 'No results found',
+///   message: 'Try adjusting your search terms',
+///   actionLabel: 'Clear filters',
+///   onAction: () => print('Action tapped'),
+/// )
+/// ```
 class EmptyState extends StatefulWidget {
   const EmptyState({
     super.key,
@@ -21,7 +32,11 @@ class EmptyState extends StatefulWidget {
     this.titleStyle,
     this.buttonPadding,
     this.addSemanticLabel,
+    this.animate = true,
   });
+
+  /// Whether to animate the icon on appear. Defaults to true.
+  final bool animate;
 
   /// The icon to display in the center of the empty state.
   final IconData icon;
@@ -90,7 +105,9 @@ class _EmptyStateState extends State<EmptyState>
       parent: _controller,
       curve: Curves.easeOut,
     ));
-    _controller.forward();
+    if (widget.animate) {
+      _controller.forward();
+    }
   }
 
   @override
