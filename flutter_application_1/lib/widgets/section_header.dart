@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 
 /// Screen-section heading with an optional trailing action link.
+///
+/// The header uses a 17sp bold primary color title and an optional 13sp
+/// primary-colored action label on the right.
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
