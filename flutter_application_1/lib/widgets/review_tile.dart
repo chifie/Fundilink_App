@@ -17,7 +17,6 @@ class ReviewTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
-      child: _buildBody(context),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

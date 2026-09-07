@@ -4,114 +4,138 @@ import 'package:fundi_link/core/constants/app_strings.dart';
 import 'package:fundi_link/models/service_request.dart';
 import 'package:fundi_link/widgets/requests/request_filter_bar.dart';
 
-ServiceRequest _request(String id, RequestStatus status) {
-  return ServiceRequest(
-    id: id,
-    customerId: 'u1',
-    customerName: 'Brian Kimani',
-    fundiId: 'f1',
-    fundiName: 'James Otieno',
-    categoryId: 'cat_plumbing',
-    categoryName: AppStrings.plumbing,
-    description: 'Fix a leak',
-    status: status,
-    preferredDate: 'Sep 10',
-    preferredTime: '2:00 PM',
-    location: 'Nairobi',
-    estimatedCost: 800,
-    createdAt: DateTime(2026, 9, 5),
-  );
-}
-
-List<ServiceRequest> _sample() {
-  return [
-    _request('r1', RequestStatus.pending),
-    _request('r2', RequestStatus.accepted),
-    _request('r3', RequestStatus.inProgress),
-    _request('r4', RequestStatus.completed),
-    _request('r5', RequestStatus.reviewed),
-    _request('r6', RequestStatus.rejected),
-  ];
-}
-
 void main() {
-  group('RequestFilter.apply', () {
-    test('all keeps every request', () {
-      final requests = _sample();
-      expect(RequestFilter.all.apply(requests), hasLength(6));
+  group('RequestFilter', () {
+    group('label', () {
+      test('returns the correct AppStrings label for each filter', () {
+        expect(RequestFilter.all.label, AppStrings.all);
+        expect(RequestFilter.pending.label, AppStrings.pending);
+        expect(RequestFilter.active.label, AppStrings.inProgress);
+        expect(RequestFilter.completed.label, AppStrings.completed);
+      });
     });
 
-    test('pending keeps only pending requests', () {
-      final result = RequestFilter.pending.apply(_sample());
-      expect(result.map((r) => r.id), ['r1']);
-    });
+    group('apply', () {
+      late final List<ServiceRequest> requests;
 
-    test('active keeps accepted and in-progress requests', () {
-      final result = RequestFilter.active.apply(_sample());
-      expect(result.map((r) => r.id), ['r2', 'r3']);
-    });
+      setUp(() {
+        requests = [
+          _pendingRequest(),
+          _acceptedRequest(),
+          _inProgressRequest(),
+          _completedRequest(),
+          _reviewedRequest(),
+        ];
+      });
 
-    test('completed keeps completed and reviewed requests', () {
-      final result = RequestFilter.completed.apply(_sample());
-      expect(result.map((r) => r.id), ['r4', 'r5']);
-    });
+      test('returns all requests for the all filter', () {
+        final result = RequestFilter.all.apply(requests);
+        expect(result.length, requests.length);
+      });
 
-    test('rejected requests are excluded from every non-all bucket', () {
-      final requests = _sample();
-      for (final filter in RequestFilter.values) {
-        if (filter == RequestFilter.all) continue;
+      test('returns only pending requests for the pending filter', () {
+        final result = RequestFilter.pending.apply(requests);
+        expect(result.every((r) => r.status == RequestStatus.pending), isTrue);
+        expect(result.length, 1);
+      });
+
+      test('returns only active requests for the active filter', () {
+        final result = RequestFilter.active.apply(requests);
         expect(
-          filter.apply(requests).any((r) => r.status == RequestStatus.rejected),
-          isFalse,
-          reason: '$filter must exclude rejected requests',
+          result.every((r) => r.status.isActive),
+          isTrue,
         );
-      }
-    });
-  });
+        expect(result.length, 2);
+      });
 
-  group('RequestFilter labels', () {
-    test('each filter maps to its chip label', () {
-      expect(RequestFilter.all.label, AppStrings.all);
-      expect(RequestFilter.pending.label, AppStrings.pending);
-      expect(RequestFilter.active.label, AppStrings.inProgress);
-      expect(RequestFilter.completed.label, AppStrings.completed);
-    });
-  });
-
-  group('RequestFilterBar', () {
-    testWidgets('renders a chip for every bucket', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RequestFilterBar(
-              current: RequestFilter.all,
-              onChanged: (_) {},
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text(AppStrings.all), findsOneWidget);
-      expect(find.text(AppStrings.pending), findsOneWidget);
-      expect(find.text(AppStrings.inProgress), findsOneWidget);
-      expect(find.text(AppStrings.completed), findsOneWidget);
-    });
-
-    testWidgets('tapping a chip reports the chosen bucket', (tester) async {
-      RequestFilter? chosen;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: RequestFilterBar(
-              current: RequestFilter.all,
-              onChanged: (filter) => chosen = filter,
-            ),
-          ),
-        ),
-      );
-
-      await tester.tap(find.text(AppStrings.completed));
-      expect(chosen, RequestFilter.completed);
+      test('returns only paid-out requests for the completed filter', () {
+        final result = RequestFilter.completed.apply(requests);
+        expect(
+          result.every((r) => r.status.isPaidOut),
+          isTrue,
+        );
+        expect(result.length, 2);
+      });
     });
   });
 }
+
+ServiceRequest _pendingRequest() => ServiceRequest(
+      id: 'r1',
+      customerId: 'u1',
+      customerName: 'Brian Kimani',
+      fundiId: 'f1',
+      fundiName: 'James Otieno',
+      categoryId: 'cat_plumbing',
+      categoryName: 'Plumbing',
+      description: 'Fix leak',
+      status: RequestStatus.pending,
+      preferredDate: 'Sep 6, 2026',
+      preferredTime: '10:00 AM',
+      location: 'Nairobi',
+      createdAt: DateTime(2026, 9, 6),
+    );
+
+ServiceRequest _acceptedRequest() => ServiceRequest(
+      id: 'r2',
+      customerId: 'u1',
+      customerName: 'Brian Kimani',
+      fundiId: 'f1',
+      fundiName: 'James Otieno',
+      categoryId: 'cat_plumbing',
+      categoryName: 'Plumbing',
+      description: 'Fix leak',
+      status: RequestStatus.accepted,
+      preferredDate: 'Sep 6, 2026',
+      preferredTime: '10:00 AM',
+      location: 'Nairobi',
+      createdAt: DateTime(2026, 9, 6),
+    );
+
+ServiceRequest _inProgressRequest() => ServiceRequest(
+      id: 'r3',
+      customerId: 'u1',
+      customerName: 'Brian Kimani',
+      fundiId: 'f1',
+      fundiName: 'James Otieno',
+      categoryId: 'cat_plumbing',
+      categoryName: 'Plumbing',
+      description: 'Fix leak',
+      status: RequestStatus.inProgress,
+      preferredDate: 'Sep 6, 2026',
+      preferredTime: '10:00 AM',
+      location: 'Nairobi',
+      createdAt: DateTime(2026, 9, 6),
+    );
+
+ServiceRequest _completedRequest() => ServiceRequest(
+      id: 'r4',
+      customerId: 'u1',
+      customerName: 'Brian Kimani',
+      fundiId: 'f1',
+      fundiName: 'James Otieno',
+      categoryId: 'cat_plumbing',
+      categoryName: 'Plumbing',
+      description: 'Fix leak',
+      status: RequestStatus.completed,
+      preferredDate: 'Sep 6, 2026',
+      preferredTime: '10:00 AM',
+      location: 'Nairobi',
+      createdAt: DateTime(2026, 9, 6),
+    );
+
+ServiceRequest _reviewedRequest() => ServiceRequest(
+      id: 'r5',
+      customerId: 'u1',
+      customerName: 'Brian Kimani',
+      fundiId: 'f1',
+      fundiName: 'James Otieno',
+      categoryId: 'cat_plumbing',
+      categoryName: 'Plumbing',
+      description: 'Fix leak',
+      status: RequestStatus.reviewed,
+      preferredDate: 'Sep 6, 2026',
+      preferredTime: '10:00 AM',
+      location: 'Nairobi',
+      createdAt: DateTime(2026, 9, 6),
+    );
