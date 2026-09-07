@@ -21,6 +21,15 @@ class Fundi {
   final List<String> serviceTags;
   final List<String> portfolioImages;
 
+  /// Returns true if the fundi's profile image is a remote URL.
+  bool get hasRemoteAvatar => avatarUrl != null && avatarUrl!.startsWith('http');
+
+  /// Returns a short tagline built from the service tags.
+  String get tagline {
+    if (serviceTags.isEmpty) return '';
+    return serviceTags.take(3).join(', ');
+  }
+
   const Fundi({
     required this.id,
     required this.fullName,
