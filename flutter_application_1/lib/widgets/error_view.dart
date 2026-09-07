@@ -75,21 +75,25 @@ class ErrorView extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: AppDimensions.spaceL),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OutlinedButton(
-                  onPressed: onRetry,
-                  style: buttonStyle,
-                  child: Text(AppStrings.retry),
-                ),
-                if (widget.addAction != null) ...[
-                          const SizedBox(width: AppDimensions.spaceM),
-                          _ActionResult(action: widget.addAction!),
-                        ],
-              ],
-            ),
+            const SizedBox(height: AppDimensions.spaceL),            if (widget.addAction != null) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: onRetry,
+                    style: buttonStyle,
+                    child: Text(AppStrings.retry),
+                  ),
+                  const SizedBox(width: AppDimensions.spaceM),
+                  _ActionResult(action: widget.addAction!),
+                ],
+              ),
+            ] else
+              OutlinedButton(
+                onPressed: onRetry,
+                style: buttonStyle,
+                child: Text(AppStrings.retry),
+              ),
           ],
         ),
       ),
