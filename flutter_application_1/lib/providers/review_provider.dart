@@ -12,17 +12,32 @@ class ReviewProvider extends ChangeNotifier {
 
   final Map<String, List<Review>> _byFundi = {};
   bool _loading = false;
+  String? _error;
 
   bool get isLoading => _loading;
+  String? get error => _error;
 
   List<Review> reviewsFor(String fundiId) => _byFundi[fundiId] ?? const [];
 
+  /// Average rating across the cached reviews for a fundi (0 when none).
+  double averageFor(String fundiId) {
+    final reviews = _byFundi[fundiId];
+    if (reviews == null || reviews.isEmpty) return 0;
+    return reviews.fold<double>(0, (sum, r) => sum + r.rating) / reviews.length;
+  }
+
   Future<void> loadReviews(String fundiId) async {
     _loading = true;
+    _error = null;
     notifyListeners();
-    _byFundi[fundiId] = await _repository.getReviewsForFundi(fundiId);
-    _loading = false;
-    notifyListeners();
+    try {
+      _byFundi[fundiId] = await _repository.getReviewsForFundi(fundiId);
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> addReview({
