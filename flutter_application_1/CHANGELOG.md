@@ -32,19 +32,28 @@ All notable changes to FundiLink are documented here. This project follows
   always showing "Customer".
 - Fundi jobs and dashboard activity open the fundi-side request detail
   (accept/start/complete) rather than the customer actions screen.
+- The fundi demo account shares the seeded fundi id, so its workspace loads
+  requests, jobs and earnings instead of empty state.
 
 ### Tests
 - Added provider tests for auth, chat, fundi, notifications, requests,
   reviews and settings.
-- Added unit tests for `Helpers`, the request-status helpers and the shared
-  `RequestFilterBar`.
-- Added widget tests for `FundiAvatar`.
+- Added unit tests for `Helpers`, the request-status helpers, the shared
+  `RequestFilterBar` and the new repository filters.
+- Added widget tests for `FundiAvatar` and the onboarding carousel.
 
 ### Internal
 - `RequestStatus` exposes `isActive`/`isPaidOut` used by filters, jobs,
   earnings, providers and the repository.
-- The dashboard reuses the shared `SectionHeader` and profile/settings share
-  one `signOut` action.
+- The dashboard reuses the shared `SectionHeader`, reviews share one
+  `ReviewTile`, and profile/settings share one `signOut` action.
+- The home build caches its curated fundi lists instead of re-sorting per
+  list item.
+
+### Added
+- Search now opens the filter sheet and supports available/verified/rating/
+  price filters.
+- The weekly earnings chart has a labelled "This week" heading.
 
 ## [1.0.0] - 2026-09-05
 
