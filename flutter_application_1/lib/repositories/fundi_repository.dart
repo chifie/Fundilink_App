@@ -13,6 +13,57 @@ class FundiRepository {
     return List.of(MockData.categories);
   }
 
+  /// Counts how many fundis match a query before fetching the full list.
+  Future<int> countFundis({
+    String? categoryId,
+    String? query,
+    String? location,
+    bool? onlyAvailable,
+    bool? onlyVerified,
+    double? minRating,
+    double? maxPrice,
+  }) async {
+    await Future<void>.delayed(_latency);
+    var results = List<Fundi>.of(MockData.fundis);
+
+    if (categoryId != null && categoryId.isNotEmpty) {
+      results = results.where((f) => f.categoryId == categoryId).toList();
+    }
+
+    final search = query?.trim().toLowerCase() ?? '';
+    if (search.isNotEmpty) {
+      results = results.where((f) {
+        final haystack =
+            '${f.fullName} ${f.categoryName} ${f.location} '
+                    '${f.serviceTags.join(' ')}'
+                .toLowerCase();
+        return haystack.contains(search);
+      }).toList();
+    }
+
+    if (location != null && location.isNotEmpty) {
+      final area = location.trim().toLowerCase();
+      results = results
+          .where((f) => f.city.toLowerCase().contains(area))
+          .toList();
+    }
+
+    if (onlyAvailable == true) {
+      results = results.where((f) => f.isAvailable).toList();
+    }
+    if (onlyVerified == true) {
+      results = results.where((f) => f.verified).toList();
+    }
+    if (minRating != null) {
+      results = results.where((f) => f.rating >= minRating).toList();
+    }
+    if (maxPrice != null) {
+      results = results.where((f) => f.startingPrice <= maxPrice).toList();
+    }
+
+    return results.length;
+  }
+
   Future<List<Fundi>> getFundis({
     String? categoryId,
     String? query,
