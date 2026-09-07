@@ -54,6 +54,15 @@ All notable changes to FundiLink are documented here. This project follows
 - Search now opens the filter sheet and supports available/verified/rating/
   price filters.
 - The weekly earnings chart has a labelled "This week" heading.
+- Kenyan-shillings currency alias and currency code constants.
+- Weekend check helper on DateHelper.
+- maskedEmail helper on User and shortComment excerpt on Review.
+- isUnread flag on NotificationItem, isFromMe on ChatMessage.
+- countFundis and todaysEarnings helpers on the repositories.
+- isBusy alias on AuthProvider, hasResults flag on FundiProvider.
+- isHighRating flag on RatingStars, _buildIcon on EmptyState.
+- randomElement helper on ListExtensions and debouncer isActive flag.
+- more model and provider unit tests.
 
 ## [1.0.0] - 2026-09-05
 
