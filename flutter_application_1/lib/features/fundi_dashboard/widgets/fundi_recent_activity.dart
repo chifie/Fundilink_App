@@ -5,7 +5,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../models/service_request.dart';
 import '../../../widgets/status_chip.dart';
-import '../../customer_requests/screens/request_detail_screen.dart';
+import '../../fundi_requests/screens/fundi_request_detail_screen.dart';
 
 /// Shows the most recent fundi requests as a compact list.
 class FundiRecentActivity extends StatelessWidget {
@@ -45,7 +45,7 @@ class _ActivityTile extends StatelessWidget {
       child: ListTile(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder: (_) => RequestDetailScreen(request: request),
+            builder: (_) => FundiRequestDetailScreen(request: request),
           ),
         ),
         leading: CircleAvatar(

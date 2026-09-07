@@ -12,7 +12,7 @@ import '../../../providers/request_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/shimmer_loading.dart';
 import '../../../widgets/status_chip.dart';
-import '../../customer_requests/screens/request_detail_screen.dart';
+import '../../fundi_requests/screens/fundi_request_detail_screen.dart';
 
 /// Active and completed jobs for the signed-in fundi.
 class FundiJobsScreen extends StatelessWidget {
@@ -119,7 +119,7 @@ class _JobList extends StatelessWidget {
             child: ListTile(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (_) => RequestDetailScreen(request: request),
+                  builder: (_) => FundiRequestDetailScreen(request: request),
                 ),
               ),
               leading: CircleAvatar(
