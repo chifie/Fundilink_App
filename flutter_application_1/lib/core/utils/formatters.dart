@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+import '../extensions/datetime_extensions.dart';
+
 /// Display helpers for currency, dates and relative time.
 class Formatters {
   Formatters._();
@@ -24,13 +26,9 @@ class Formatters {
   static String dateTime(DateTime date) =>
       '${_shortDate.format(date)} · ${_time.format(date)}';
 
-  /// Compact human-friendly relative time, e.g. "2h ago", "just now".
-  static String timeAgo(DateTime date) {
-    final diff = DateTime.now().difference(date);
-    if (diff.inSeconds < 60) return 'just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    if (diff.inDays < 7) return '${diff.inDays}d ago';
-    return _shortDate.format(date);
-  }
+  /// Compact human-friendly relative time, e.g. "2h ago", "1w ago".
+  ///
+  /// Delegates to [DateTimeExtensions.timeAgo] so all relative-time labels
+  /// come from one implementation.
+  static String timeAgo(DateTime date) => date.timeAgo;
 }
