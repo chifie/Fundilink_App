@@ -42,4 +42,11 @@ void main() {
       expect(Formatters.shortDate(DateTime(2026, 9, 4)), 'Sep 4');
     });
   });
+
+  group('Formatters.kenyanShillings', () {
+    test('is an alias for currency formatting', () {
+      expect(Formatters.kenyanShillings(800), 'KES 800');
+      expect(Formatters.kenyanShillings(1200), 'KES 1,200');
+    });
+  });
 }
