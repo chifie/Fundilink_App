@@ -59,19 +59,25 @@ class ErrorView extends StatelessWidget {
   /// Affects the icon and color scheme. Defaults to true.
   final bool isError;
 
+  /// Duration of the fade-in animation. Defaults to 300ms.
+  final Duration animationDuration;
+
+  /// Initial opacity for the fade-in animation. Defaults to 0.0.
+  final double initialOpacity;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final iconColor = isError
         ? colorScheme.onSurfaceVariant
         : colorScheme.onWarning;
+    final animDuration = animationDuration;
 
-    return Center(
-      child: Padding(
-        padding: padding,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+    Widget content = Padding(
+      padding: padding,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
             Icon(
               icon,
               size: iconSize,
@@ -110,6 +116,8 @@ class ErrorView extends StatelessWidget {
         ),
       ),
     );
+
+    return Center(child: content);
   }
 }
 
