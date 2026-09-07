@@ -9,6 +9,12 @@ extension ListExtensions<T> on List<T> {
     return chunks;
   }
 
+  /// Returns a random element from the list, or null if empty.
+  T? randomElement() {
+    if (isEmpty) return null;
+    return this[DateTime.now().millisecond % length];
+  }
+
   /// Returns distinct elements based on a key selector.
   List<T> distinctBy(dynamic Function(T) keySelector) {
     final seen = <dynamic>{};
