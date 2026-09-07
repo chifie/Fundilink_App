@@ -59,6 +59,23 @@ class RatingStars extends StatelessWidget {
   /// Returns the fractional part of the rating for half-star display.
   double get fractionalPart => (rating - fullStars).clamp(0.0, 1.0);
 
+  /// Returns a list of (index, isFilled) pairs for all stars.
+  List<(int, bool)> get starStates {
+    return List.generate(maxRating, (index) {
+      final starValue = index + 1;
+      return (index, rating >= starValue - halfStarThreshold);
+    });
+  }
+
+  /// Returns whether to show a half-star for the given position.
+  bool hasHalfStarAt(int position) {
+    final starValue = position + 1;
+    return rating < starValue && rating >= starValue - halfStarThreshold;
+  }
+
+  /// Returns the display string for the rating (e.g., "4.5").
+  String get displayValue => rating.toStringAsFixed(1);
+
   @override
   Widget build(BuildContext context) {
     final effectiveFilledColor = starFilledColor ?? AppColors.starFilled;
