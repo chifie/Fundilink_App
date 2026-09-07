@@ -217,6 +217,8 @@ class AppStrings {
   static const String noReviews = 'No reviews yet';
   static const String noReviewsHint =
       'Reviews from customers will appear here.';
+  static const String totalLabel = 'total';
+  static const String chatStartFailed = 'Could not start the conversation.';
   static const String reviewThanks = 'Thanks for your review!';
   static const String reviewSubmitFailed =
       'Could not submit your review. Please try again.';

@@ -14,6 +14,7 @@ import '../../../providers/chat_provider.dart';
 import '../../../providers/fundi_provider.dart';
 import '../../../providers/request_provider.dart';
 import '../../../providers/review_provider.dart';
+import '../../../widgets/feedback/toast.dart';
 import '../../../widgets/fundi_avatar.dart';
 import '../../../widgets/rating_stars.dart';
 import '../../../widgets/review_tile.dart';
@@ -46,7 +47,6 @@ class _FundiProfileScreenState extends State<FundiProfileScreen> {
   Future<void> _startChat() async {
     final user = context.read<AuthProvider>().user;
     if (user == null) return;
-    final messenger = ScaffoldMessenger.of(context);
     final chat = context.read<ChatProvider>();
     try {
       // Find an existing request to this fundi, if any.
@@ -78,9 +78,9 @@ class _FundiProfileScreenState extends State<FundiProfileScreen> {
         ),
       );
     } catch (_) {
-      messenger.showSnackBar(
-        const SnackBar(content: Text('Could not start the conversation.')),
-      );
+      if (context.mounted) {
+        Toast.showError(context, AppStrings.chatStartFailed);
+      }
     }
   }
 
@@ -487,7 +487,9 @@ class _ReviewsSection extends StatelessWidget {
         children: [
           SectionHeader(
             title: AppStrings.reviews,
-            actionLabel: reviews.isEmpty ? null : '${reviews.length} total',
+            actionLabel: reviews.isEmpty
+                ? null
+                : '${reviews.length} ${AppStrings.totalLabel}',
           ),
           const SizedBox(height: AppDimensions.spaceS),
           if (reviews.isEmpty)
