@@ -6,6 +6,7 @@ import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 import '../core/constants/app_strings.dart';
 import '../providers/review_provider.dart';
+import 'feedback/toast.dart';
 
 /// Opens the shared bottom sheet used to rate a fundi after a completed job.
 Future<void> showWriteReviewSheet(
@@ -61,8 +62,10 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
       );
       navigator.pop();
       messenger.showSnackBar(
-        const SnackBar(content: Text('Thanks for your review!')),
+        const SnackBar(content: Text(AppStrings.reviewThanks)),
       );
+    } catch (_) {
+      if (mounted) Toast.showError(context, AppStrings.reviewSubmitFailed);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }

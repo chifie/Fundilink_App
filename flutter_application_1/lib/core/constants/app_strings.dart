@@ -217,6 +217,9 @@ class AppStrings {
   static const String noReviews = 'No reviews yet';
   static const String noReviewsHint =
       'Reviews from customers will appear here.';
+  static const String reviewThanks = 'Thanks for your review!';
+  static const String reviewSubmitFailed =
+      'Could not submit your review. Please try again.';
   static const String averageRating = 'Average Rating';
 
   // Fundi Dashboard
