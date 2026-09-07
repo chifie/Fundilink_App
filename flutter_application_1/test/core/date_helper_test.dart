@@ -46,4 +46,21 @@ void main() {
       expect(DateHelper.isSameDay(a, c), isFalse);
     });
   });
+
+  group('DateHelper.isWeekend', () {
+    test('recognises Saturday', () {
+      final saturday = DateTime(2026, 9, 12);
+      expect(DateHelper.isWeekend(saturday), isTrue);
+    });
+
+    test('recognises Sunday', () {
+      final sunday = DateTime(2026, 9, 13);
+      expect(DateHelper.isWeekend(sunday), isTrue);
+    });
+
+    test('returns false for a weekday', () {
+      final monday = DateTime(2026, 9, 7);
+      expect(DateHelper.isWeekend(monday), isFalse);
+    });
+  });
 }
