@@ -68,6 +68,15 @@ class EmptyState extends StatefulWidget {
   /// Optional semantic label for accessibility.
   final String? addSemanticLabel;
 
+  /// Optional custom color for the icon container background.
+  final Color? containerColor;
+
+  /// Optional custom color for the icon itself.
+  final Color? iconColor;
+
+  /// Optional feather icon for the empty state.
+  final IconData? featherIcon;
+
   @override
   State<EmptyState> createState() => _EmptyStateState();
 }
@@ -135,18 +144,19 @@ class _EmptyStateState extends State<EmptyState>
             width: iconContainerSize,
             height: iconContainerSize,
             child: ScaleTransition(
-              scale: _bounceAnimation,
-              child: Container(
+              scale: _bounceAnimation,                child: Container(
                 width: iconContainerSize,
                 height: iconContainerSize,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  color: widget.containerColor ?=
+                      Theme.of(context).colorScheme.surfaceContainerHighest,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   widget.icon,
                   size: iconSize,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: widget.iconColor ?=
+                      Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
