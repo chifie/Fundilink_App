@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
+import '../core/extensions/string_extensions.dart';
 import '../core/utils/helpers.dart';
 
 /// Deterministic avatar: shows a network photo when available and otherwise
@@ -34,7 +35,7 @@ class FundiAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = imageUrl;
-    final initials = Helpers.initials(name);
+    final initials = name.initials;
     final fallbackColor = _palette[Helpers.colorSeed(name) % _palette.length];
 
     final fallback = CircleAvatar(
