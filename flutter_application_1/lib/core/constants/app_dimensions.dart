@@ -1,3 +1,6 @@
+/// App dimension constants for consistent spacing and sizing.
+///
+/// All spacing values are multiples of 4dp so the layout scales evenly.
 class AppDimensions {
   AppDimensions._();
 
