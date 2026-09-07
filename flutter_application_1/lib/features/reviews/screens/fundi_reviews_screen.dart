@@ -9,6 +9,7 @@ import '../../../models/review.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/review_provider.dart';
 import '../../../widgets/empty_state.dart';
+import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_avatar.dart';
 import '../../../widgets/rating_stars.dart';
 
@@ -35,20 +36,20 @@ class _FundiReviewsScreenState extends State<FundiReviewsScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
-    final reviews = context.watch<ReviewProvider>().reviewsFor(user?.id ?? '');
-    final isLoading = context.watch<ReviewProvider>().isLoading;
-
-    // Calculate average
-    double avgRating = 0;
-    if (reviews.isNotEmpty) {
-      avgRating =
-          reviews.fold<double>(0, (sum, r) => sum + r.rating) / reviews.length;
-    }
+    final provider = context.watch<ReviewProvider>();
+    final fundiId = user?.id ?? '';
+    final reviews = provider.reviewsFor(fundiId);
+    final avgRating = provider.averageFor(fundiId);
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.reviews)),
-      body: isLoading
+      body: provider.isLoading
           ? const Center(child: CircularProgressIndicator())
+          : provider.error != null && reviews.isEmpty
+          ? ErrorView(
+              message: provider.error,
+              onRetry: () => provider.loadReviews(fundiId),
+            )
           : reviews.isEmpty
           ? const EmptyState(
               icon: Icons.rate_review_outlined,
