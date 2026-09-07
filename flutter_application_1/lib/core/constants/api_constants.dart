@@ -1,3 +1,6 @@
+/// API endpoint constants.
+///
+/// Every path is versioned under /v1 so the backend contract is explicit.
 class ApiConstants {
   ApiConstants._();
 
