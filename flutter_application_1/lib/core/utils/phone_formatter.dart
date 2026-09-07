@@ -3,6 +3,9 @@ class PhoneFormatter {
   PhoneFormatter._();
 
   /// Formats a Kenyan phone number for display (e.g. "+254711223344" → "+254 711 223 344").
+  ///
+  /// Returns the input unchanged if it does not match a recognised Kenyan
+  /// or local-only format.
   static String format(String phone) {
     final cleaned = phone.replaceAll(RegExp(r'[^\d+]'), '');
     if (cleaned.startsWith('+254') && cleaned.length == 13) {
