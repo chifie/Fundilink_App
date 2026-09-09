@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
+import 'entrance_animation.dart';
 
 /// A horizontal bar showing key fundi stats (jobs, rating, years).
 class FundiStatsBar extends StatelessWidget {
@@ -30,28 +31,39 @@ class FundiStatsBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _StatItem(
-            icon: Icons.work_outline,
-            value: '$completedJobs',
-            label: 'Jobs',
+          EntranceAnimation(
+            child: _StatItem(
+              icon: Icons.work_outline,
+              value: '$completedJobs',
+              label: 'Jobs',
+            ),
           ),
           _divider(),
-          _StatItem(
-            icon: Icons.star_outline,
-            value: rating.toStringAsFixed(1),
-            label: 'Rating',
+          EntranceAnimation(
+            delay: const Duration(milliseconds: 80),
+            child: _StatItem(
+              icon: Icons.star_outline,
+              value: rating.toStringAsFixed(1),
+              label: 'Rating',
+            ),
           ),
           _divider(),
-          _StatItem(
-            icon: Icons.school_outlined,
-            value: '${yearsExperience}yr',
-            label: 'Experience',
+          EntranceAnimation(
+            delay: const Duration(milliseconds: 160),
+            child: _StatItem(
+              icon: Icons.school_outlined,
+              value: '${yearsExperience}yr',
+              label: 'Experience',
+            ),
           ),
           _divider(),
-          _StatItem(
-            icon: Icons.location_on_outlined,
-            value: 'Active',
-            label: 'Status',
+          EntranceAnimation(
+            delay: const Duration(milliseconds: 240),
+            child: _StatItem(
+              icon: Icons.location_on_outlined,
+              value: 'Active',
+              label: 'Status',
+            ),
           ),
         ],
       ),
