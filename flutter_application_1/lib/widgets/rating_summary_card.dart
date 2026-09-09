@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
+import 'animated_count_up.dart';
 import 'rating_stars.dart';
 
 /// Shows a rating summary with distribution bars (5★ to 1★).
@@ -40,8 +41,10 @@ class RatingSummaryCard extends StatelessWidget {
             width: 80,
             child: Column(
               children: [
-                Text(
-                  averageRating.toStringAsFixed(1),
+                AnimatedCountUp(
+                  value: averageRating,
+                  duration: const Duration(milliseconds: 700),
+                  formatter: (v) => v.toStringAsFixed(1),
                   style: const TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 36,
@@ -85,14 +88,21 @@ class RatingSummaryCard extends StatelessWidget {
                       Icon(Icons.star, size: 10, color: AppColors.starFilled),
                       const SizedBox(width: 4),
                       Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(2),
-                          child: LinearProgressIndicator(
-                            value: percentage,
-                            backgroundColor: AppColors.border,
-                            color: AppColors.forestGreen,
-                            minHeight: 6,
-                          ),
+                        child: TweenAnimationBuilder<double>(
+                          tween: Tween(begin: 0, end: percentage),
+                          duration: Duration(milliseconds: 500 + index * 80),
+                          curve: Curves.easeOutCubic,
+                          builder: (context, animatedValue, _) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(2),
+                              child: LinearProgressIndicator(
+                                value: animatedValue,
+                                backgroundColor: AppColors.border,
+                                color: AppColors.forestGreen,
+                                minHeight: 6,
+                              ),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(width: 4),
