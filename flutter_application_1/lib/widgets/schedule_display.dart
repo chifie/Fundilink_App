@@ -135,7 +135,7 @@ class ScheduleDisplay extends StatelessWidget {
               children: [
                 Text(
                   '${workingDays.join(daySeparator)}'
-                  '$timeSeparator${startTime}${timeSeparator}$endTime',
+                  '$timeSeparator$startTime$timeSeparator$endTime',
                   style: effectiveTitleStyle,
                 ),
                 if (showSummary) ...[

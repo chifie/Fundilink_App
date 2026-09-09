@@ -20,7 +20,7 @@ class PriceTag extends StatelessWidget {
     this.borderRadius,
     this.showCurrencySymbol = true,
     this.onTap,
-    this.elevation,
+    this.elevation = 0,
   });
 
   /// The price text to display (e.g., 'Starting at $25').
@@ -62,7 +62,6 @@ class PriceTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final effectiveBackgroundColor = backgroundColor ?? AppColors.primarySurface;
     final effectiveTextColor = textColor ?? AppColors.primary;
     final effectiveFontSize = fontSize ?? (compact ? 11 : 13);

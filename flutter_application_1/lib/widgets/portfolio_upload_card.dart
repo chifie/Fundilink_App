@@ -87,7 +87,6 @@ class PortfolioUploadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final effectiveIconColor = iconColor ?? AppColors.forestGreen;
     final effectiveTitleText = titleText ?? AppStrings.addWork;
     final effectiveSubtitleText = subtitleText ??
