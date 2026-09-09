@@ -163,6 +163,7 @@ class SkeletonCard extends StatelessWidget {
     this.imageRadius = 12,
     this.padding = const EdgeInsets.all(16),
     this.radius = 12,
+    this.width,
   });
 
   /// Height of the image placeholder.
@@ -183,48 +184,54 @@ class SkeletonCard extends StatelessWidget {
   /// Border radius of the card.
   final double radius;
 
+  /// Fixed width of the skeleton card.
+  final double? width;
+
   @override
   Widget build(BuildContext context) {
     return ShimmerLoading(
-      child: Container(
-        padding: padding,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(radius),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (showImage) ...[
-              Container(
-                height: imageHeight,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(imageRadius),
-                ),
-              ),
-              SizedBox(height: 16),
-            ],
-            ...List.generate(
-              textLines,
-              (index) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: index < textLines - 1 ? 8 : 0,
-                ),
-                child: Container(
-                  height: 14,
-                  width: index == textLines - 1
-                      ? MediaQuery.sizeOf(context).width * 0.7
-                      : MediaQuery.sizeOf(context).width * 0.9,
+      child: SizedBox(
+        width: width,
+        child: Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(radius),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (showImage) ...[
+                Container(
+                  height: imageHeight,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: AppColors.surfaceVariant,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(imageRadius),
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
+              ...List.generate(
+                textLines,
+                (index) => Padding(
+                  padding: EdgeInsets.only(
+                    bottom: index < textLines - 1 ? 8 : 0,
+                  ),
+                  child: Container(
+                    height: 14,
+                    width: index == textLines - 1
+                        ? MediaQuery.sizeOf(context).width * 0.7
+                        : MediaQuery.sizeOf(context).width * 0.9,
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceVariant,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

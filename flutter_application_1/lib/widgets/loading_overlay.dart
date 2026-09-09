@@ -19,7 +19,7 @@ class LoadingOverlay extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.useThemedColors = true,
     this.indicatorSize,
-    this.indicator strokeWidth,
+    this.indicatorStrokeWidth,
     this.indicatorColor,
     this.alwaysShowPlaceholder = false,
     this.placeholderWidget,
@@ -74,35 +74,53 @@ class LoadingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = useThemedColors ? Theme.of(context).colorScheme : null;
-    final bgColor = showBackground
-        ? (backgroundColor ?=
-            colorScheme?.onSurface.withValues(alpha: opacity) ?
-                Colors.black.withValues(alpha: opacity))
-        : Colors.transparent;
 
-    final effectivePadding = padding ?= EdgeInsets.symmetric(
-      horizontal: SizeUtils.responsivePadding(context, small: 16, medium: 24, large: 32),
-      vertical: SizeUtils.responsivePadding(context, small: 12, medium: 16, large: 24),
-    );
+    final Color bgColor;
+    if (showBackground) {
+      bgColor = backgroundColor ??
+          colorScheme?.onSurface.withValues(alpha: opacity) ??
+          Colors.black.withValues(alpha: opacity);
+    } else {
+      bgColor = Colors.transparent;
+    }
 
-    Widget indicatorWidget;
+    final effectivePadding = padding != EdgeInsets.zero
+        ? padding
+        : EdgeInsets.symmetric(
+            horizontal: SizeUtils.responsivePadding(
+              context,
+              small: 16,
+              medium: 24,
+              large: 32,
+            ),
+            vertical: SizeUtils.responsivePadding(
+              context,
+              small: 12,
+              medium: 16,
+              large: 24,
+            ),
+          );
+
+    final Widget indicatorWidget;
     if (indicator != null) {
       indicatorWidget = indicator!;
     } else {
-      final indicatorSize = this.indicatorSize ?= 40.0;
-      final strokeWidth = this.indicatorStrokeWidth ?= 4.0;
-      final indicatorColorValue = indicatorColor ?= colorScheme?.primary ?= Colors.blue;
+      final size = indicatorSize ?? 40.0;
+      final strokeWidth = indicatorStrokeWidth ?? 4.0;
+      final colorValue = indicatorColor ??
+          colorScheme?.primary ??
+          Colors.blue;
 
       indicatorWidget = Card(
-        color: colorScheme?.surface ?= Colors.white,
+        color: colorScheme?.surface ?? Colors.white,
         elevation: 4,
         child: Padding(
-          padding: EdgeInsets.all(indicatorSize * 0.3),
+          padding: EdgeInsets.all(size * 0.3),
           child: SizedBox(
-            width: indicatorSize,
-            height: indicatorSize,
+            width: size,
+            height: size,
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(indicatorColorValue),
+              valueColor: AlwaysStoppedAnimation<Color>(colorValue),
               strokeWidth: strokeWidth,
             ),
           ),
@@ -110,7 +128,11 @@ class LoadingOverlay extends StatelessWidget {
       );
     }
 
-    Widget content = Stack(
+    if (!isLoading && !alwaysShowPlaceholder) {
+      return child;
+    }
+
+    return Stack(
       children: [
         child,
         if (isLoading || alwaysShowPlaceholder)
@@ -122,16 +144,12 @@ class LoadingOverlay extends StatelessWidget {
             alignment: alignment,
             child: Padding(
               padding: effectivePadding,
-              child: isLoading ? indicatorWidget : (placeholderWidget ?= SizedBox.shrink()),
+              child: isLoading
+                  ? indicatorWidget
+                  : (placeholderWidget ?? const SizedBox.shrink()),
             ),
           ),
       ],
     );
-
-    if (!isLoading && !alwaysShowPlaceholder) {
-      return child;
-    }
-
-    return content;
   }
 }
