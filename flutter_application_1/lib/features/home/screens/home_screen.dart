@@ -12,6 +12,7 @@ import '../../../models/service_category.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/fundi_provider.dart';
 import '../../../providers/notification_provider.dart';
+import '../../../widgets/entrance_animation.dart';
 import '../../../widgets/error_view.dart';
 import '../../../widgets/fundi_card.dart';
 import '../../../widgets/section_header.dart';
@@ -81,17 +82,26 @@ class HomeScreen extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.only(bottom: AppDimensions.paddingXL),
                 children: [
-                  _Greeting(name: user?.fullName ?? 'there'),
+                  EntranceAnimation(
+                    child: _Greeting(name: user?.fullName ?? 'there'),
+                  ),
                   const SizedBox(height: AppDimensions.spaceM),
-                  _HeroSearch(
-                    onTap: () => CustomerTabs.goTo(CustomerTabs.search),
+                  EntranceAnimation(
+                    delay: const Duration(milliseconds: 80),
+                    child: _HeroSearch(
+                      onTap: () => CustomerTabs.goTo(CustomerTabs.search),
+                    ),
                   ),
                   const SizedBox(height: AppDimensions.spaceXL),
                   if (categories.isNotEmpty) ...[
-                    SectionHeader(
-                      title: AppStrings.popularCategories,
-                      actionLabel: AppStrings.viewAll,
-                      onActionTap: () => CustomerTabs.goTo(CustomerTabs.search),
+                    EntranceAnimation(
+                      delay: const Duration(milliseconds: 160),
+                      child: SectionHeader(
+                        title: AppStrings.popularCategories,
+                        actionLabel: AppStrings.viewAll,
+                        onActionTap: () =>
+                            CustomerTabs.goTo(CustomerTabs.search),
+                      ),
                     ),
                     const SizedBox(height: AppDimensions.spaceM),
                     _CategoryGrid(categories: categories),
@@ -113,9 +123,14 @@ class HomeScreen extends StatelessWidget {
                             const SizedBox(width: AppDimensions.spaceM),
                         itemBuilder: (context, index) {
                           final fundi = recommended[index];
-                          return FundiCardCompact(
-                            fundi: fundi,
-                            onTap: () => _openFundi(context, fundi),
+                          return EntranceAnimation(
+                            delay: Duration(
+                              milliseconds: (index * 70).clamp(0, 420),
+                            ),
+                            child: FundiCardCompact(
+                              fundi: fundi,
+                              onTap: () => _openFundi(context, fundi),
+                            ),
                           );
                         },
                       ),
@@ -126,8 +141,10 @@ class HomeScreen extends StatelessWidget {
                     const SectionHeader(title: AppStrings.nearbyFundi),
                     const SizedBox(height: AppDimensions.spaceS),
                     for (var i = 0; i < nearby.length; i++)
-                      _StaggeredItem(
-                        index: i,
+                      EntranceAnimation(
+                        delay: Duration(
+                          milliseconds: (i * 70).clamp(0, 420),
+                        ),
                         child: FundiCard(
                           fundi: nearby[i],
                           onTap: () => _openFundi(context, nearby[i]),
@@ -438,50 +455,4 @@ class _LoadingSkeleton extends StatelessWidget {
   }
 }
 
-/// Wraps a child widget with a staggered fade-in-slide animation.
-class _StaggeredItem extends StatefulWidget {
-  const _StaggeredItem({required this.index, required this.child});
 
-  final int index;
-  final Widget child;
-
-  @override
-  State<_StaggeredItem> createState() => _StaggeredItemState();
-}
-
-class _StaggeredItemState extends State<_StaggeredItem>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _opacity;
-  late final Animation<Offset> _slide;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _opacity = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-    _slide = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
-    // Start the animation after a staggered delay using the ticker.
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacity,
-      child: SlideTransition(position: _slide, child: widget.child),
-    );
-  }
-}

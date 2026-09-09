@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 /// Animates a child into view with a fade, slide and subtle scale.
@@ -45,6 +47,7 @@ class _EntranceAnimationState extends State<EntranceAnimation>
   late final Animation<double> _opacity;
   late final Animation<Offset> _slide;
   late final Animation<double> _scale;
+  Timer? _delayTimer;
 
   @override
   void initState() {
@@ -72,6 +75,7 @@ class _EntranceAnimationState extends State<EntranceAnimation>
   }
 
   void _start() {
+    _delayTimer?.cancel();
     _controller.stop();
     _controller.value = 0;
     if (!widget.animate) {
@@ -81,7 +85,7 @@ class _EntranceAnimationState extends State<EntranceAnimation>
     if (widget.delay == Duration.zero) {
       _controller.forward();
     } else {
-      Future.delayed(widget.delay, () {
+      _delayTimer = Timer(widget.delay, () {
         if (mounted) _controller.forward();
       });
     }
@@ -89,6 +93,7 @@ class _EntranceAnimationState extends State<EntranceAnimation>
 
   @override
   void dispose() {
+    _delayTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
