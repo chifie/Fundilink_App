@@ -69,10 +69,11 @@ class FundiAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = imageUrl;
+    final hasImage = url != null && url.isNotEmpty;
     final initials = name.initials;
     final effectiveDiameter = diameter > 0 ? diameter : radius * 2;
     final effectiveRadius = effectiveDiameter / 2;
-    final fallbackColor = backgroundColor ??=
+    final fallbackColor = backgroundColor ??
         _palette[Helpers.colorSeed(name) % _palette.length];
 
     final defaultTextStyle = textStyle ??
@@ -84,15 +85,13 @@ class FundiAvatar extends StatelessWidget {
 
     Widget avatar = CircleAvatar(
       radius: effectiveRadius,
-      backgroundColor: url == null || url.isEmpty
-          ? fallbackColor
-          : AppColors.surfaceVariant,
-      foregroundImage: url != null && url.isNotEmpty
-          ? NetworkImage(url)
+      backgroundColor: hasImage ? AppColors.surfaceVariant : fallbackColor,
+      foregroundImage: hasImage ? NetworkImage(url) : null,
+      onForegroundImageError: hasImage
+          ? (exception, stackTrace) {
+              // Silently fail - fall back to initials
+            }
           : null,
-      onForegroundImageError: (exception, stackTrace) {
-        // Silently fail - fall back to initials
-      },
       child: Text(
         initials,
         style: defaultTextStyle,
