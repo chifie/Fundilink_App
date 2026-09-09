@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
+import 'pressable_scale.dart';
 
 /// A reusable gradient header card with child content.
 ///
@@ -90,12 +91,15 @@ class GradientHeader extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: effectiveBorderRadius,
-          child: headerContent,
+      return PressableScale(
+        onTap: onTap,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: effectiveBorderRadius,
+            child: headerContent,
+          ),
         ),
       );
     }

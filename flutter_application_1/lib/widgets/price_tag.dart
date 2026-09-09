@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
+import 'pressable_scale.dart';
 
 /// A styled price tag displaying a fundi's starting price.
 ///
@@ -102,12 +103,15 @@ class PriceTag extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: effectiveBorderRadius,
-          child: tagContent,
+      return PressableScale(
+        onTap: onTap,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: effectiveBorderRadius,
+            child: tagContent,
+          ),
         ),
       );
     }
