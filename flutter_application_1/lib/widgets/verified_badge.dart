@@ -20,6 +20,7 @@ class VerifiedBadge extends StatelessWidget {
     this.borderRadius,
     this.elevation = 0,
     this.animate = false,
+    this.pulse = false,
   });
 
   /// Size of the verification icon. Defaults to 16.
@@ -54,6 +55,9 @@ class VerifiedBadge extends StatelessWidget {
 
   /// Whether to animate the badge on appear. Defaults to false.
   final bool animate;
+
+  /// Whether the badge gently pulses while visible. Defaults to false.
+  final bool pulse;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +121,50 @@ class VerifiedBadge extends StatelessWidget {
       );
     }
 
+    if (pulse) {
+      badgeContent = _Pulse(child: badgeContent);
+    }
+
     return badgeContent;
+  }
+}
+
+/// Repeats a gentle scale pulse around its child.
+class _Pulse extends StatefulWidget {
+  const _Pulse({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_Pulse> createState() => _PulseState();
+}
+
+class _PulseState extends State<_Pulse>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: Tween<double>(begin: 1.0, end: 1.15).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      ),
+      child: widget.child,
+    );
   }
 }
