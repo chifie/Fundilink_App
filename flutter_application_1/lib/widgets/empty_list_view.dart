@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'empty_state.dart';
+import 'entrance_animation.dart';
 
 /// A ListView wrapper that automatically shows an empty state when the list is empty.
 /// 
@@ -29,6 +30,7 @@ class EmptyListView<T> extends StatelessWidget {
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.mainAxisScrollDirection = Axis.vertical,
+    this.animateItems = false,
   });
 
   /// The list of items to display.
@@ -91,6 +93,10 @@ class EmptyListView<T> extends StatelessWidget {
   /// The axis along which the scroll view scrolls.
   final Axis mainAxisScrollDirection;
 
+  /// Whether list items animate in with a staggered entrance. Defaults to
+  /// false to keep long lists performant.
+  final bool animateItems;
+
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
@@ -128,8 +134,14 @@ class EmptyListView<T> extends StatelessWidget {
     final effectivePhysics = physics ?? const BouncingScrollPhysics();
     final effectiveCacheExtent = cacheExtent;
 
-    Widget itemBuilder(BuildContext context, int index) =>
-        buildItem(items[index], index);
+    Widget itemBuilder(BuildContext context, int index) {
+      final item = buildItem(items[index], index);
+      if (!animateItems) return item;
+      return EntranceAnimation(
+        delay: Duration(milliseconds: (index * 40).clamp(0, 360)),
+        child: item,
+      );
+    }
 
     Widget listContent;
     if (separatorBuilder != null) {
