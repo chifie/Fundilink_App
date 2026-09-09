@@ -4,22 +4,21 @@ import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 import '../core/constants/app_strings.dart';
 
-/**
- * Centred error state with a retry action for failed async loads.
- *
- * Displays an error icon, message, and retry button. The icon size,
- * button style, and spacing are all customizable.
- *
- * Example usage:
- * ```dart
- * ErrorView(
- *   message: 'Unable to load data',
- *   onRetry: () => loadData(),
- *   icon: Icons.error_outline,
- *   isError: true,
- * )
- * ```
- */
+/// Centred error state with a retry action for failed async loads.
+///
+/// Displays an error icon, message, and retry button. The icon size,
+/// button style, and spacing are all customizable. The whole view fades
+/// in when it first appears.
+///
+/// Example usage:
+/// ```dart
+/// ErrorView(
+///   message: 'Unable to load data',
+///   onRetry: () => loadData(),
+///   icon: Icons.error_outline,
+///   isError: true,
+/// )
+/// ```
 class ErrorView extends StatelessWidget {
   const ErrorView({
     super.key,
@@ -31,6 +30,8 @@ class ErrorView extends StatelessWidget {
     this.padding = const EdgeInsets.all(AppDimensions.paddingXL),
     this.addAction,
     this.isError = true,
+    this.animationDuration = const Duration(milliseconds: 300),
+    this.initialOpacity = 0.0,
   });
 
   /// The error message to display. Uses [AppStrings.somethingWentWrong]
@@ -70,68 +71,59 @@ class ErrorView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final iconColor = isError
         ? colorScheme.onSurfaceVariant
-        : colorScheme.onWarning;
-    final animDuration = animationDuration;
+        : AppColors.warning;
+
+    final retryButton = OutlinedButton(
+      onPressed: onRetry,
+      style: buttonStyle,
+      child: Text(AppStrings.retry),
+    );
 
     Widget content = Padding(
       padding: padding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-            Icon(
-              icon,
-              size: iconSize,
-              color: iconColor,
+          Icon(
+            icon,
+            size: iconSize,
+            color: iconColor,
+          ),
+          const SizedBox(height: AppDimensions.spaceM),
+          Text(
+            message ?? AppStrings.somethingWentWrong,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
-            const SizedBox(height: AppDimensions.spaceM),
-            Text(
-              message ?? AppStrings.somethingWentWrong,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: colorScheme.onSurfaceVariant,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(height: AppDimensions.spaceL),            if (widget.addAction != null) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton(
-                    onPressed: onRetry,
-                    style: buttonStyle,
-                    child: Text(AppStrings.retry),
-                  ),
-                  const SizedBox(width: AppDimensions.spaceM),
-                  _ActionResult(action: widget.addAction!),
-                ],
-              ),
-            ] else
-              OutlinedButton(
-                onPressed: onRetry,
-                style: buttonStyle,
-                child: Text(AppStrings.retry),
-              ),
-          ],
-        ),
+          ),
+          const SizedBox(height: AppDimensions.spaceL),
+          if (addAction != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                retryButton,
+                const SizedBox(width: AppDimensions.spaceM),
+                addAction!,
+              ],
+            )
+          else
+            retryButton,
+        ],
       ),
     );
 
-    return Center(child: content);
-  }
-}
-
-/// Wraps an action widget with proper press feedback.
-class _ActionResult extends StatelessWidget {
-  final Widget action;
-
-  const _ActionResult({required this.action});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => (action as InkWell).onTap?.call(),
-      child: action,
+    return Center(
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: initialOpacity.clamp(0.0, 1.0), end: 1.0),
+        duration: animationDuration,
+        curve: Curves.easeOut,
+        builder: (context, opacity, child) =>
+            Opacity(opacity: opacity, child: child),
+        child: content,
+      ),
     );
   }
 }
