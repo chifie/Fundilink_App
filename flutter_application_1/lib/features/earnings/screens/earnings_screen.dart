@@ -8,6 +8,7 @@ import '../../../core/utils/formatters.dart';
 import '../../../models/request_status_extension.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/animated_count_up.dart';
 import '../../../widgets/earnings_chart.dart';
 import '../../../widgets/shimmer_loading.dart';
 
@@ -86,8 +87,10 @@ class _EarningsScreenState extends State<EarningsScreen> {
                     ),
                   )
                 else
-                  Text(
-                    Formatters.currency(_totalEarnings ?? 0),
+                  AnimatedCountUp(
+                    value: _totalEarnings ?? 0,
+                    duration: const Duration(milliseconds: 900),
+                    formatter: (v) => Formatters.currency(v),
                     style: const TextStyle(
                       color: AppColors.textOnPrimary,
                       fontSize: 36,
