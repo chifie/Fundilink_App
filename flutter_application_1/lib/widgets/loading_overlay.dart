@@ -137,16 +137,23 @@ class LoadingOverlay extends StatelessWidget {
         child,
         if (isLoading || alwaysShowPlaceholder)
           Positioned.fill(
-            child: Container(color: bgColor),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: isLoading ? 1.0 : 0.0,
+              child: Container(color: bgColor),
+            ),
           ),
         if (isLoading || alwaysShowPlaceholder)
           Align(
             alignment: alignment,
             child: Padding(
               padding: effectivePadding,
-              child: isLoading
-                  ? indicatorWidget
-                  : (placeholderWidget ?? const SizedBox.shrink()),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: isLoading
+                    ? indicatorWidget
+                    : (placeholderWidget ?? const SizedBox.shrink()),
+              ),
             ),
           ),
       ],
