@@ -69,27 +69,37 @@ class RequestProgressTracker extends StatelessWidget {
                 child: Column(
                   children: [
                     // Circle
-                    Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: i <= currentIndex
-                            ? AppColors.forestGreen
-                            : AppColors.surfaceVariant,
-                        border: Border.all(
+                    TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0.9, end: 1.0),
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.elasticOut,
+                      builder: (context, scale, child) {
+                        return Transform.scale(scale: scale, child: child);
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                        width: 28,
+                        height: 28,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
                           color: i <= currentIndex
                               ? AppColors.forestGreen
-                              : AppColors.border,
-                          width: 2,
+                              : AppColors.surfaceVariant,
+                          border: Border.all(
+                            color: i <= currentIndex
+                                ? AppColors.forestGreen
+                                : AppColors.border,
+                            width: 2,
+                          ),
                         ),
-                      ),
-                      child: Icon(
-                        _steps[i].$3,
-                        size: 14,
-                        color: i <= currentIndex
-                            ? AppColors.textOnPrimary
-                            : AppColors.textHint,
+                        child: Icon(
+                          _steps[i].$3,
+                          size: 14,
+                          color: i <= currentIndex
+                              ? AppColors.textOnPrimary
+                              : AppColors.textHint,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 4),
