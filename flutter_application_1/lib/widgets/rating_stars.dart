@@ -115,9 +115,16 @@ class RatingStars extends StatelessWidget {
     );
 
     if (animate) {
-      starRow = AnimatedOpacity(
-        duration: const Duration(milliseconds: 300),
-        opacity: 1.0,
+      starRow = TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: 1),
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.elasticOut,
+        builder: (context, t, child) {
+          return Opacity(
+            opacity: t,
+            child: Transform.scale(scale: 0.7 + 0.3 * t, child: child),
+          );
+        },
         child: starRow,
       );
     }
