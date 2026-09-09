@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 /// Utility class for network-related operations and connectivity checks.
 class NetworkUtils {
@@ -75,7 +74,7 @@ class NetworkUtils {
       }
 
       return NetworkResponse.success(
-        response.body,
+        response.body as T,
         response.statusCode,
         response.headers,
       );
@@ -142,7 +141,7 @@ class NetworkUtils {
       }
 
       return NetworkResponse.success(
-        response.body,
+        response.body as T,
         response.statusCode,
         response.headers,
       );
@@ -206,7 +205,7 @@ class NetworkUtils {
       }
 
       return NetworkResponse.success(
-        response.body,
+        response.body as T,
         response.statusCode,
         response.headers,
       );
@@ -254,21 +253,20 @@ class NetworkUtils {
       }
 
       final chunks = <Uint8List>[];
-      int totalBytes = streamedResponse.contentLength ?? 0;
+      final totalBytes = streamedResponse.contentLength ?? 0;
       int receivedBytes = 0;
 
-      await for (final chunk in streamedResponse.stream.toList().then(
-            (list) async {
-              for (final c in list) {
-                chunks.add(c);
-                receivedBytes += c.length;
-                onProgress?.call(receivedBytes, totalBytes);
-              }
-            },
-          ),
-        );
+      await for (final chunk in streamedResponse.stream) {
+        chunks.add(Uint8List.fromList(chunk));
+        receivedBytes += chunk.length;
+        onProgress?.call(receivedBytes, totalBytes);
+      }
 
-      final bytes = Uint8List.fromList(chunks.expand((i) => i).toList());
+      final builder = BytesBuilder(copy: false);
+      for (final chunk in chunks) {
+        builder.add(chunk);
+      }
+      final bytes = builder.toBytes();
 
       return NetworkResponse.success(
         bytes,
