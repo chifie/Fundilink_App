@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fundi_link/core/constants/app_strings.dart';
+import 'package:fundi_link/models/request_status_extension.dart';
 import 'package:fundi_link/models/service_request.dart';
 import 'package:fundi_link/widgets/requests/request_filter_bar.dart';
 
@@ -16,7 +16,7 @@ void main() {
     });
 
     group('apply', () {
-      late final List<ServiceRequest> requests;
+      late List<ServiceRequest> requests;
 
       setUp(() {
         requests = [
