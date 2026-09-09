@@ -93,6 +93,28 @@ All notable changes to FundiLink are documented here. This project follows
 - Added ListUtils utility class with comprehensive list manipulation helpers
 - Enhanced AppTheme with comprehensive theming and Material 3 support
 
+### Added
+- Animated splash screen with brand gradient, elastic logo pop-in, staggered
+  text reveal and pulsing loading dots.
+- New reusable animated widgets: `EntranceAnimation`, `AnimatedCountUp`,
+  `AnimatedProgressBar`, `GradientButton` and `PressableScale`.
+- Entrance animations on the home screen (greeting, hero search, section
+  headers and staggered fundi rows) and animated onboarding pages.
+- Press feedback on fundi cards, gradient headers and price tags.
+- Animated earnings count-up, chart bar growth, profile completion ring,
+  request progress steps, rating star pops and verified badge pulse.
+- Cross-fade loading states on the loading button, overlay and toast.
+- Dark mode now matches the light theme's component theming (inputs,
+  buttons, snackbars, dialogs, navigation) and default routes use a
+  consistent fade-forwards page transition.
+
+### Changed
+- `EntranceAnimation` uses cancellable timers for its stagger delay.
+
+### Tests
+- Added tests for `ListUtils`, `SizeUtils`, theme structure and the splash
+  screen, plus widget tests for all new animated widgets.
+
 ## [1.0.0] - 2026-09-05
 
 ### Added

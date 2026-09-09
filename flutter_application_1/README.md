@@ -21,6 +21,9 @@ profile, portfolio, availability, jobs and earnings.
   portfolio, availability, profile management and earnings.
 - **Chat** — conversations and threaded messages with fundis.
 - **Notifications & settings** — activity notifications and app preferences.
+- **Polished UI** — animated splash screen, staggered entrance animations,
+  press feedback, count-up stats, animated charts and progress rings, with a
+  fully themed dark mode.
 
 ## Getting Started
 
