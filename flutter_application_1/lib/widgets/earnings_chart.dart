@@ -72,15 +72,21 @@ class EarningsChart extends StatelessWidget {
                             ),
                           ),
                         ),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        height: height.clamp(2, 80),
-                        decoration: BoxDecoration(
-                          color: isToday
-                              ? AppColors.forestGreen
-                              : AppColors.forestGreen.withValues(alpha: 0.5),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0, end: height.clamp(2, 80)),
+                        duration: Duration(milliseconds: 400 + index * 60),
+                        curve: Curves.easeOutCubic,
+                        builder: (context, animatedHeight, _) {
+                          return Container(
+                            height: animatedHeight,
+                            decoration: BoxDecoration(
+                              color: isToday
+                                  ? AppColors.forestGreen
+                                  : AppColors.forestGreen.withValues(alpha: 0.5),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 4),
                       Text(
