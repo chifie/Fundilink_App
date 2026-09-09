@@ -85,9 +85,9 @@ class _LoadingButtonState extends State<LoadingButton> {
     final effectiveSpinnerColor = widget.spinnerColor ?? colorScheme.primary;
     final effectiveElevation = widget.elevation ?? (widget.isOutlined ? 0 : 2);
 
-    Widget buttonChild;
+    final Widget idleChild;
     if (widget.isLoading && widget.showSpinnerOverChild) {
-      buttonChild = Stack(
+      idleChild = Stack(
         alignment: Alignment.center,
         children: [
           Opacity(
@@ -107,11 +107,21 @@ class _LoadingButtonState extends State<LoadingButton> {
         ],
       );
     } else if (widget.isLoading) {
-      buttonChild =
-          widget.loadingIndicator ?? const SizedBox.shrink();
+      idleChild = widget.loadingIndicator ?? const SizedBox.shrink();
     } else {
-      buttonChild = widget.child;
+      idleChild = widget.child;
     }
+
+    // Fade between the idle content and the loading state.
+    final Widget buttonChild = AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      switchInCurve: Curves.easeOut,
+      switchOutCurve: Curves.easeIn,
+      child: KeyedSubtree(
+        key: ValueKey(widget.isLoading),
+        child: idleChild,
+      ),
+    );
 
     final backgroundColor = WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.disabled)) {
