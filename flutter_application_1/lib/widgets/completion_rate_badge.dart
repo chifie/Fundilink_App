@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
+import 'animated_count_up.dart';
 
 /// Shows a fundi's job completion rate as a visual badge.
 ///
@@ -115,14 +116,25 @@ class CompletionRateBadge extends StatelessWidget {
             const SizedBox(width: 4),
           ],
           if (showPercentage)
-            Text(
-              label ?? '$percentage% completion',
-              style: TextStyle(
-                color: effectiveTextColor,
-                fontSize: fontSize,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            animate
+                ? AnimatedCountUp(
+                    value: percentage.toDouble(),
+                    duration: const Duration(milliseconds: 700),
+                    formatter: (v) => label ?? '${v.round()}% completion',
+                    style: TextStyle(
+                      color: effectiveTextColor,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                : Text(
+                    label ?? '$percentage% completion',
+                    style: TextStyle(
+                      color: effectiveTextColor,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
         ],
       ),
     );
