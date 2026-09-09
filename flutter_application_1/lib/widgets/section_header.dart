@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/constants/app_colors.dart';
+import 'entrance_animation.dart';
 
 /// Screen-section heading with an optional trailing action link.
 ///
@@ -22,6 +23,7 @@ class SectionHeader extends StatelessWidget {
     this.dividerColor,
     this.actionPadding = const SizedBox(width: 8),
     this.alignAction = TextAlign.right,
+    this.animate = false,
   });
 
   /// The title text for the section header.
@@ -62,6 +64,9 @@ class SectionHeader extends StatelessWidget {
 
   /// Text alignment for the action. Defaults to right.
   final TextAlign alignAction;
+
+  /// Whether the header animates in on appear. Defaults to false.
+  final bool animate;
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +156,10 @@ class SectionHeader extends StatelessWidget {
           ),
         ],
       );
+    }
+
+    if (animate) {
+      return EntranceAnimation(child: headerContent);
     }
 
     return headerContent;
