@@ -193,14 +193,28 @@ class _EmptyStateState extends State<EmptyState>
           ],
           if (widget.actionLabel != null) ...[
             const SizedBox(height: AppDimensions.spaceXL),
-            Padding(
-              padding: widget.buttonPadding ??
-                  const EdgeInsets.symmetric(horizontal: 8),
-              child: SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  onPressed: widget.onAction,
-                  child: Text(widget.actionLabel!),
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOutCubic,
+              builder: (context, t, child) {
+                return Opacity(
+                  opacity: t,
+                  child: Transform.translate(
+                    offset: Offset(0, 12 * (1 - t)),
+                    child: child,
+                  ),
+                );
+              },
+              child: Padding(
+                padding: widget.buttonPadding ??
+                    const EdgeInsets.symmetric(horizontal: 8),
+                child: SizedBox(
+                  width: 200,
+                  child: ElevatedButton(
+                    onPressed: widget.onAction,
+                    child: Text(widget.actionLabel!),
+                  ),
                 ),
               ),
             ),
