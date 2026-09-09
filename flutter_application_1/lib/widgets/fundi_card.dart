@@ -30,6 +30,7 @@ class FundiCard extends StatelessWidget {
     this.cardBorderRadius,
     this.showCategory = true,
     this.animate = false,
+    this.elevation = 0,
   });
 
   /// The fundi data to display.
@@ -89,15 +90,15 @@ class FundiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveAvatarRadius = avatarRadius ?? 24;
-    final effectiveCardMargin = cardMargin ?=
+    final effectiveCardMargin = cardMargin ??
         EdgeInsets.symmetric(
           horizontal: AppDimensions.paddingM,
           vertical: AppDimensions.paddingS,
         );
-    final effectiveCardPadding = cardPadding ?= EdgeInsets.all(
+    final effectiveCardPadding = cardPadding ?? EdgeInsets.all(
       AppDimensions.paddingM,
     );
-    final effectiveCardBorderRadius = cardBorderRadius ?=
+    final effectiveCardBorderRadius = cardBorderRadius ??
         BorderRadius.circular(AppDimensions.cardRadius);
     final effectiveHeroTag = avatarHeroTag ?? 'fundi-avatar-${fundi.id}';
 

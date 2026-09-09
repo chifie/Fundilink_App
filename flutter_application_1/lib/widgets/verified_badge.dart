@@ -18,7 +18,7 @@ class VerifiedBadge extends StatelessWidget {
     this.backgroundColor,
     this.padding,
     this.borderRadius,
-    this.elevation,
+    this.elevation = 0,
     this.animate = false,
   });
 

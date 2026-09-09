@@ -19,7 +19,7 @@ class GradientHeader extends StatelessWidget {
     this.padding,
     this.height,
     this.width,
-    this.elevation,
+    this.elevation = 0,
     this.border,
     this.onTap,
   });

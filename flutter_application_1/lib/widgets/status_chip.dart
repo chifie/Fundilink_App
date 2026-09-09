@@ -19,7 +19,7 @@ class StatusChip extends StatelessWidget {
     this.labelStyle,
     this.iconSpacing = 4,
     this.onTap,
-    this.elevation,
+    this.elevation = 0,
   });
 
   /// The status to display.
@@ -62,7 +62,7 @@ class StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveBackgroundColor = backgroundColor ?? status.lightColor;
     final effectiveTextColor = textColor ?? status.color;
-    final effectivePadding = padding ?=
+    final effectivePadding = padding ??
         EdgeInsets.symmetric(
           horizontal: compact ? 8 : 10,
           vertical: compact ? 3 : 5,

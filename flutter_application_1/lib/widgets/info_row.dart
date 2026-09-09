@@ -23,7 +23,7 @@ class InfoRow extends StatelessWidget {
     this.onTap,
     this.showDivider = false,
     this.dividerColor,
-    this.elevation,
+    this.elevation = 0,
   });
 
   /// The icon to display.

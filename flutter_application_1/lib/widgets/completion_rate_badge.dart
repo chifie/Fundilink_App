@@ -22,7 +22,7 @@ class CompletionRateBadge extends StatelessWidget {
     this.borderRadius = 12,
     this.compactMode = false,
     this.label,
-    this.elevation,
+    this.elevation = 0,
     this.animate = false,
   });
 
