@@ -9,7 +9,13 @@ class Toast {
   static void show(BuildContext context, String message, {Duration? duration}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Row(
+          children: [
+            const Icon(Icons.info_outline, color: AppColors.textOnPrimary, size: 18),
+            const SizedBox(width: 8),
+            Expanded(child: Text(message)),
+          ],
+        ),
         duration: duration ?? const Duration(seconds: 3),
       ),
     );
