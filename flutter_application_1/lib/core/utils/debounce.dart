@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 /// A utility class for debouncing function calls.
 /// 
 /// Debouncing ensures that a function is not called more than once within
@@ -59,7 +61,6 @@ class Debouncer {
 /// specified time window, regardless of how many times it's triggered.
 class Throttler {
   final Duration delay;
-  DateTime? _lastRun;
   DateTime? _nextAllowed;
   bool _isActive = true;
 
@@ -78,7 +79,6 @@ class Throttler {
     }
     
     action();
-    _lastRun = now;
     _nextAllowed = now.add(delay);
   }
 
@@ -93,13 +93,11 @@ class Throttler {
     }
     
     action();
-    _lastRun = now;
     _nextAllowed = now.add(delay);
   }
 
   /// Cancel and prevent future runs.
   void cancel() {
-    _lastRun = null;
     _nextAllowed = null;
   }
 
@@ -251,7 +249,6 @@ class DebouncedFunction {
 class ThrottledFunction {
   final Function _function;
   final Duration _delay;
-  DateTime? _lastRun;
   DateTime? _nextAllowed;
   bool _isActive = true;
 
@@ -272,12 +269,10 @@ class ThrottledFunction {
       _function();
     }
     
-    _lastRun = now;
     _nextAllowed = now.add(_delay);
   }
 
   void cancel() {
-    _lastRun = null;
     _nextAllowed = null;
   }
 

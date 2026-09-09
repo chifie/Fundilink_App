@@ -1,8 +1,21 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart';
+
+/// A single entry stored in [MemoryCache] with optional expiry.
+class _CacheEntry<T> {
+  const _CacheEntry({
+    required this.value,
+    required this.createdAt,
+    this.expiry,
+  });
+
+  final T value;
+  final DateTime createdAt;
+  final DateTime? expiry;
+}
 
 /// A utility class for in-memory caching with TTL support.
 class MemoryCache {
