@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 import '../models/fundi_model.dart';
-import '../widgets/fundi_avatar.dart';
-import '../widgets/rating_stars.dart';
+import 'fundi_avatar.dart';
+import 'pressable_scale.dart';
+import 'rating_stars.dart';
 
 /// Full-width fundi row used in vertical result lists.
 ///
@@ -238,6 +239,10 @@ class FundiCard extends StatelessWidget {
       );
     }
 
+    if (onTap != null) {
+      cardContent = PressableScale(onTap: onTap, child: cardContent);
+    }
+
     return cardContent;
   }
 }
@@ -251,7 +256,7 @@ class FundiCardCompact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    Widget card = SizedBox(
       width: 180,
       child: Card(
         margin: EdgeInsets.zero,
@@ -346,5 +351,11 @@ class FundiCardCompact extends StatelessWidget {
         ),
       ),
     );
+
+    if (onTap != null) {
+      card = PressableScale(onTap: onTap, child: card);
+    }
+
+    return card;
   }
 }
