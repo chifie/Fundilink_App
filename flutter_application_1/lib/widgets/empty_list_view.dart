@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../core/constants/app_colors.dart';
-import '../core/constants/app_dimensions.dart';
 import 'empty_state.dart';
 
 /// A ListView wrapper that automatically shows an empty state when the list is empty.
@@ -106,7 +104,7 @@ class EmptyListView<T> extends StatelessWidget {
     Widget emptyState;
 
     if (emptyStateBuilder != null) {
-      emptyState = emptyStateBuilder!(items) ?= _defaultEmptyState(context);
+      emptyState = emptyStateBuilder!(items) ?? _defaultEmptyState(context);
     } else {
       emptyState = _defaultEmptyState(context);
     }
@@ -130,21 +128,39 @@ class EmptyListView<T> extends StatelessWidget {
     final effectivePhysics = physics ?? const BouncingScrollPhysics();
     final effectiveCacheExtent = cacheExtent;
 
-    Widget listContent = ListView.separated(
-      key: listViewKey,
-      shrinkWrap: shrinkWrap,
-      physics: effectivePhysics,
-      padding: effectivePadding,
-      cacheExtent: effectiveCacheExtent,
-      addAutomaticKeepAlives: addAutomaticKeepAlives,
-      addRepaintBoundaries: addRepaintBoundaries,
-      scrollDirection: mainAxisScrollDirection,
-      itemCount: items.length,
-      separatorBuilder: separatorBuilder != null
-          ? (context, index) => separatorBuilder!(items[index], index)
-          : null,
-      itemBuilder: (context, index) => buildItem(items[index], index),
-    );
+    Widget itemBuilder(BuildContext context, int index) =>
+        buildItem(items[index], index);
+
+    Widget listContent;
+    if (separatorBuilder != null) {
+      listContent = ListView.separated(
+        key: listViewKey,
+        shrinkWrap: shrinkWrap,
+        physics: effectivePhysics,
+        padding: effectivePadding,
+        cacheExtent: effectiveCacheExtent,
+        addAutomaticKeepAlives: addAutomaticKeepAlives,
+        addRepaintBoundaries: addRepaintBoundaries,
+        scrollDirection: mainAxisScrollDirection,
+        itemCount: items.length,
+        separatorBuilder: (context, index) =>
+            separatorBuilder!(items[index], index) ?? const SizedBox.shrink(),
+        itemBuilder: itemBuilder,
+      );
+    } else {
+      listContent = ListView.builder(
+        key: listViewKey,
+        shrinkWrap: shrinkWrap,
+        physics: effectivePhysics,
+        padding: effectivePadding,
+        cacheExtent: effectiveCacheExtent,
+        addAutomaticKeepAlives: addAutomaticKeepAlives,
+        addRepaintBoundaries: addRepaintBoundaries,
+        scrollDirection: mainAxisScrollDirection,
+        itemCount: items.length,
+        itemBuilder: itemBuilder,
+      );
+    }
 
     if (mainAxisScrollDirection == Axis.horizontal) {
       listContent = SingleChildScrollView(
@@ -157,7 +173,7 @@ class EmptyListView<T> extends StatelessWidget {
       listContent = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          headerBuilder!(),
+          headerBuilder!() ?? const SizedBox.shrink(),
           Expanded(child: listContent),
         ],
       );
@@ -167,7 +183,7 @@ class EmptyListView<T> extends StatelessWidget {
       listContent = Column(
         children: [
           listContent,
-          footerBuilder!(),
+          footerBuilder!() ?? const SizedBox.shrink(),
         ],
       );
     }
@@ -230,8 +246,6 @@ class EmptyListViewHorizontal<T> extends StatelessWidget {
     if (direction == Axis.horizontal) {
       listContent = Wrap(
         spacing: spacing,
-        alignment: mainAxisAlignment,
-        crossAxisAlignment: crossAxisAlignment,
         children: List.generate(
           items.length,
           (index) => buildItem(items[index], index),

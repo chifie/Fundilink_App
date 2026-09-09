@@ -33,6 +33,9 @@ class EmptyState extends StatefulWidget {
     this.buttonPadding,
     this.addSemanticLabel,
     this.animate = true,
+    this.containerColor,
+    this.iconColor,
+    this.featherIcon,
   });
 
   /// Whether to animate the icon on appear. Defaults to true.
@@ -144,18 +147,19 @@ class _EmptyStateState extends State<EmptyState>
             width: iconContainerSize,
             height: iconContainerSize,
             child: ScaleTransition(
-              scale: _bounceAnimation,                child: Container(
+              scale: _bounceAnimation,
+              child: Container(
                 width: iconContainerSize,
                 height: iconContainerSize,
                 decoration: BoxDecoration(
-                  color: widget.containerColor ?=
+                  color: widget.containerColor ??
                       Theme.of(context).colorScheme.surfaceContainerHighest,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   widget.icon,
                   size: iconSize,
-                  color: widget.iconColor ?=
+                  color: widget.iconColor ??
                       Theme.of(context).colorScheme.primary,
                 ),
               ),
@@ -163,7 +167,7 @@ class _EmptyStateState extends State<EmptyState>
           ),
           const SizedBox(height: AppDimensions.spaceL),
           Semantics(
-            label: widget.addSemanticLabel ?? '${widget.title}',
+            label: widget.addSemanticLabel ?? widget.title,
             explicitChildNodes: true,
             child: Text(
               widget.title,
