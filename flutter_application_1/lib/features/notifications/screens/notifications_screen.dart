@@ -9,6 +9,7 @@ import '../../../models/notification_item.dart';
 import '../../../providers/notification_provider.dart';
 import '../../../widgets/empty_state.dart';
 import '../../../widgets/error_view.dart';
+import '../../../widgets/layout/page_scaffold.dart';
 
 /// In-app notification inbox for request updates, chats and reviews.
 class NotificationsScreen extends StatelessWidget {
@@ -19,18 +20,17 @@ class NotificationsScreen extends StatelessWidget {
     final provider = context.watch<NotificationProvider>();
     final notifications = provider.notifications;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.notifications),
-        actions: [
-          if (provider.unreadCount > 0)
-            TextButton(
-              onPressed: () =>
-                  context.read<NotificationProvider>().markAllRead(),
-              child: const Text(AppStrings.markAllRead),
-            ),
-        ],
-      ),
+    return PageScaffold(
+      title: AppStrings.notifications,
+      actions: [
+        if (provider.unreadCount > 0)
+          TextButton(
+            onPressed: () =>
+                context.read<NotificationProvider>().markAllRead(),
+            child: const Text(AppStrings.markAllRead),
+          ),
+      ],
+      refresh: () => context.read<NotificationProvider>().load(),
       body: provider.isLoading && notifications.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : provider.error != null && notifications.isEmpty
@@ -44,18 +44,15 @@ class NotificationsScreen extends StatelessWidget {
               title: AppStrings.noNotifications,
               message: AppStrings.noNotificationsHint,
             )
-          : RefreshIndicator(
-              onRefresh: () => context.read<NotificationProvider>().load(),
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppDimensions.paddingS,
-                ),
-                itemCount: notifications.length,
-                separatorBuilder: (_, _) =>
-                    const Divider(height: 1, indent: 72),
-                itemBuilder: (context, index) =>
-                    _NotificationTile(notification: notifications[index]),
+          : ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                vertical: AppDimensions.paddingS,
               ),
+              itemCount: notifications.length,
+              separatorBuilder: (_, _) =>
+                  const Divider(height: 1, indent: 72),
+              itemBuilder: (context, index) =>
+                  _NotificationTile(notification: notifications[index]),
             ),
     );
   }

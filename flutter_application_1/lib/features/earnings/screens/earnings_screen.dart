@@ -10,6 +10,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/request_provider.dart';
 import '../../../widgets/animated_count_up.dart';
 import '../../../widgets/earnings_chart.dart';
+import '../../../widgets/layout/page_scaffold.dart';
 import '../../../widgets/shimmer_loading.dart';
 
 /// Earnings dashboard for the fundi.
@@ -47,8 +48,8 @@ class _EarningsScreenState extends State<EarningsScreen> {
     final requests = context.watch<RequestProvider>().fundiRequests;
     final completedJobs = requests.where((r) => r.status.isPaidOut).toList();
 
-    return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.myEarnings)),
+    return PageScaffold(
+      title: AppStrings.myEarnings,
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingL),
         children: [

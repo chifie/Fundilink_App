@@ -9,6 +9,7 @@ import '../../../models/portfolio_item.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/fundi_provider.dart';
 import '../../../widgets/empty_state.dart';
+import '../../../widgets/layout/page_scaffold.dart';
 import '../../../widgets/feedback/toast.dart';
 
 /// Manage portfolio items (work samples) for the fundi.
@@ -20,17 +21,15 @@ class PortfolioScreen extends StatelessWidget {
     final fundiProvider = context.watch<FundiProvider>();
     final user = context.read<AuthProvider>().user;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.myPortfolio),
-        actions: [
-          IconButton(
-            tooltip: AppStrings.addWork,
-            onPressed: () => Toast.showComingSoon(context),
-            icon: const Icon(Icons.add_photo_alternate_outlined),
-          ),
-        ],
-      ),
+    return PageScaffold(
+      title: AppStrings.myPortfolio,
+      actions: [
+        IconButton(
+          tooltip: AppStrings.addWork,
+          onPressed: () => Toast.showComingSoon(context),
+          icon: const Icon(Icons.add_photo_alternate_outlined),
+        ),
+      ],
       body: FutureBuilder<List<PortfolioItem>>(
         future: fundiProvider.portfolioFor(user?.id ?? ''),
         builder: (context, snapshot) {
