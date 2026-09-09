@@ -7,11 +7,11 @@ import '../../../core/constants/app_strings.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/notification_provider.dart';
 import '../../../providers/request_provider.dart';
+import '../../../widgets/count_up_stat_card.dart';
 import '../../../widgets/section_header.dart';
 import '../../../widgets/shimmer_loading.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../widgets/fundi_quick_actions.dart';
-import '../widgets/fundi_stats_card.dart';
 import '../widgets/fundi_recent_activity.dart';
 
 /// Fundi home dashboard showing stats, recent activity and quick actions.
@@ -149,27 +149,27 @@ class _StatsRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: FundiStatsCard(
+          child: CountUpStatCard(
             label: AppStrings.pendingRequests,
-            value: '${requests.pendingCount}',
+            value: requests.pendingCount.toDouble(),
             icon: Icons.schedule,
             color: AppColors.statusPending,
           ),
         ),
         const SizedBox(width: AppDimensions.spaceS),
         Expanded(
-          child: FundiStatsCard(
+          child: CountUpStatCard(
             label: AppStrings.activeJobs,
-            value: '${requests.activeCount}',
+            value: requests.activeCount.toDouble(),
             icon: Icons.build_circle_outlined,
             color: AppColors.statusInProgress,
           ),
         ),
         const SizedBox(width: AppDimensions.spaceS),
         Expanded(
-          child: FundiStatsCard(
+          child: CountUpStatCard(
             label: AppStrings.completed,
-            value: '${requests.completedCount}',
+            value: requests.completedCount.toDouble(),
             icon: Icons.verified_outlined,
             color: AppColors.statusCompleted,
           ),
