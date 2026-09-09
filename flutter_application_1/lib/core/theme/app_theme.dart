@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import '../utils/color_utils.dart';
-import '../utils/size_utils.dart';
 
 /// Application theme configuration with light and dark mode support.
 class AppTheme {
+  /// Ready-to-use light theme for the app.
+  static ThemeData get lightTheme => light();
+
+  /// Ready-to-use dark theme for the app.
+  static ThemeData get darkTheme => dark();
+
   /// Creates a light theme configuration.
   static ThemeData light({
     Color? primaryColor,
@@ -11,7 +16,7 @@ class AppTheme {
     Color? errorColor,
     TextTheme? textTheme,
     AppBarTheme? appBarTheme,
-    CardTheme? cardTheme,
+    CardThemeData? cardTheme,
     InputDecorationTheme? inputDecorationTheme,
     ElevatedButtonThemeData? elevatedButtonTheme,
     OutlinedButtonThemeData? outlinedButtonTheme,
@@ -21,8 +26,8 @@ class AppTheme {
     DividerThemeData? dividerTheme,
     BottomNavigationBarThemeData? bottomNavTheme,
     TabBarThemeData? tabBarTheme,
-    SnackbarThemeData? snackbarTheme,
-    DialogTheme? dialogTheme,
+    SnackBarThemeData? snackbarTheme,
+    DialogThemeData? dialogTheme,
     PopupMenuThemeData? popupMenuTheme,
     ListTileThemeData? listTileTheme,
     NavigationBarThemeData? navigationBarTheme,
@@ -61,78 +66,72 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: surface,
       textTheme: textTheme ??
-          TextTheme(
-            displayLarge: const TextStyle(
+          const TextTheme(
+            displayLarge: TextStyle(
               fontSize: 57,
               fontWeight: FontWeight.w400,
               letterSpacing: -0.25,
             ),
-            displayMedium: const TextStyle(
+            displayMedium: TextStyle(
               fontSize: 45,
               fontWeight: FontWeight.w400,
-              letterSpacing: 0,
             ),
-            displaySmall: const TextStyle(
+            displaySmall: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w400,
-              letterSpacing: 0,
             ),
-            headlineLarge: const TextStyle(
+            headlineLarge: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w400,
-              letterSpacing: 0,
             ),
-            headlineMedium: const TextStyle(
+            headlineMedium: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w400,
-              letterSpacing: 0,
             ),
-            headlineSmall: const TextStyle(
+            headlineSmall: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w400,
-              letterSpacing: 0,
             ),
-            titleLarge: const TextStyle(
+            titleLarge: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w500,
-              letterSpacing: 0,
             ),
-            titleMedium: const TextStyle(
+            titleMedium: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.15,
             ),
-            titleSmall: const TextStyle(
+            titleSmall: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.1,
             ),
-            bodyLarge: const TextStyle(
+            bodyLarge: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.5,
             ),
-            bodyMedium: const TextStyle(
+            bodyMedium: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.25,
             ),
-            bodySmall: const TextStyle(
+            bodySmall: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.4,
             ),
-            labelLarge: const TextStyle(
+            labelLarge: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.1,
             ),
-            labelMedium: const TextStyle(
+            labelMedium: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.5,
             ),
-            labelSmall: const TextStyle(
+            labelSmall: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.5,
@@ -152,7 +151,7 @@ class AppTheme {
             ),
           ),
       cardTheme: cardTheme ??
-          CardTheme(
+          CardThemeData(
             color: Colors.white,
             elevation: 1,
             shape: RoundedRectangleBorder(
@@ -174,15 +173,15 @@ class AppTheme {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: primary, width: 2),
+              borderSide: BorderSide(color: primary, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: const Color(0xFFBA1A1A)),
+              borderSide: const BorderSide(color: Color(0xFFBA1A1A)),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: const Color(0xFFBA1A1A), width: 2),
+              borderSide: const BorderSide(color: Color(0xFFBA1A1A), width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -244,7 +243,7 @@ class AppTheme {
               ),
             ),
           ),
-      fabTheme: fabTheme ??
+      floatingActionButtonTheme: fabTheme ??
           FloatingActionButtonThemeData(
             backgroundColor: primary,
             foregroundColor: Colors.white,
@@ -265,10 +264,10 @@ class AppTheme {
             space: 1,
           ),
       bottomNavigationBarTheme: bottomNavTheme ??
-          const BottomNavigationBarThemeData(
+          BottomNavigationBarThemeData(
             backgroundColor: Colors.white,
             selectedItemColor: primary,
-            unselectedItemColor: Color(0xFF79747E),
+            unselectedItemColor: const Color(0xFF79747E),
             type: BottomNavigationBarType.fixed,
             elevation: 8,
           ),
@@ -282,7 +281,7 @@ class AppTheme {
               fontSize: 14,
             ),
           ),
-      snackbarTheme: snackbarTheme ??
+      snackBarTheme: snackbarTheme ??
           SnackBarThemeData(
             backgroundColor: const Color(0xFF1C1B1F),
             contentTextStyle: const TextStyle(
@@ -295,7 +294,7 @@ class AppTheme {
             behavior: SnackBarBehavior.floating,
           ),
       dialogTheme: dialogTheme ??
-          DialogTheme(
+          DialogThemeData(
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -352,7 +351,7 @@ class AppTheme {
     Color? errorColor,
     TextTheme? textTheme,
     AppBarTheme? appBarTheme,
-    CardTheme? cardTheme,
+    CardThemeData? cardTheme,
     bool useMaterial3 = true,
   }) {
     final primary = primaryColor ?? const Color(0xFF66B2FF);
@@ -378,7 +377,7 @@ class AppTheme {
         onSurface: const Color(0xFFE6E1E5),
         surfaceContainerHighest: const Color(0xFF49454F),
         onSurfaceVariant: const Color(0xFFCAC4D0),
-        error: const Color(0xFFFFB4AB),
+        error: errorColor ?? const Color(0xFFFFB4AB),
         onError: const Color(0xFF690005),
         errorContainer: const Color(0xFF93000A),
         onErrorContainer: const Color(0xFFFFDAD6),
@@ -401,7 +400,7 @@ class AppTheme {
             ),
           ),
       cardTheme: cardTheme ??
-          CardTheme(
+          CardThemeData(
             color: const Color(0xFF2B2B2B),
             elevation: 1,
             shape: RoundedRectangleBorder(
@@ -409,29 +408,6 @@ class AppTheme {
             ),
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
-    );
-  }
-
-  /// Returns a responsive text style based on screen size.
-  static TextStyle responsiveTextStyle(
-    BuildContext context, {
-    double smallSize = 12,
-    double mediumSize = 14,
-    double largeSize = 16,
-    FontWeight? fontWeight,
-    Color? color,
-  }) {
-    final size = SizeUtils.responsiveFontSize(
-      context,
-      small: smallSize,
-      medium: mediumSize,
-      large: largeSize,
-    );
-
-    return TextStyle(
-      fontSize: size,
-      fontWeight: fontWeight,
-      color: color,
     );
   }
 
@@ -446,10 +422,10 @@ class AppTheme {
     VoidCallback? onTap,
     double elevation = 0,
   }) {
-    final effectiveColors = colors ?=
-        [const Color(0xFF0066CC), const Color(0xFF004D99)];
+    final effectiveColors =
+        colors ?? const [Color(0xFF0066CC), Color(0xFF004D99)];
 
-    return Container(
+    final container = Container(
       padding: padding,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -457,13 +433,7 @@ class AppTheme {
           end: end,
           colors: effectiveColors,
         ),
-        borderRadius: borderRadius ?=
-            BorderRadius.circular(SizeUtils.responsivePadding(
-              child.key?.context ?? dummyContext,
-              small: 8,
-              medium: 12,
-              large: 16,
-            )),
+        borderRadius: borderRadius ?? BorderRadius.circular(16),
         boxShadow: elevation > 0
             ? [
                 BoxShadow(
@@ -476,111 +446,16 @@ class AppTheme {
       ),
       child: child,
     );
+
+    if (onTap == null) return container;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: borderRadius ?? BorderRadius.circular(16),
+        child: container,
+      ),
+    );
   }
-
-  static final dummyContext = DummyContext();
-}
-
-class DummyContext extends BuildContext {
-  // Stub implementation for dummy context
-  @override
-  WidgetElement get element => throw UnimplementedError();
-
-  @override
-  BuildOwner get owner => throw UnimplementedError();
-
-  @override
-  Size computePhysicalSize() => throw UnimplementedError();
-
-  @override
-  bool get debugDoingBuild => false;
-
-  @override
-  bool get debugIsActive => false;
-
-  @override
-  bool get debugIsLocalWidget => false;
-
-  @override
-  bool get debugTooltip => false;
-
-  @override
-  Matrix4? get transform => null;
-
-  @override
-  bool get sizedByParent => false;
-
-  // Additional stub methods
-  @override
-  void visitChildElements(void Function(Element element) visitor) {}
-
-  @override
-  BuildContext get renderObject => throw UnimplementedError();
-
-  // Stub empty implementations
-  @override
-  void describeElement(String description, {required DiagnosticsNode? label}) {}
-
-  @override
-  void describeMissingAncestor({required String entry, required Object? expectedType}) {}
-
-  @override
-  void describeOwnershipChain(String description) {}
-
-  @override
-  void describeWidget(String description) {}
-
-  @override
-  List<DiagnosticsNode> get debugDescribeChildren => [];
-
-  @override
-  DiagnosticsNode get debugOwner => DiagnosticsNode();
-
-  @override
-  String toStringShort() => 'DummyContext';
-
-  @override
-  Widget? findAncestorWidgetOfExactType<T>() => null;
-
-  @override
-  T? findAncestorRenderObjectOfType<T>() => null;
-
-  @override
-  T? findAncestorStateOfType<T>() => null;
-
-  @override
-  T? findAncestorModalRoute<T>() => null;
-
-  @override
-  Iterable<T> findDescendantWidgetsOfType<T>() => [];
-
-  @override
-  bool get isActive => false;
-
-  @override
-  Size getSize() => const Size(375, 812);
-
-  @override
-  bool get mounted => false;
-
-  @override
-  void deactivate() {}
-
-  @override
-  void didChangeDependencies() {}
-
-  @override
-  void dispatchNotification(Notification notification, Assistant? target) {}
-
-  @override
-  bool dispatchConditionalPopRoute() => false;
-
-  @override
-  void dispose() {}
-
-  @override
-  TransitionDelegate<T>? get currentRouteTransitionDelegate => null;
-
-  @override
-  void markNeedsBuild() {}
 }
