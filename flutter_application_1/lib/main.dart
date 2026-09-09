@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'core/constants/app_colors.dart';
-import 'core/constants/app_dimensions.dart';
 import 'core/constants/app_strings.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/onboarding_screen.dart';
 import 'features/shell/customer_shell.dart';
+import 'features/splash/screens/splash_screen.dart';
 import 'features/shell/fundi_shell.dart';
 import 'models/user_model.dart';
 import 'providers/auth_provider.dart';
@@ -79,7 +78,7 @@ class _RootGateState extends State<RootGate> {
 
     switch (auth.status) {
       case AuthStatus.unknown:
-        return const _SplashScreen();
+        return const SplashScreen();
       case AuthStatus.unauthenticated:
         return const _AuthGate();
       case AuthStatus.authenticated:
@@ -87,88 +86,6 @@ class _RootGateState extends State<RootGate> {
             ? const FundiShell()
             : const CustomerShell();
     }
-  }
-}
-
-/// Minimal branded splash shown while the persisted session restores.
-class _SplashScreen extends StatefulWidget {
-  const _SplashScreen();
-
-  @override
-  State<_SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<_SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _fadeAnimation;
-  late final Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1200),
-      vsync: this,
-    );
-    _fadeAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
-    );
-    _scaleAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.6, curve: Curves.elasticOut),
-    );
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ScaleTransition(
-                scale: _scaleAnimation,
-                child: const Icon(
-                  Icons.handyman,
-                  size: 64,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.spaceL),
-              const Text(
-                AppStrings.appName,
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.spaceXL),
-              const SizedBox(
-                width: 26,
-                height: 26,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
 
@@ -202,7 +119,7 @@ class _AuthGateState extends State<_AuthGate> {
 
   @override
   Widget build(BuildContext context) {
-    if (_checking) return const _SplashScreen();
+    if (_checking) return const SplashScreen();
     if (_showOnboarding) {
       return OnboardingScreen(
         onComplete: () {
