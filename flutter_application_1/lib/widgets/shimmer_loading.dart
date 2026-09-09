@@ -26,6 +26,7 @@ class ShimmerLoading extends StatelessWidget {
     this.enabled = true,
     this.direction = ShimmerDirection.ltr,
     this.duration = const Duration(milliseconds: 1500),
+    this.borderRadius = 8,
   });
 
   /// The child widget to apply the shimmer effect to.
@@ -47,6 +48,9 @@ class ShimmerLoading extends StatelessWidget {
   /// Duration of one shimmer cycle. Defaults to 1500ms.
   final Duration duration;
 
+  /// Border radius applied when [enabled] is false. Defaults to 8.
+  final double borderRadius;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -57,7 +61,7 @@ class ShimmerLoading extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           color: base,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: child,
       );
