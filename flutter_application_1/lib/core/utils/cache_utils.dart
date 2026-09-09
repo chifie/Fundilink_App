@@ -428,7 +428,7 @@ extension CacheExtension on Map {
     
     final expiry = DateTime.tryParse(expiryStr);
     if (expiry == null || expiry.isBefore(DateTime.now())) {
-      this.remove(key);
+      remove(key);
       return null;
     }
     

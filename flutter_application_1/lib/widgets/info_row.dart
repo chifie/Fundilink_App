@@ -101,7 +101,7 @@ class InfoRow extends StatelessWidget {
               textAlign: textAlign,
             ),
           ),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       ),
     );
