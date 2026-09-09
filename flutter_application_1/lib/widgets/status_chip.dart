@@ -68,7 +68,9 @@ class StatusChip extends StatelessWidget {
           vertical: compact ? 3 : 5,
         );
 
-    Widget content = Container(
+    Widget content = AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       padding: effectivePadding,
       decoration: BoxDecoration(
         color: effectiveBackgroundColor,
