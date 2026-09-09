@@ -15,6 +15,9 @@ All notable changes to FundiLink are documented here. This project follows
 - Loading and error (with retry) states on the conversation list, notification
   inbox and reviews screen.
 - Tooltips and semantics on icon-only controls and quick actions.
+- `CountUpStatCard` widget that animates a stat value counting up on appear.
+- `PageScaffold` widget centralizing Scaffold/AppBar conventions with an
+  optional pull-to-refresh wrapper.
 
 ### Changed
 - Remaining hardcoded user-facing copy centralized in `AppStrings`.
@@ -22,6 +25,8 @@ All notable changes to FundiLink are documented here. This project follows
 - Customer and fundi request lists share one `RequestFilterBar` widget.
 - Relative-time labels unified behind the shared `DateTimeExtensions.timeAgo`.
 - Success/coming-soon feedback routes through the shared `Toast` helper.
+- Notifications, earnings and portfolio screens use the shared `PageScaffold`.
+- Fundi dashboard stats row uses `CountUpStatCard` (replaces `FundiStatsCard`).
 - Removed duplicated and unused helpers (`Helpers.shortAmount`, unused
   `CurrencyFormatter`).
 
@@ -41,6 +46,7 @@ All notable changes to FundiLink are documented here. This project follows
 - Added unit tests for `Helpers`, the request-status helpers, the shared
   `RequestFilterBar` and the new repository filters.
 - Added widget tests for `FundiAvatar` and the onboarding carousel.
+- Added widget tests for `CountUpStatCard` and `PageScaffold`.
 
 ### Internal
 - `RequestStatus` exposes `isActive`/`isPaidOut` used by filters, jobs,
