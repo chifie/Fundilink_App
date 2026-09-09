@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 /// Utility functions for responsive sizing and layout calculations.
@@ -15,9 +17,7 @@ class SizeUtils {
   /// Returns the screen diagonal in logical pixels.
   static double screenDiagonal(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    return (size.width * size.width + size.height * size.height)
-        .sqrt()
-        .toDouble();
+    return sqrt(size.width * size.width + size.height * size.height);
   }
 
   /// Returns a responsive padding based on screen width.

@@ -121,19 +121,19 @@ class AnimationUtils {
     return TweenSequence<double>([
       TweenSequenceItem(
         tween: Tween<double>(begin: begin, end: end * overshoot),
-        weight: weight1,
+        weight: weight1.toDouble(),
       ),
       TweenSequenceItem(
         tween: Tween<double>(begin: end * overshoot, end: end * settle1),
-        weight: weight2,
+        weight: weight2.toDouble(),
       ),
       TweenSequenceItem(
         tween: Tween<double>(begin: end * settle1, end: end * settle2),
-        weight: weight3,
+        weight: weight3.toDouble(),
       ),
       TweenSequenceItem(
         tween: Tween<double>(begin: end * settle2, end: end),
-        weight: weight4,
+        weight: weight4.toDouble(),
       ),
     ]);
   }

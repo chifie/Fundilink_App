@@ -1,3 +1,5 @@
+import 'dart:math';
+
 /// Utility functions for list manipulation and transformations.
 class ListUtils {
   /// Returns a list of items with indices paired with each item.
@@ -196,12 +198,10 @@ class ListUtils {
   static T? min<T>(List<T> items, Comparable<T> Function(T) selector) {
     if (items.isEmpty) return null;
     T? minItem;
-    Comparable? minValue;
     for (final item in items) {
       final value = selector(item);
-      if (minValue == null || value.compareTo(minValue as Comparable) < 0) {
+      if (minItem == null || value.compareTo(minItem) < 0) {
         minItem = item;
-        minValue = value;
       }
     }
     return minItem;
@@ -211,17 +211,13 @@ class ListUtils {
   static T? max<T>(List<T> items, Comparable<T> Function(T) selector) {
     if (items.isEmpty) return null;
     T? maxItem;
-    Comparable? maxValue;
     for (final item in items) {
       final value = selector(item);
-      if (maxValue == null || value.compareTo(maxValue as Comparable) > 0) {
+      if (maxItem == null || value.compareTo(maxItem) > 0) {
         maxItem = item;
-        maxValue = value;
       }
     }
     return maxItem;
   }
 }
-
-import 'dart:math';
 
