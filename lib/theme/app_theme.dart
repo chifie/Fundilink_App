@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 /// Material 3 design system for the app.
 ///
-/// Colors and typography are defined here so widgets only ever read from
-/// `Theme.of(context)`.
+/// Colors, component themes (buttons, cards, FAB) and typography are all
+/// defined here so widgets only ever read from `Theme.of(context)`.
 abstract final class AppTheme {
   /// Brand font family.
   ///
@@ -34,6 +34,7 @@ abstract final class AppTheme {
       fontFamily: fontFamily,
       colorScheme: colors,
       scaffoldBackgroundColor: colors.surface,
+      splashFactory: InkSparkle.splashFactory,
       textTheme: textTheme,
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
@@ -47,8 +48,60 @@ abstract final class AppTheme {
         thickness: 1,
         space: 1,
       ),
+      // Cards: 12dp corners, tonal surface, subtle elevation.
+      cardTheme: CardThemeData(
+        color: colors.surfaceContainerLow,
+        elevation: 1,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: colors.primaryContainer,
+        foregroundColor: colors.onPrimaryContainer,
+        elevation: 3,
+        highlightElevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      // Buttons: pill-shaped, 40dp tall, labelLarge text (M3 metrics).
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: _buttonStyle(textTheme).copyWith(
+          backgroundColor: WidgetStatePropertyAll(colors.primaryContainer),
+          foregroundColor: WidgetStatePropertyAll(colors.onPrimaryContainer),
+          elevation: const WidgetStatePropertyAll(0),
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: _buttonStyle(textTheme).copyWith(
+          backgroundColor: WidgetStatePropertyAll(colors.primary),
+          foregroundColor: WidgetStatePropertyAll(colors.onPrimary),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: _buttonStyle(textTheme).copyWith(
+          foregroundColor: WidgetStatePropertyAll(colors.primary),
+          side: WidgetStatePropertyAll(BorderSide(color: colors.outline)),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: _buttonStyle(textTheme).copyWith(
+          foregroundColor: WidgetStatePropertyAll(colors.primary),
+          padding:
+              const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
+        ),
+      ),
     );
   }
+
+  /// Shared Material 3 button metrics: 40dp minimum height, 64dp minimum
+  /// width, full corner radius and the labelLarge text style.
+  static ButtonStyle _buttonStyle(TextTheme text) => ButtonStyle(
+        shape: const WidgetStatePropertyAll(StadiumBorder()),
+        minimumSize: const WidgetStatePropertyAll(Size(64, 40)),
+        padding:
+            const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 24)),
+        textStyle: WidgetStatePropertyAll(text.labelLarge),
+      );
 
   /// Material 3 type scale (15 styles) with spec sizes, weights, letter
   /// spacing and line heights. Colors are left to ThemeData so roles like
