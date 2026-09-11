@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
     final TextTheme text = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -95,6 +96,51 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          const _SectionHeader('Buttons'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    FilledButton(
+                      onPressed: () {},
+                      child: const Text('Filled'),
+                    ),
+                    FilledButton.tonal(
+                      onPressed: () {},
+                      child: const Text('Tonal'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Elevated'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: const Text('Outlined'),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text('Text'),
+                    ),
+                    const OutlinedButton(
+                      onPressed: null,
+                      child: Text('Disabled'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                FilledButton.icon(
+                  onPressed: _incrementCounter,
+                  icon: const Icon(Icons.add),
+                  label: const Text('Increment'),
+                ),
+              ],
+            ),
+          ),
           const _SectionHeader('Typography'),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -115,8 +161,133 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          const _SectionHeader('Cards'),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: _CardBody(
+                icon: Icons.style_outlined,
+                title: 'Elevated card',
+                subtitle: 'The default card: tonal surface, subtle shadow.',
+              ),
+            ),
+          ),
+          Card.filled(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: _CardBody(
+                icon: Icons.layers_outlined,
+                title: 'Filled card',
+                subtitle: 'Highest-emphasis tonal surface, no shadow.',
+              ),
+            ),
+          ),
+          Card.outlined(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: _CardBody(
+                icon: Icons.square_outlined,
+                title: 'Outlined card',
+                subtitle: 'Flat surface separated by a 1dp outline.',
+              ),
+            ),
+          ),
+          Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: colors.primaryContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.auto_awesome_outlined,
+                          size: 20,
+                          color: colors.onPrimaryContainer,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text('Card with actions', style: text.titleMedium),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Cards can host any content plus an action row.',
+                    style: text.bodyMedium,
+                  ),
+                ),
+                OverflowBar(
+                  alignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text('Learn more'),
+                    ),
+                    FilledButton.tonal(
+                      onPressed: () {},
+                      child: const Text('Get started'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _CardBody extends StatelessWidget {
+  const _CardBody({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final TextTheme text = Theme.of(context).textTheme;
+
+    return Row(
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: colors.secondaryContainer,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, size: 20, color: colors.onSecondaryContainer),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: text.titleMedium),
+              const SizedBox(height: 2),
+              Text(subtitle, style: text.bodyMedium),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
