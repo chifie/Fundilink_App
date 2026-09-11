@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
 
 /// Friendly placeholder shown when a list or screen has no content yet.
@@ -130,6 +129,7 @@ class _EmptyStateState extends State<EmptyState>
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final iconContainerSize = widget.iconSize;
     final iconSize = (iconContainerSize * 0.45).clamp(24.0, 60.0);
     final padding = EdgeInsets.all(
@@ -172,11 +172,7 @@ class _EmptyStateState extends State<EmptyState>
             child: Text(
               widget.title,
               textAlign: TextAlign.center,
-              style: widget.titleStyle ?? const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
+              style: widget.titleStyle ?? textTheme.titleMedium,
             ),
           ),
           if (widget.message != null) ...[
@@ -184,11 +180,7 @@ class _EmptyStateState extends State<EmptyState>
             Text(
               widget.message!,
               textAlign: TextAlign.center,
-              style: widget.messageStyle ?? const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 14,
-                height: 1.4,
-              ),
+              style: widget.messageStyle ?? textTheme.bodyMedium,
             ),
           ],
           if (widget.actionLabel != null) ...[

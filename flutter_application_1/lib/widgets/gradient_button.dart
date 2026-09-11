@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../core/constants/app_colors.dart';
 import '../core/constants/app_dimensions.dart';
+import '../core/theme/app_motion.dart';
+import '../core/theme/app_text_styles.dart';
+import '../core/utils/color_utils.dart';
 
 /// A modern primary button with a gradient background and press feedback.
 ///
 /// The button scales down slightly while pressed and shows a ripple over
 /// the gradient. Falls back to a muted, disabled look when [onPressed] is
-/// null.
+/// null. Colors default to the active [ColorScheme] primary gradient so
+/// the button adapts to light and dark themes automatically.
 class GradientButton extends StatefulWidget {
   const GradientButton({
     super.key,
@@ -27,7 +30,7 @@ class GradientButton extends StatefulWidget {
   /// The button label or icon content.
   final Widget child;
 
-  /// Gradient colors. Defaults to the brand primary gradient.
+  /// Gradient colors. Defaults to the scheme primary gradient.
   final List<Color>? colors;
 
   /// Border radius. Defaults to [AppDimensions.radiusM].
@@ -56,11 +59,20 @@ class _GradientButtonState extends State<GradientButton> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     final borderRadius =
         widget.borderRadius ?? BorderRadius.circular(AppDimensions.radiusM);
     final height = widget.height ?? AppDimensions.buttonHeight;
     final gradientColors = widget.colors ??
-        const [AppColors.primary, AppColors.primaryDark];
+        [
+          scheme.primary,
+          ColorUtils.darken(scheme.primary, 0.15),
+        ];
+    final labelStyle =
+        AppTextStyles.labelLarge(scheme.onPrimary).copyWith(
+      fontWeight: FontWeight.w700,
+      fontSize: 15,
+    );
 
     return Semantics(
       button: true,
@@ -68,16 +80,15 @@ class _GradientButtonState extends State<GradientButton> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTapDown: _interactive ? (_) => setState(() => _pressed = true) : null,
-        onTapCancel: _interactive
-            ? () => setState(() => _pressed = false)
-            : null,
+        onTapCancel:
+            _interactive ? () => setState(() => _pressed = false) : null,
         onTapUp: _interactive
             ? (_) => setState(() => _pressed = false)
             : null,
         onTap: _interactive ? widget.onPressed : null,
         child: AnimatedScale(
           scale: _pressed ? widget.pressScale : 1.0,
-          duration: const Duration(milliseconds: 100),
+          duration: AppMotion.short,
           curve: Curves.easeOut,
           child: Material(
             color: Colors.transparent,
@@ -91,7 +102,9 @@ class _GradientButtonState extends State<GradientButton> {
                         colors: gradientColors,
                       )
                     : null,
-                color: _interactive ? null : AppColors.textHint,
+                color: _interactive
+                    ? null
+                    : scheme.onSurface.withValues(alpha: 0.12),
                 borderRadius: borderRadius,
                 boxShadow: _interactive
                     ? [
@@ -106,8 +119,8 @@ class _GradientButtonState extends State<GradientButton> {
               child: InkWell(
                 onTap: _interactive ? widget.onPressed : null,
                 borderRadius: borderRadius,
-                splashColor: Colors.white.withValues(alpha: 0.2),
-                highlightColor: Colors.white.withValues(alpha: 0.1),
+                splashColor: scheme.onPrimary.withValues(alpha: 0.2),
+                highlightColor: scheme.onPrimary.withValues(alpha: 0.1),
                 child: Container(
                   height: height,
                   padding: widget.padding ??
@@ -116,11 +129,7 @@ class _GradientButtonState extends State<GradientButton> {
                       ),
                   alignment: Alignment.center,
                   child: DefaultTextStyle.merge(
-                    style: const TextStyle(
-                      color: AppColors.textOnPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: labelStyle,
                     child: widget.child,
                   ),
                 ),

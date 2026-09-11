@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_dimensions.dart';
+
+import '../../core/theme/app_card_styles.dart';
+import '../../core/theme/app_shapes.dart';
 
 /// A tappable card with icon, title and subtitle for quick actions.
+///
+/// Uses the Material 3 elevated card treatment with the M3 icon
+/// container: a tonal rounded square behind the leading icon.
 class ActionCard extends StatelessWidget {
   const ActionCard({
     super.key,
@@ -21,14 +25,17 @@ class ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = color ?? AppColors.primary;
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final effectiveColor = color ?? scheme.primary;
+
     return Card(
       margin: EdgeInsets.zero,
       child: InkWell(
-        borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
+        borderRadius: AppShapes.md,
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(AppDimensions.paddingM),
+          padding: AppCardStyles.contentPadding,
           child: Row(
             children: [
               Container(
@@ -36,37 +43,27 @@ class ActionCard extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: effectiveColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                  borderRadius: AppShapes.sm,
                 ),
                 child: Icon(icon, color: effectiveColor, size: 22),
               ),
-              const SizedBox(width: AppDimensions.spaceM),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    Text(title, style: textTheme.titleSmall),
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 12,
-                      ),
+                      style: textTheme.bodySmall,
                     ),
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right,
-                color: AppColors.textHint,
+                color: scheme.onSurfaceVariant,
                 size: 20,
               ),
             ],

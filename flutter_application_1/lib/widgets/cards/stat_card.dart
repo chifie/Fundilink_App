@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_dimensions.dart';
+
+import '../../core/theme/app_card_styles.dart';
+import '../../core/theme/app_text_styles.dart';
 
 /// A stat card displaying a value with label and optional icon.
+///
+/// Uses the Material 3 outlined card treatment so stats stay flat and
+/// readable on any surface, with the value colored by the active scheme.
 class StatCard extends StatelessWidget {
   const StatCard({
     super.key,
@@ -21,26 +25,27 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor = color ?? AppColors.primary;
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final effectiveColor = color ?? scheme.primary;
+
     return Container(
-      padding: EdgeInsets.all(compact ? 10 : AppDimensions.paddingM),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-        border: Border.all(color: AppColors.border),
-      ),
+      padding: EdgeInsets.all(compact ? 10 : 16),
+      decoration: AppCardStyles.outlinedDecoration(scheme),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
             Icon(icon, color: effectiveColor, size: compact ? 18 : 22),
-            SizedBox(height: compact ? 4 : AppDimensions.spaceS),
+            SizedBox(height: compact ? 4 : 8),
           ],
           Text(
             value,
-            style: TextStyle(
+            style: (compact
+                    ? textTheme.titleLarge
+                    : textTheme.headlineSmall)!
+                .copyWith(
               color: effectiveColor,
-              fontSize: compact ? 16 : 20,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -48,10 +53,7 @@ class StatCard extends StatelessWidget {
           Text(
             label,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppColors.textHint,
-              fontSize: compact ? 10 : 11,
-            ),
+            style: AppTextStyles.labelSmall(scheme.onSurfaceVariant),
           ),
         ],
       ),

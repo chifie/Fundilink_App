@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../core/constants/app_colors.dart';
 import 'entrance_animation.dart';
 
 /// Screen-section heading with an optional trailing action link.
@@ -71,21 +70,22 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final effectiveTitleStyle = titleStyle ??
-        TextStyle(
-          color: colorScheme.onSurface,
+        textTheme.titleMedium!.copyWith(
           fontSize: 17,
           fontWeight: FontWeight.w700,
         );
 
     final effectiveActionStyle = actionLabelStyle ??
-        TextStyle(
+        textTheme.labelMedium!.copyWith(
           color: colorScheme.primary,
           fontSize: 13,
           fontWeight: FontWeight.w600,
         );
 
-    final dividerColorValue = dividerColor ?? AppColors.divider;
+    final dividerColorValue =
+        dividerColor ?? Theme.of(context).dividerTheme.color;
 
     Widget headerContent = Padding(
       padding: EdgeInsets.symmetric(
@@ -133,10 +133,9 @@ class SectionHeader extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               description!,
-              style: TextStyle(
+              style: textTheme.bodySmall!.copyWith(
                 color: colorScheme.onSurfaceVariant,
                 fontSize: 13,
-                fontWeight: FontWeight.w400,
               ),
             ),
           ],
