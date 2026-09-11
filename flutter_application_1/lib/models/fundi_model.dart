@@ -6,7 +6,7 @@ class Fundi {
   final String categoryId;
   final String categoryName;
   final String description;
-  final int experienceYears;
+  final int experienceYears
   final String location;
   final String city;
   final double distanceKm;
