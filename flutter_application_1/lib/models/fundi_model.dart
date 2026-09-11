@@ -1,6 +1,6 @@
 /// A fundi (service provider) listed on the marketplace.
 class Fundi {
-  final String id;
+  final String id
   final String fullName;
   final String? avatarUrl;
   final String categoryId;
