@@ -5,7 +5,7 @@ class Fundi {
   final String? avatarUrl;
   final String categoryId;
   final String categoryName;
-  final String description
+  final String description;
   final int experienceYears;
   final String location;
   final String city;
