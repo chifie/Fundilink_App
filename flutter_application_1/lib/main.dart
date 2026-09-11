@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'core/constants/app_strings.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login_screen.dart';
-import 'features/auth/screens/onboarding_screen.dart';
+import 'features/auth/screens/onboarding_screen.dart'
 import 'features/shell/customer_shell.dart';
 import 'features/splash/screens/splash_screen.dart';
 import 'features/shell/fundi_shell.dart';
