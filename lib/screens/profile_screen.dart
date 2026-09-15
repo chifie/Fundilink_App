@@ -4,14 +4,25 @@ import '../widgets/fundi_avatar.dart';
 
 /// Profile tab: identity header plus grouped settings tiles.
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.onToggleTheme});
+
+  final VoidCallback onToggleTheme;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        actions: [
+          IconButton(
+            tooltip: 'Toggle light/dark theme',
+            onPressed: onToggleTheme,
+            icon: const Icon(Icons.brightness_6_outlined),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
         children: [
