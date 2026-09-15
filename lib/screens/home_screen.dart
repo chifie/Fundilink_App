@@ -4,6 +4,7 @@ import '../data/mock_data.dart';
 import '../models/fundi.dart';
 import '../screens/all_fundis_sheet.dart';
 import '../screens/fundi_detail_sheet.dart';
+import '../search/fundi_search_delegate.dart';
 import '../widgets/fundi_card.dart';
 import '../widgets/promo_banner.dart';
 import '../widgets/search_bar_field.dart';
@@ -45,9 +46,14 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: SearchBarField(),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: SearchBarField(
+                onTap: () => showSearch(
+                  context: context,
+                  delegate: FundiSearchDelegate(fundis: MockData.fundis),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
