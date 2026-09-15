@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fundi.dart';
+import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 
 /// Modal bottom sheet presenting a fundi before booking.
@@ -90,9 +91,13 @@ class _FundiDetailSheet extends StatelessWidget {
             const SizedBox(height: 24),
             FilledButton.icon(
               onPressed: () {
+                final booking = context.storeRead.bookFundi(fundi);
+                final messenger = ScaffoldMessenger.of(context);
                 Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Request sent to ${fundi.name}')),
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text('Request sent to ${booking.fundi.name}'),
+                  ),
                 );
               },
               icon: const Icon(Icons.event_available_outlined),

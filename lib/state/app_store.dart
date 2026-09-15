@@ -146,10 +146,19 @@ class AppStore extends ChangeNotifier {
     final fundi = bestFundiFor(skill);
     if (fundi == null) return null;
 
+    return bookFundi(fundi, service: description, scheduledAt: scheduledAt);
+  }
+
+  /// Books [fundi] directly, for a customer who already picked one.
+  Booking bookFundi(
+    FundiProfile fundi, {
+    String? service,
+    DateTime? scheduledAt,
+  }) {
     final booking = Booking(
       id: 'booking-${_nextBookingId++}',
       fundi: fundi,
-      service: description,
+      service: service ?? '${fundi.skill.label} job',
       scheduledAt: scheduledAt ?? _nextMorning(),
       price: fundi.pricePerHour,
       status: BookingStatus.active,

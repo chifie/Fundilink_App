@@ -353,6 +353,30 @@ void main() {
       expect(booking!.scheduledAt, slot);
     });
 
+    test('bookFundi books a chosen fundi directly', () {
+      final store = _store();
+
+      final booking = store.bookFundi(
+        _joseph,
+        service: 'Fix the leaking sink',
+        scheduledAt: DateTime(2026, 9, 18, 10),
+      );
+
+      expect(store.bookings.first, booking);
+      expect(booking.fundi, _joseph);
+      expect(booking.service, 'Fix the leaking sink');
+      expect(booking.scheduledAt, DateTime(2026, 9, 18, 10));
+      expect(booking.price, _joseph.pricePerHour);
+      expect(booking.step, RequestStep.requested);
+    });
+
+    test('bookFundi names the job after the skill by default', () {
+      final booking = _store().bookFundi(_joseph);
+
+      expect(booking.service, 'Plumbing job');
+      expect(booking.scheduledAt, DateTime(2026, 9, 16, 9));
+    });
+
     test('ids stay unique across a restore', () {
       final storage = InMemoryKeyValueStore();
       AppStore(
