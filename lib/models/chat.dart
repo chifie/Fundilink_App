@@ -49,4 +49,22 @@ class Conversation {
   @override
   int get hashCode =>
       Object.hash(name, lastMessage, timeLabel, unreadCount, isOnline);
+
+  /// Rebuilds a conversation from the JSON written by [toJson].
+  factory Conversation.fromJson(Map<String, dynamic> json) => Conversation(
+    name: json['name'] as String,
+    lastMessage: json['lastMessage'] as String,
+    timeLabel: json['timeLabel'] as String,
+    unreadCount: json['unreadCount'] as int,
+    isOnline: json['isOnline'] as bool,
+  );
+
+  /// Plain JSON map, safe for `jsonEncode` and local persistence.
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'lastMessage': lastMessage,
+    'timeLabel': timeLabel,
+    'unreadCount': unreadCount,
+    'isOnline': isOnline,
+  };
 }

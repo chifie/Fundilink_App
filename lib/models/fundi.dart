@@ -86,4 +86,26 @@ class FundiProfile {
     pricePerHour,
     isOnline,
   );
+
+  /// Rebuilds a profile from the JSON written by [toJson].
+  factory FundiProfile.fromJson(Map<String, dynamic> json) => FundiProfile(
+    name: json['name'] as String,
+    skill: FundiSkill.values.byName(json['skill'] as String),
+    rating: (json['rating'] as num).toDouble(),
+    reviewCount: json['reviewCount'] as int,
+    jobsDone: json['jobsDone'] as int,
+    pricePerHour: json['pricePerHour'] as int,
+    isOnline: json['isOnline'] as bool,
+  );
+
+  /// Plain JSON map, safe for `jsonEncode` and local persistence.
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'skill': skill.name,
+    'rating': rating,
+    'reviewCount': reviewCount,
+    'jobsDone': jobsDone,
+    'pricePerHour': pricePerHour,
+    'isOnline': isOnline,
+  };
 }
