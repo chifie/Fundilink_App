@@ -492,6 +492,8 @@ class AppStore extends ChangeNotifier {
             BookingStatus.paid ||
             BookingStatus.rated => NotificationKind.completed,
             BookingStatus.pending => NotificationKind.awaitingFundi,
+            BookingStatus.active when isAwaitingFundi =>
+              NotificationKind.awaitingFundi,
             _ => NotificationKind.inProgress,
           },
           title: _notificationTitle(booking),
