@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fundilink_app/main.dart';
+import 'package:fundilink_app/screens/new_request_sheet.dart';
 import 'package:fundilink_app/state/app_store.dart';
 import 'package:fundilink_app/state/key_value_store.dart';
 
@@ -65,5 +66,58 @@ void main() {
 
     expect(find.text('Pick a service and describe the job.'), findsOneWidget);
     expect(find.text('Send request'), findsOneWidget);
+  });
+
+  testWidgets('a request made from the FAB reaches the bookings tab', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.text('New request'));
+    await tester.pumpAndSettle();
+    // The home tab keeps its search field behind the sheet, so target the
+    // sheet's own description field.
+    await tester.enterText(
+      find.descendant(
+        of: find.byType(NewRequestSheet),
+        matching: find.byType(TextField),
+      ),
+      'Repair the gate hinge',
+    );
+    // The category grid behind the sheet also offers "Repairs".
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NewRequestSheet),
+        matching: find.text('Repairs'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Send request'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Request sent to Faith Njeri'), findsOneWidget);
+
+    await tester.tap(find.text('Bookings'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Repair the gate hinge'), findsOneWidget);
+  });
+
+  testWidgets('a sent message updates the chats tab preview', (tester) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.text('Chats'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Grace Wanjiku'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'Karibu!');
+    await tester.tap(find.byIcon(Icons.send_outlined));
+    await tester.pumpAndSettle();
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    expect(find.text('Karibu!'), findsOneWidget);
   });
 }

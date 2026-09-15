@@ -76,6 +76,9 @@ class AppStore extends ChangeNotifier {
   /// is never reused across launches.
   int _nextAddressId = 0;
 
+  /// Same idea for booking ids.
+  int _nextBookingId = 0;
+
   // ---------------------------------------------------------------- catalogue
 
   /// Every fundi in the catalogue, in catalogue order.
@@ -120,6 +123,49 @@ class AppStore extends ChangeNotifier {
 
   /// How many jobs are currently in flight.
   int get activeBookingCount => _bookings.where((b) => b.isActive).length;
+
+  /// The best-rated fundi offering [skill], or null when nobody does yet.
+  FundiProfile? bestFundiFor(FundiSkill skill) {
+    final matches = _fundis.where((fundi) => fundi.skill == skill).toList()
+      ..sort((a, b) {
+        final byRating = b.rating.compareTo(a.rating);
+        return byRating != 0 ? byRating : b.jobsDone.compareTo(a.jobsDone);
+      });
+    return matches.isEmpty ? null : matches.first;
+  }
+
+  /// Creates a service request and stores it, returning the new booking.
+  ///
+  /// Returns null when no fundi offers the skill. The fundi is matched
+  /// automatically until customers can choose one themselves.
+  Booking? requestService({
+    required FundiSkill skill,
+    required String description,
+    DateTime? scheduledAt,
+  }) {
+    final fundi = bestFundiFor(skill);
+    if (fundi == null) return null;
+
+    final booking = Booking(
+      id: 'booking-${_nextBookingId++}',
+      fundi: fundi,
+      service: description,
+      scheduledAt: scheduledAt ?? _nextMorning(),
+      price: fundi.pricePerHour,
+      status: BookingStatus.active,
+      step: RequestStep.requested,
+    );
+    _bookings.insert(0, booking);
+    _persistBookings();
+    notifyListeners();
+    return booking;
+  }
+
+  /// Tomorrow at 09:00, the slot a request defaults to when none is picked.
+  DateTime _nextMorning() {
+    final now = _clock();
+    return DateTime(now.year, now.month, now.day + 1, 9);
+  }
 
   /// Stores a new request at the top of the list.
   void addBooking(Booking booking) {
@@ -341,6 +387,7 @@ class AppStore extends ChangeNotifier {
       _bookings
         ..clear()
         ..addAll(bookings);
+      _nextBookingId = bookings.length;
     }
 
     final conversations = _decodeList(

@@ -1,23 +1,89 @@
 import 'package:flutter/material.dart';
 
 import '../models/fundi.dart';
+import '../state/store_scope.dart';
+import '../utils/formatters.dart';
 
 /// Modal sheet for starting a new service request.
 class NewRequestSheet extends StatefulWidget {
-  const NewRequestSheet({super.key});
+  const NewRequestSheet({super.key, this.initialSkill});
+
+  /// Service to preselect, e.g. when opened from a category tile.
+  final FundiSkill? initialSkill;
 
   @override
   State<NewRequestSheet> createState() => _NewRequestSheetState();
 }
 
 class _NewRequestSheetState extends State<NewRequestSheet> {
-  FundiSkill? _skill;
-  final _descriptionController = TextEditingController();
+  late FundiSkill? _skill = widget.initialSkill;
+  final TextEditingController _descriptionController = TextEditingController();
+
+  /// Null keeps the store's default slot: tomorrow at 09:00.
+  DateTime? _scheduledAt;
+  String? _descriptionError;
 
   @override
   void dispose() {
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickSchedule() async {
+    final now = DateTime.now();
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _scheduledAt ?? now.add(const Duration(days: 1)),
+      firstDate: now,
+      lastDate: DateTime(now.year + 1),
+    );
+    if (date == null || !mounted) return;
+
+    final time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_scheduledAt ?? DateTime(0, 0, 0, 9)),
+    );
+    if (time == null || !mounted) return;
+
+    setState(() {
+      _scheduledAt = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
+    });
+  }
+
+  void _send() {
+    final skill = _skill;
+    final description = _descriptionController.text.trim();
+
+    if (description.isEmpty) {
+      setState(
+        () => _descriptionError = 'Describe the job so fundis can quote',
+      );
+      return;
+    }
+    if (skill == null) return;
+
+    final booking = context.storeRead.requestService(
+      skill: skill,
+      description: description,
+      scheduledAt: _scheduledAt,
+    );
+    final messenger = ScaffoldMessenger.of(context);
+    Navigator.of(context).pop();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          booking == null
+              ? 'No fundis available for ${skill.label.toLowerCase()} yet'
+              : 'Request sent to ${booking.fundi.name}',
+        ),
+      ),
+    );
   }
 
   @override
@@ -56,26 +122,54 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
             TextField(
               controller: _descriptionController,
               maxLines: 3,
-              decoration: const InputDecoration(
+              onChanged: (_) {
+                if (_descriptionError != null) {
+                  setState(() => _descriptionError = null);
+                }
+              },
+              decoration: InputDecoration(
                 hintText: 'Describe the job (e.g. leaking sink in kitchen)',
+                errorText: _descriptionError,
               ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Icon(
+                  Icons.schedule_outlined,
+                  size: 18,
+                  color: colors.onSurfaceVariant,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    _scheduledAt == null
+                        ? 'Tomorrow at 9:00 AM'
+                        : Formatters.dateTime(_scheduledAt!),
+                    style: text.bodyMedium,
+                  ),
+                ),
+                TextButton(
+                  onPressed: _pickSchedule,
+                  child: const Text('Change'),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             FilledButton(
-              onPressed: _skill == null
-                  ? null
-                  : () {
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${_skill!.label} request sent to nearby fundis',
-                          ),
-                        ),
-                      );
-                    },
+              onPressed: _skill == null ? null : _send,
               child: const Text('Send request'),
             ),
+            if (_skill == null) ...[
+              const SizedBox(height: 8),
+              Text(
+                'Choose a service to continue.',
+                textAlign: TextAlign.center,
+                style: text.labelMedium?.copyWith(
+                  color: colors.onSurfaceVariant,
+                ),
+              ),
+            ],
           ],
         ),
       ),

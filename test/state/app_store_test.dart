@@ -287,6 +287,86 @@ void main() {
     });
   });
 
+  group('service requests', () {
+    test('bestFundiFor picks the best-rated fundi for the skill', () {
+      final store = AppStore();
+
+      expect(store.bestFundiFor(FundiSkill.cleaning)?.name, 'Grace Wanjiku');
+      expect(store.bestFundiFor(FundiSkill.plumbing)?.name, 'Joseph Kamau');
+    });
+
+    test('bestFundiFor returns null when nobody offers the skill', () {
+      final store = AppStore(fundis: const [_grace]);
+
+      expect(store.bestFundiFor(FundiSkill.plumbing), isNull);
+    });
+
+    test('requestService stores an active request for the matched fundi', () {
+      final storage = InMemoryKeyValueStore();
+      final store = AppStore(storage: storage);
+
+      final booking = store.requestService(
+        skill: FundiSkill.cleaning,
+        description: 'Deep clean the kitchen',
+      );
+
+      expect(booking, isNotNull);
+      expect(store.bookings.first, booking);
+      expect(booking!.fundi.name, 'Grace Wanjiku');
+      expect(booking.price, booking.fundi.pricePerHour);
+      expect(booking.status, BookingStatus.active);
+      expect(booking.step, RequestStep.requested);
+      expect(storage.getString(AppStore.bookingsKey), contains('Deep clean'));
+    });
+
+    test('requestService creates nothing when no fundi offers the skill', () {
+      final store = AppStore(fundis: const [_grace]);
+
+      expect(
+        store.requestService(
+          skill: FundiSkill.moving,
+          description: 'Move the sofa',
+        ),
+        isNull,
+      );
+      expect(store.bookings, MockData.bookings);
+    });
+
+    test('defaults to tomorrow at 09:00', () {
+      final booking = _store().requestService(
+        skill: FundiSkill.cleaning,
+        description: 'Deep clean the kitchen',
+      );
+
+      expect(booking!.scheduledAt, DateTime(2026, 9, 16, 9));
+    });
+
+    test('honours an explicit slot', () {
+      final slot = DateTime(2026, 10, 2, 15, 30);
+
+      final booking = _store().requestService(
+        skill: FundiSkill.cleaning,
+        description: 'Deep clean the kitchen',
+        scheduledAt: slot,
+      );
+
+      expect(booking!.scheduledAt, slot);
+    });
+
+    test('ids stay unique across a restore', () {
+      final storage = InMemoryKeyValueStore();
+      AppStore(
+        storage: storage,
+      ).requestService(skill: FundiSkill.cleaning, description: 'One');
+
+      final restored = AppStore(storage: storage)
+        ..requestService(skill: FundiSkill.cleaning, description: 'Two');
+      final ids = restored.bookings.map((b) => b.id).toList();
+
+      expect(ids.toSet(), hasLength(ids.length));
+    });
+  });
+
   group('message threads', () {
     test('seeds a thread per demo conversation, oldest first', () {
       final store = _store();
