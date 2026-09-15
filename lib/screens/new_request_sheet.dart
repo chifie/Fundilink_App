@@ -101,7 +101,7 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(24, 0, 24, 24 + bottomInset),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -145,7 +145,8 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
               controller: _locationController,
               decoration: InputDecoration(
                 labelText: 'Location',
-                hintText: context.store.defaultAddress?.line ??
+                hintText:
+                    context.store.defaultAddress?.line ??
                     context.store.profile.location,
               ),
             ),

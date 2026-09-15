@@ -150,25 +150,24 @@ class Booking {
           other.review == review;
 
   @override
-  int get hashCode =>
-      Object.hashAll([
-        id,
-        fundi,
-        service,
-        scheduledAt,
-        price,
-        status,
-        step,
-        location,
-        notes,
-        workCompleted,
-        labourCost,
-        materialCost,
-        totalAmount,
-        paymentMethod,
-        rating,
-        review,
-      ]);
+  int get hashCode => Object.hashAll([
+    id,
+    fundi,
+    service,
+    scheduledAt,
+    price,
+    status,
+    step,
+    location,
+    notes,
+    workCompleted,
+    labourCost,
+    materialCost,
+    totalAmount,
+    paymentMethod,
+    rating,
+    review,
+  ]);
 
   /// Rebuilds a booking from the JSON written by [toJson].
   factory Booking.fromJson(Map<String, dynamic> json) => Booking(

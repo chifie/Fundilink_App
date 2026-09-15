@@ -166,7 +166,10 @@ class AppStore extends ChangeNotifier {
 
   /// Simple local MVP earnings total from paid/rated jobs.
   int get totalEarnings => _bookings
-      .where((b) => b.status == BookingStatus.paid || b.status == BookingStatus.rated)
+      .where(
+        (b) =>
+            b.status == BookingStatus.paid || b.status == BookingStatus.rated,
+      )
       .fold(0, (sum, booking) => sum + booking.payableAmount);
 
   /// The best-rated fundi offering [skill], or null when nobody does yet.
@@ -326,12 +329,19 @@ class AppStore extends ChangeNotifier {
   void markPaid(String id, String method) {
     _updateBooking(id, (booking) {
       if (booking.status != BookingStatus.paymentPending) return booking;
-      return booking.copyWith(status: BookingStatus.paid, paymentMethod: method);
+      return booking.copyWith(
+        status: BookingStatus.paid,
+        paymentMethod: method,
+      );
     });
   }
 
   /// Customer rates the fundi after payment.
-  void rateBooking({required String id, required int rating, String review = ''}) {
+  void rateBooking({
+    required String id,
+    required int rating,
+    String review = '',
+  }) {
     _updateBooking(id, (booking) {
       if (booking.status != BookingStatus.paid) return booking;
       return booking.copyWith(
@@ -467,7 +477,8 @@ class AppStore extends ChangeNotifier {
     }
 
     for (final booking in _bookings) {
-      final isAwaitingFundi = booking.status == BookingStatus.pending ||
+      final isAwaitingFundi =
+          booking.status == BookingStatus.pending ||
           booking.step == RequestStep.requested;
       items.add(
         AppNotification(
@@ -479,8 +490,7 @@ class AppStore extends ChangeNotifier {
             BookingStatus.paymentPending ||
             BookingStatus.paid ||
             BookingStatus.rated => NotificationKind.completed,
-            BookingStatus.pending =>
-              NotificationKind.awaitingFundi,
+            BookingStatus.pending => NotificationKind.awaitingFundi,
             _ => NotificationKind.inProgress,
           },
           title: _notificationTitle(booking),

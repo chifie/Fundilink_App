@@ -108,9 +108,7 @@ class _StatTile extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
-              style: text.labelMedium?.copyWith(
-                color: colors.onSurfaceVariant,
-              ),
+              style: text.labelMedium?.copyWith(color: colors.onSurfaceVariant),
             ),
           ],
         ),
@@ -154,9 +152,7 @@ class _FundiJobCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(
-                  child: Text(booking.service, style: text.titleMedium),
-                ),
+                Expanded(child: Text(booking.service, style: text.titleMedium)),
                 const SizedBox(width: 8),
                 StatusBadge(status: booking.status),
               ],
@@ -240,17 +236,13 @@ class _Actions extends StatelessWidget {
         ],
       ),
       BookingStatus.accepted => FilledButton(
-        onPressed: () => store.updateBookingStatus(
-          booking.id,
-          BookingStatus.onTheWay,
-        ),
+        onPressed: () =>
+            store.updateBookingStatus(booking.id, BookingStatus.onTheWay),
         child: const Text('Start journey'),
       ),
       BookingStatus.onTheWay => FilledButton(
-        onPressed: () => store.updateBookingStatus(
-          booking.id,
-          BookingStatus.inProgress,
-        ),
+        onPressed: () =>
+            store.updateBookingStatus(booking.id, BookingStatus.inProgress),
         child: const Text('Start job'),
       ),
       BookingStatus.inProgress => FilledButton(
@@ -258,10 +250,8 @@ class _Actions extends StatelessWidget {
         child: const Text('Complete job'),
       ),
       BookingStatus.active => FilledButton(
-        onPressed: () => store.updateBookingStatus(
-          booking.id,
-          BookingStatus.onTheWay,
-        ),
+        onPressed: () =>
+            store.updateBookingStatus(booking.id, BookingStatus.onTheWay),
         child: const Text('Start journey'),
       ),
       _ => const SizedBox.shrink(),
@@ -345,10 +335,7 @@ class _CompleteJobSheetState extends State<_CompleteJobSheet> {
               decoration: const InputDecoration(labelText: 'Material cost'),
             ),
             const SizedBox(height: 20),
-            FilledButton(
-              onPressed: _submit,
-              child: const Text('Complete job'),
-            ),
+            FilledButton(onPressed: _submit, child: const Text('Complete job')),
           ],
         ),
       ),
