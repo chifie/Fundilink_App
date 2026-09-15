@@ -39,8 +39,8 @@ class FundiAvatar extends StatelessWidget {
           child: Text(
             initials,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colors.onSecondaryContainer,
-                ),
+              color: colors.onSecondaryContainer,
+            ),
           ),
         ),
         if (isOnline)

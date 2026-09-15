@@ -5,12 +5,7 @@ import 'fundi_avatar.dart';
 
 /// List card presenting a fundi: avatar, rating, hourly price and actions.
 class FundiCard extends StatelessWidget {
-  const FundiCard({
-    super.key,
-    required this.fundi,
-    this.onView,
-    this.onBook,
-  });
+  const FundiCard({super.key, required this.fundi, this.onView, this.onBook});
 
   final FundiProfile fundi;
   final VoidCallback? onView;
@@ -46,16 +41,22 @@ class FundiCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(Icons.star_rounded,
-                              size: 16, color: colors.primary),
+                          Icon(
+                            Icons.star_rounded,
+                            size: 16,
+                            color: colors.primary,
+                          ),
                           const SizedBox(width: 2),
                           Text(
                             '${fundi.rating} (${fundi.reviewCount})',
                             style: text.labelMedium,
                           ),
                           const SizedBox(width: 12),
-                          Icon(Icons.work_outline,
-                              size: 16, color: colors.onSurfaceVariant),
+                          Icon(
+                            Icons.work_outline,
+                            size: 16,
+                            color: colors.onSurfaceVariant,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             '${fundi.jobsDone} jobs',
@@ -73,9 +74,7 @@ class FundiCard extends StatelessWidget {
                   children: [
                     Text(
                       'KSh ${fundi.pricePerHour}',
-                      style: text.titleMedium?.copyWith(
-                        color: colors.primary,
-                      ),
+                      style: text.titleMedium?.copyWith(color: colors.primary),
                     ),
                     Text(
                       'per hour',

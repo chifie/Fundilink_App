@@ -22,11 +22,7 @@ void main() {
     var toggled = false;
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: ProfileScreen(
-          onToggleTheme: () => toggled = true,
-        ),
-      ),
+      MaterialApp(home: ProfileScreen(onToggleTheme: () => toggled = true)),
     );
 
     await tester.tap(find.byIcon(Icons.brightness_6_outlined));

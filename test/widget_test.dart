@@ -36,8 +36,9 @@ void main() {
   testWidgets('light and dark Material 3 themes are applied', (tester) async {
     await pumpApp(tester);
 
-    final BuildContext initialContext =
-        tester.element(find.byType(Scaffold).first);
+    final BuildContext initialContext = tester.element(
+      find.byType(Scaffold).first,
+    );
     expect(Theme.of(initialContext).useMaterial3, isTrue);
     expect(Theme.of(initialContext).brightness, Brightness.light);
 
@@ -46,7 +47,9 @@ void main() {
     await tester.tap(find.byIcon(Icons.brightness_6_outlined));
     await tester.pumpAndSettle();
 
-    final BuildContext darkContext = tester.element(find.byType(Scaffold).first);
+    final BuildContext darkContext = tester.element(
+      find.byType(Scaffold).first,
+    );
     expect(Theme.of(darkContext).brightness, Brightness.dark);
   });
 

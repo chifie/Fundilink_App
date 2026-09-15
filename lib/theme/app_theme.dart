@@ -24,15 +24,15 @@ abstract final class AppTheme {
   /// Dark color scheme with lowered surface tones so cards and bars read
   /// as gentle steps instead of harsh contrast against the background.
   static ColorScheme get darkScheme => ColorScheme.fromSeed(
-        seedColor: _seed,
-        brightness: Brightness.dark,
-        surface: const Color(0xFF101413),
-        surfaceContainerLowest: const Color(0xFF0C100F),
-        surfaceContainerLow: const Color(0xFF161B1A),
-        surfaceContainer: const Color(0xFF1B201F),
-        surfaceContainerHigh: const Color(0xFF262B29),
-        surfaceContainerHighest: const Color(0xFF313634),
-      );
+    seedColor: _seed,
+    brightness: Brightness.dark,
+    surface: const Color(0xFF101413),
+    surfaceContainerLowest: const Color(0xFF0C100F),
+    surfaceContainerLow: const Color(0xFF161B1A),
+    surfaceContainer: const Color(0xFF1B201F),
+    surfaceContainerHigh: const Color(0xFF262B29),
+    surfaceContainerHighest: const Color(0xFF313634),
+  );
 
   static ThemeData light() => _theme(lightScheme);
 
@@ -71,9 +71,7 @@ abstract final class AppTheme {
         backgroundColor: colors.surfaceContainer,
         indicatorColor: colors.secondaryContainer,
         elevation: 0,
-        labelTextStyle: WidgetStatePropertyAll(
-          textTheme.labelMedium,
-        ),
+        labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
       ),
       chipTheme: ChipThemeData(
         shape: RoundedRectangleBorder(
@@ -94,9 +92,7 @@ abstract final class AppTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: colors.surfaceContainerLow,
@@ -154,8 +150,9 @@ abstract final class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: _buttonStyle(textTheme).copyWith(
           foregroundColor: WidgetStatePropertyAll(colors.primary),
-          padding:
-              const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(horizontal: 12),
+          ),
         ),
       ),
       // Text fields: filled tonal surface, rounded 12dp, quiet borders.
@@ -179,12 +176,11 @@ abstract final class AppTheme {
   /// Shared Material 3 button metrics: 40dp minimum height, 64dp minimum
   /// width, full corner radius and the labelLarge text style.
   static ButtonStyle _buttonStyle(TextTheme text) => ButtonStyle(
-        shape: const WidgetStatePropertyAll(StadiumBorder()),
-        minimumSize: const WidgetStatePropertyAll(Size(64, 40)),
-        padding:
-            const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 24)),
-        textStyle: WidgetStatePropertyAll(text.labelLarge),
-      );
+    shape: const WidgetStatePropertyAll(StadiumBorder()),
+    minimumSize: const WidgetStatePropertyAll(Size(64, 40)),
+    padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 24)),
+    textStyle: WidgetStatePropertyAll(text.labelLarge),
+  );
 
   static OutlineInputBorder _fieldBorder(Color color, {double width = 1}) =>
       OutlineInputBorder(
@@ -196,42 +192,49 @@ abstract final class AppTheme {
   /// spacing and line heights. Colors are left to ThemeData so roles like
   /// onSurface/onSurfaceVariant resolve per brightness.
   static TextTheme _textTheme() => const TextTheme(
-        displayLarge: TextStyle(
-            fontSize: 57, height: 64 / 57, letterSpacing: -0.25),
-        displayMedium: TextStyle(fontSize: 45, height: 52 / 45),
-        displaySmall: TextStyle(fontSize: 36, height: 44 / 36),
-        headlineLarge: TextStyle(fontSize: 32, height: 40 / 32),
-        headlineMedium: TextStyle(fontSize: 28, height: 36 / 28),
-        headlineSmall: TextStyle(fontSize: 24, height: 32 / 24),
-        titleLarge: TextStyle(fontSize: 22, height: 28 / 22),
-        titleMedium: TextStyle(
-            fontSize: 16,
-            height: 24 / 16,
-            letterSpacing: 0.15,
-            fontWeight: FontWeight.w500),
-        titleSmall: TextStyle(
-            fontSize: 14,
-            height: 20 / 14,
-            letterSpacing: 0.1,
-            fontWeight: FontWeight.w500),
-        bodyLarge: TextStyle(fontSize: 16, height: 24 / 16, letterSpacing: 0.5),
-        bodyMedium:
-            TextStyle(fontSize: 14, height: 20 / 14, letterSpacing: 0.25),
-        bodySmall: TextStyle(fontSize: 12, height: 16 / 12, letterSpacing: 0.4),
-        labelLarge: TextStyle(
-            fontSize: 14,
-            height: 20 / 14,
-            letterSpacing: 0.1,
-            fontWeight: FontWeight.w500),
-        labelMedium: TextStyle(
-            fontSize: 12,
-            height: 16 / 12,
-            letterSpacing: 0.5,
-            fontWeight: FontWeight.w500),
-        labelSmall: TextStyle(
-            fontSize: 11,
-            height: 16 / 11,
-            letterSpacing: 0.5,
-            fontWeight: FontWeight.w500),
-      );
+    displayLarge: TextStyle(
+      fontSize: 57,
+      height: 64 / 57,
+      letterSpacing: -0.25,
+    ),
+    displayMedium: TextStyle(fontSize: 45, height: 52 / 45),
+    displaySmall: TextStyle(fontSize: 36, height: 44 / 36),
+    headlineLarge: TextStyle(fontSize: 32, height: 40 / 32),
+    headlineMedium: TextStyle(fontSize: 28, height: 36 / 28),
+    headlineSmall: TextStyle(fontSize: 24, height: 32 / 24),
+    titleLarge: TextStyle(fontSize: 22, height: 28 / 22),
+    titleMedium: TextStyle(
+      fontSize: 16,
+      height: 24 / 16,
+      letterSpacing: 0.15,
+      fontWeight: FontWeight.w500,
+    ),
+    titleSmall: TextStyle(
+      fontSize: 14,
+      height: 20 / 14,
+      letterSpacing: 0.1,
+      fontWeight: FontWeight.w500,
+    ),
+    bodyLarge: TextStyle(fontSize: 16, height: 24 / 16, letterSpacing: 0.5),
+    bodyMedium: TextStyle(fontSize: 14, height: 20 / 14, letterSpacing: 0.25),
+    bodySmall: TextStyle(fontSize: 12, height: 16 / 12, letterSpacing: 0.4),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      height: 20 / 14,
+      letterSpacing: 0.1,
+      fontWeight: FontWeight.w500,
+    ),
+    labelMedium: TextStyle(
+      fontSize: 12,
+      height: 16 / 12,
+      letterSpacing: 0.5,
+      fontWeight: FontWeight.w500,
+    ),
+    labelSmall: TextStyle(
+      fontSize: 11,
+      height: 16 / 11,
+      letterSpacing: 0.5,
+      fontWeight: FontWeight.w500,
+    ),
+  );
 }

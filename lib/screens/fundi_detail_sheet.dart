@@ -31,7 +31,11 @@ class _FundiDetailSheet extends StatelessWidget {
           children: [
             Row(
               children: [
-                FundiAvatar(name: fundi.name, size: 64, isOnline: fundi.isOnline),
+                FundiAvatar(
+                  name: fundi.name,
+                  size: 64,
+                  isOnline: fundi.isOnline,
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -88,9 +92,7 @@ class _FundiDetailSheet extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Request sent to ${fundi.name}'),
-                  ),
+                  SnackBar(content: Text('Request sent to ${fundi.name}')),
                 );
               },
               icon: const Icon(Icons.event_available_outlined),

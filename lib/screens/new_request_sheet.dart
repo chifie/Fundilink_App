@@ -37,9 +37,7 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
             const SizedBox(height: 4),
             Text(
               'Pick a service and describe the job.',
-              style: text.bodyMedium?.copyWith(
-                color: colors.onSurfaceVariant,
-              ),
+              style: text.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
             ),
             const SizedBox(height: 16),
             Wrap(

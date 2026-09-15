@@ -19,8 +19,9 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bookings =
-        MockData.bookings.where((b) => b.status == _filter).toList();
+    final bookings = MockData.bookings
+        .where((b) => b.status == _filter)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('My bookings')),
@@ -56,7 +57,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
                 ? const EmptyState(
                     icon: Icons.event_busy_outlined,
                     title: 'Nothing here yet',
-                    message: 'Book a fundi and your requests will show up here.',
+                    message:
+                        'Book a fundi and your requests will show up here.',
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -65,10 +67,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: BookingCard(
                         booking: bookings[index],
-                        onDetails: () => showBookingDetailSheet(
-                          context,
-                          bookings[index],
-                        ),
+                        onDetails: () =>
+                            showBookingDetailSheet(context, bookings[index]),
                       ),
                     ),
                   ),

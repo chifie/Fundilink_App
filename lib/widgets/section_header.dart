@@ -14,16 +14,10 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            child: Text(title, style: Theme.of(context).textTheme.titleMedium),
           ),
           if (onSeeAll != null)
-            TextButton(
-              onPressed: onSeeAll,
-              child: const Text('See all'),
-            ),
+            TextButton(onPressed: onSeeAll, child: const Text('See all')),
         ],
       ),
     );

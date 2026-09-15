@@ -38,8 +38,9 @@ void main() {
     expect(find.text('Grace Wanjiku'), findsOneWidget);
   });
 
-  testWidgets('book action opens detail sheet and sends request',
-      (tester) async {
+  testWidgets('book action opens detail sheet and sends request', (
+    tester,
+  ) async {
     await pumpHome(tester);
 
     await scrollDown(tester, find.text('Book'));

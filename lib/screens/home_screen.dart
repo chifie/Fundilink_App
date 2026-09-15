@@ -33,8 +33,7 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Good morning 👋', style: text.bodyMedium),
-                        Text('Find a trusted fundi',
-                            style: text.headlineSmall),
+                        Text('Find a trusted fundi', style: text.headlineSmall),
                       ],
                     ),
                   ),
@@ -72,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (_) => const AllFundisScreen(),
-                ),
+                  ),
                 );
               },
             ),

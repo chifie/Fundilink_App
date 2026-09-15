@@ -27,7 +27,9 @@ void main() {
     expect(find.text('Deep house cleaning'), findsNothing);
   });
 
-  testWidgets('switching to Cancelled shows cancelled bookings', (tester) async {
+  testWidgets('switching to Cancelled shows cancelled bookings', (
+    tester,
+  ) async {
     await pumpBookings(tester);
 
     await tester.tap(find.text('Cancelled'));

@@ -60,8 +60,11 @@ class BookingCard extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                Icon(Icons.event_outlined,
-                    size: 16, color: colors.onSurfaceVariant),
+                Icon(
+                  Icons.event_outlined,
+                  size: 16,
+                  color: colors.onSurfaceVariant,
+                ),
                 const SizedBox(width: 4),
                 Text(booking.dateLabel, style: text.labelMedium),
                 const Spacer(),
@@ -128,20 +131,21 @@ class _ProgressTracker extends StatelessWidget {
                   height: 12,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:
-                        i <= index ? colors.primary : colors.surfaceContainerHighest,
+                    color: i <= index
+                        ? colors.primary
+                        : colors.surfaceContainerHighest,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   labels[i],
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: i <= index
-                            ? colors.onSurface
-                            : colors.onSurfaceVariant,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    color: i <= index
+                        ? colors.onSurface
+                        : colors.onSurfaceVariant,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -151,7 +155,9 @@ class _ProgressTracker extends StatelessWidget {
               width: 16,
               height: 2,
               margin: const EdgeInsets.only(bottom: 18),
-              color: i < index ? colors.primary : colors.surfaceContainerHighest,
+              color: i < index
+                  ? colors.primary
+                  : colors.surfaceContainerHighest,
             ),
         ],
       ],

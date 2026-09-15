@@ -8,20 +8,22 @@ import 'package:fundilink_app/widgets/empty_state.dart';
 import 'package:fundilink_app/widgets/fundi_card.dart';
 
 FundiProfile _fundi() => const FundiProfile(
-      name: 'Grace Wanjiku',
-      skill: FundiSkill.cleaning,
-      rating: 4.9,
-      reviewCount: 132,
-      jobsDone: 214,
-      pricePerHour: 600,
-      isOnline: true,
-    );
+  name: 'Grace Wanjiku',
+  skill: FundiSkill.cleaning,
+  rating: 4.9,
+  reviewCount: 132,
+  jobsDone: 214,
+  pricePerHour: 600,
+  isOnline: true,
+);
 
 void main() {
   group('FundiCard', () {
     testWidgets('shows name, skill, rating and price', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: Scaffold(body: FundiCard(fundi: _fundi()))),
+        MaterialApp(
+          home: Scaffold(body: FundiCard(fundi: _fundi())),
+        ),
       );
 
       expect(find.text('Grace Wanjiku'), findsOneWidget);
@@ -32,7 +34,9 @@ void main() {
   });
 
   group('BookingCard', () {
-    testWidgets('active booking shows progress tracker and cancel', (tester) async {
+    testWidgets('active booking shows progress tracker and cancel', (
+      tester,
+    ) async {
       final booking = Booking(
         id: 'b1',
         fundi: _fundi(),
@@ -44,7 +48,9 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(home: Scaffold(body: BookingCard(booking: booking))),
+        MaterialApp(
+          home: Scaffold(body: BookingCard(booking: booking)),
+        ),
       );
 
       expect(find.text('Active'), findsOneWidget);
@@ -53,7 +59,9 @@ void main() {
       expect(find.text('KSh 1800'), findsOneWidget);
     });
 
-    testWidgets('completed booking offers rebook without tracker', (tester) async {
+    testWidgets('completed booking offers rebook without tracker', (
+      tester,
+    ) async {
       final booking = Booking(
         id: 'b3',
         fundi: _fundi(),
@@ -65,7 +73,9 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(home: Scaffold(body: BookingCard(booking: booking))),
+        MaterialApp(
+          home: Scaffold(body: BookingCard(booking: booking)),
+        ),
       );
 
       expect(find.text('Rebook'), findsOneWidget);

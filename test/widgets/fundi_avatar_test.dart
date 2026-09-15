@@ -9,7 +9,9 @@ void main() {
   group('FundiAvatar', () {
     testWidgets('shows initials of the name', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(home: Scaffold(body: FundiAvatar(name: 'Grace Wanjiku'))),
+        const MaterialApp(
+          home: Scaffold(body: FundiAvatar(name: 'Grace Wanjiku')),
+        ),
       );
 
       expect(find.text('GW'), findsOneWidget);
@@ -18,7 +20,9 @@ void main() {
     testWidgets('shows online dot when online', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(body: FundiAvatar(name: 'Grace Wanjiku', isOnline: true)),
+          home: Scaffold(
+            body: FundiAvatar(name: 'Grace Wanjiku', isOnline: true),
+          ),
         ),
       );
 
@@ -39,8 +43,8 @@ void main() {
   group('StatusBadge', () {
     testWidgets('renders label for each status', (tester) async {
       Widget wrap(BookingStatus status) => MaterialApp(
-            home: Scaffold(body: StatusBadge(status: status)),
-          );
+        home: Scaffold(body: StatusBadge(status: status)),
+      );
 
       await tester.pumpWidget(wrap(BookingStatus.active));
       expect(find.text('Active'), findsOneWidget);

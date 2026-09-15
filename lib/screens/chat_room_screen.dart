@@ -68,8 +68,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[_messages.length - 1 - index];
-                final bubbleColor =
-                    message.fromMe ? colors.primaryContainer : colors.surfaceContainerHigh;
+                final bubbleColor = message.fromMe
+                    ? colors.primaryContainer
+                    : colors.surfaceContainerHigh;
                 return Align(
                   alignment: message.fromMe
                       ? Alignment.centerRight

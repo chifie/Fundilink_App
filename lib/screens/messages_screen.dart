@@ -21,10 +21,7 @@ class MessagesScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final chat = MockData.chats[index];
           return ListTile(
-            leading: FundiAvatar(
-              name: chat.name,
-              isOnline: chat.isOnline,
-            ),
+            leading: FundiAvatar(name: chat.name, isOnline: chat.isOnline),
             title: Text(chat.name),
             subtitle: Text(
               chat.lastMessage,
@@ -54,9 +51,7 @@ class MessagesScreen extends StatelessWidget {
                     ),
                     child: Text(
                       '${chat.unreadCount}',
-                      style: text.labelSmall?.copyWith(
-                        color: colors.onPrimary,
-                      ),
+                      style: text.labelSmall?.copyWith(color: colors.onPrimary),
                     ),
                   ),
               ],

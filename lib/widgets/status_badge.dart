@@ -39,23 +39,23 @@ class StatusBadge extends StatelessWidget {
 
     final (Color bg, Color fg, String label, IconData icon) = switch (status) {
       BookingStatus.active => (
-          colors.primaryContainer,
-          colors.onPrimaryContainer,
-          'Active',
-          Icons.schedule,
-        ),
+        colors.primaryContainer,
+        colors.onPrimaryContainer,
+        'Active',
+        Icons.schedule,
+      ),
       BookingStatus.completed => (
-          colors.secondaryContainer,
-          colors.onSecondaryContainer,
-          'Completed',
-          Icons.check_circle_outline,
-        ),
+        colors.secondaryContainer,
+        colors.onSecondaryContainer,
+        'Completed',
+        Icons.check_circle_outline,
+      ),
       BookingStatus.cancelled => (
-          colors.errorContainer,
-          colors.onErrorContainer,
-          'Cancelled',
-          Icons.cancel_outlined,
-        ),
+        colors.errorContainer,
+        colors.onErrorContainer,
+        'Cancelled',
+        Icons.cancel_outlined,
+      ),
     };
 
     return Container(
@@ -71,10 +71,7 @@ class StatusBadge extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: Theme.of(context)
-                .textTheme
-                .labelMedium
-                ?.copyWith(color: fg),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: fg),
           ),
         ],
       ),

@@ -12,11 +12,11 @@ enum FundiSort { rating, priceLow, priceHigh, jobs }
 /// Human labels for the sort options.
 extension FundiSortLabel on FundiSort {
   String get label => switch (this) {
-        FundiSort.rating => 'Top rated',
-        FundiSort.priceLow => 'Price: low to high',
-        FundiSort.priceHigh => 'Price: high to low',
-        FundiSort.jobs => 'Most jobs',
-      };
+    FundiSort.rating => 'Top rated',
+    FundiSort.priceLow => 'Price: low to high',
+    FundiSort.priceHigh => 'Price: high to low',
+    FundiSort.jobs => 'Most jobs',
+  };
 }
 
 /// Full fundi catalogue with skill filters and sorting.
@@ -32,21 +32,22 @@ class _AllFundisScreenState extends State<AllFundisScreen> {
   FundiSort _sort = FundiSort.rating;
 
   List<FundiProfile> get _filtered {
-    final fundis = MockData.fundis
-        .where((f) => _skillFilter == null || f.skill == _skillFilter)
-        .toList()
-      ..sort((a, b) {
-        switch (_sort) {
-          case FundiSort.rating:
-            return b.rating.compareTo(a.rating);
-          case FundiSort.priceLow:
-            return a.pricePerHour.compareTo(b.pricePerHour);
-          case FundiSort.priceHigh:
-            return b.pricePerHour.compareTo(a.pricePerHour);
-          case FundiSort.jobs:
-            return b.jobsDone.compareTo(a.jobsDone);
-        }
-      });
+    final fundis =
+        MockData.fundis
+            .where((f) => _skillFilter == null || f.skill == _skillFilter)
+            .toList()
+          ..sort((a, b) {
+            switch (_sort) {
+              case FundiSort.rating:
+                return b.rating.compareTo(a.rating);
+              case FundiSort.priceLow:
+                return a.pricePerHour.compareTo(b.pricePerHour);
+              case FundiSort.priceHigh:
+                return b.pricePerHour.compareTo(a.pricePerHour);
+              case FundiSort.jobs:
+                return b.jobsDone.compareTo(a.jobsDone);
+            }
+          });
     return fundis;
   }
 
@@ -99,10 +100,7 @@ class _AllFundisScreenState extends State<AllFundisScreen> {
                     underline: const SizedBox.shrink(),
                     items: [
                       for (final sort in FundiSort.values)
-                        DropdownMenuItem(
-                          value: sort,
-                          child: Text(sort.label),
-                        ),
+                        DropdownMenuItem(value: sort, child: Text(sort.label)),
                     ],
                     onChanged: (sort) {
                       if (sort != null) setState(() => _sort = sort);

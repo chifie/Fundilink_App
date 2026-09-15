@@ -54,8 +54,11 @@ class _BookingDetailSheet extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               children: [
-                Icon(Icons.event_outlined,
-                    size: 18, color: colors.onSurfaceVariant),
+                Icon(
+                  Icons.event_outlined,
+                  size: 18,
+                  color: colors.onSurfaceVariant,
+                ),
                 const SizedBox(width: 6),
                 Text(booking.dateLabel, style: text.bodyMedium),
                 const Spacer(),
@@ -111,7 +114,9 @@ class _TimelineTile extends StatelessWidget {
                 height: 12,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isDone ? colors.primary : colors.surfaceContainerHighest,
+                  color: isDone
+                      ? colors.primary
+                      : colors.surfaceContainerHighest,
                 ),
               ),
               if (!isLast)

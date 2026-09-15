@@ -31,13 +31,15 @@ class ProfileScreen extends StatelessWidget {
             children: [
               const FundiAvatar(name: 'Amina Yusuf', size: 72),
               const SizedBox(height: 12),
-              Text('Amina Yusuf',
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'Amina Yusuf',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               Text(
                 'amina.yusuf@example.com',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colors.onSurfaceVariant,
-                    ),
+                  color: colors.onSurfaceVariant,
+                ),
               ),
             ],
           ),
