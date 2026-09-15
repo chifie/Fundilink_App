@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/bookings_screen.dart';
+import '../screens/new_request_sheet.dart';
 import '../screens/home_screen.dart';
 import '../screens/messages_screen.dart';
 import '../screens/profile_screen.dart';
@@ -21,11 +22,25 @@ class HomeShell extends StatefulWidget {
 class _HomeShellState extends State<HomeShell> {
   _Tab _current = _Tab.home;
 
+  void _showNewRequestSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => const NewRequestSheet(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'new-request',
+        onPressed: () => _showNewRequestSheet(context),
+        icon: const Icon(Icons.add),
+        label: const Text('New request'),
+      ),
       body: IndexedStack(
         index: _current.index,
         children: [
