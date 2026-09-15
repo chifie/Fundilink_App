@@ -17,4 +17,36 @@ class Conversation {
   final String timeLabel;
   final int unreadCount;
   final bool isOnline;
+
+  /// True when the customer still has messages to catch up on.
+  bool get hasUnread => unreadCount > 0;
+
+  /// Copy with any field replaced; omitted fields keep their value.
+  Conversation copyWith({
+    String? name,
+    String? lastMessage,
+    String? timeLabel,
+    int? unreadCount,
+    bool? isOnline,
+  }) => Conversation(
+    name: name ?? this.name,
+    lastMessage: lastMessage ?? this.lastMessage,
+    timeLabel: timeLabel ?? this.timeLabel,
+    unreadCount: unreadCount ?? this.unreadCount,
+    isOnline: isOnline ?? this.isOnline,
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Conversation &&
+          other.name == name &&
+          other.lastMessage == lastMessage &&
+          other.timeLabel == timeLabel &&
+          other.unreadCount == unreadCount &&
+          other.isOnline == isOnline;
+
+  @override
+  int get hashCode =>
+      Object.hash(name, lastMessage, timeLabel, unreadCount, isOnline);
 }
