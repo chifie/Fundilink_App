@@ -477,7 +477,10 @@ class AppStore extends ChangeNotifier {
     }
 
     for (final booking in _bookings) {
-      final isAwaitingFundi = booking.status == BookingStatus.pending;
+      final isAwaitingFundi =
+          booking.status == BookingStatus.pending ||
+          (booking.status == BookingStatus.active &&
+              booking.step == RequestStep.requested);
       items.add(
         AppNotification(
           id: 'booking-${booking.id}',
@@ -528,7 +531,9 @@ class AppStore extends ChangeNotifier {
     if (booking.status == BookingStatus.cancelled) {
       return '${booking.service} was cancelled';
     }
-    if (booking.status == BookingStatus.pending) {
+    if (booking.status == BookingStatus.pending ||
+        (booking.status == BookingStatus.active &&
+            booking.step == RequestStep.requested)) {
       return 'Waiting for a fundi to accept';
     }
     if (booking.status == BookingStatus.accepted) {

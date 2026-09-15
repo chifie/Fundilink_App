@@ -210,5 +210,6 @@ class Booking {
   };
 
   static BookingStatus _statusFromName(String name) =>
-      BookingStatus.values.asNameMap()[name] ?? BookingStatus.pending;
+      BookingStatus.values.asNameMap()[name] ??
+      (throw FormatException('Unknown booking status: $name'));
 }
