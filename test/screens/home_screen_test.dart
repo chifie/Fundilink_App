@@ -147,7 +147,7 @@ void main() {
     expect(requested.fundi.name, 'Grace Wanjiku');
     expect(requested.service, 'Cleaning job');
     expect(requested.price, 600);
-    expect(requested.status, BookingStatus.active);
+    expect(requested.status, BookingStatus.pending);
     expect(requested.step, RequestStep.requested);
   });
 }

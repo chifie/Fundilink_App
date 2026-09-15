@@ -398,7 +398,7 @@ void main() {
       expect(store.bookings.first, booking);
       expect(booking!.fundi.name, 'Grace Wanjiku');
       expect(booking.price, booking.fundi.pricePerHour);
-      expect(booking.status, BookingStatus.active);
+      expect(booking.status, BookingStatus.pending);
       expect(booking.step, RequestStep.requested);
       expect(storage.getString(AppStore.bookingsKey), contains('Deep clean'));
     });
