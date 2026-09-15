@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fundilink_app/models/address.dart';
 import 'package:fundilink_app/models/booking.dart';
 import 'package:fundilink_app/models/chat.dart';
 import 'package:fundilink_app/models/fundi.dart';
@@ -133,6 +134,25 @@ void main() {
       );
 
       expect(restored, _conversation);
+    });
+
+    test('SavedAddress round-trips through a JSON string', () {
+      const address = SavedAddress(
+        id: 'address-home',
+        label: 'Home',
+        line: 'Riverside Drive, Kilimani, Nairobi',
+        isDefault: true,
+      );
+
+      expect(SavedAddress.fromJson(_throughJson(address.toJson())), address);
+    });
+
+    test('copyWith keeps the id when it renames an address', () {
+      final renamed = SavedAddress.demo.first.copyWith(label: 'Flat');
+
+      expect(renamed.id, SavedAddress.demo.first.id);
+      expect(renamed.line, SavedAddress.demo.first.line);
+      expect(renamed.isDefault, SavedAddress.demo.first.isDefault);
     });
 
     test('enums are persisted by name, not by index', () {

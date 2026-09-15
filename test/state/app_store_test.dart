@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fundilink_app/data/mock_data.dart';
 import 'package:fundilink_app/models/booking.dart';
 import 'package:fundilink_app/models/chat.dart';
+import 'package:fundilink_app/models/address.dart';
 import 'package:fundilink_app/models/customer.dart';
 import 'package:fundilink_app/models/fundi.dart';
 import 'package:fundilink_app/state/app_store.dart';
@@ -283,6 +284,100 @@ void main() {
       store.clearRecentSearches();
 
       expect(store.recentSearches, isEmpty);
+    });
+  });
+
+  group('addresses', () {
+    test('starts from the demo addresses', () {
+      expect(_store().addresses, SavedAddress.demo);
+      expect(_store().defaultAddress?.label, 'Home');
+    });
+
+    test('a new address is only default when the list was empty', () {
+      final store = _store()
+        ..removeAddress('address-home')
+        ..removeAddress('address-office');
+
+      store.addAddress(label: 'Gym', line: 'Sarit Centre, Westlands');
+      expect(store.defaultAddress?.label, 'Gym');
+
+      store.addAddress(label: 'Mum', line: 'Ngong Road, Nairobi');
+      expect(store.defaultAddress?.label, 'Gym');
+    });
+
+    test('removing the default promotes another address', () {
+      final store = _store()..removeAddress('address-home');
+
+      expect(store.addresses, hasLength(1));
+      expect(store.defaultAddress?.label, 'Office');
+    });
+
+    test('removing the last address leaves no default to report', () {
+      final store = _store()
+        ..removeAddress('address-home')
+        ..removeAddress('address-office');
+
+      expect(store.addresses, isEmpty);
+      expect(store.defaultAddress, isNull);
+    });
+
+    test('makeDefaultAddress moves the flag to exactly one address', () {
+      final store = _store();
+      final office = store.addresses[1].id;
+
+      store.makeDefaultAddress(office);
+
+      expect(store.defaultAddress?.label, 'Office');
+      expect(
+        store.addresses.where((address) => address.isDefault),
+        hasLength(1),
+      );
+    });
+
+    test('makeDefaultAddress ignores unknown ids', () {
+      final store = _store();
+      var notifications = 0;
+      store.addListener(() => notifications++);
+
+      store.makeDefaultAddress('missing');
+
+      expect(notifications, 0);
+      expect(store.defaultAddress?.label, 'Home');
+    });
+
+    test('persists additions and restores them', () {
+      final storage = InMemoryKeyValueStore();
+      AppStore(
+        storage: storage,
+      ).addAddress(label: 'Gym', line: 'Sarit Centre, Westlands');
+
+      final restored = AppStore(storage: storage);
+
+      expect(restored.addresses, hasLength(3));
+      expect(restored.addresses.last.label, 'Gym');
+    });
+
+    test('ids stay unique across a restore', () {
+      final storage = InMemoryKeyValueStore();
+      final first = AppStore(storage: storage)
+        ..addAddress(label: 'Gym', line: 'Sarit Centre, Westlands');
+      final restored = AppStore(storage: storage)
+        ..addAddress(label: 'Mum', line: 'Ngong Road, Nairobi');
+
+      expect(
+        restored.addresses.map((address) => address.id).toSet(),
+        hasLength(restored.addresses.length),
+        reason:
+            'the restored address must not reuse ${first.addresses.last.id}',
+      );
+    });
+
+    test('keeps the demo addresses when the payload is unreadable', () {
+      final store = AppStore(
+        storage: InMemoryKeyValueStore({AppStore.addressesKey: 'not json'}),
+      );
+
+      expect(store.addresses, SavedAddress.demo);
     });
   });
 

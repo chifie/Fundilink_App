@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
+import '../models/address.dart';
 import '../models/booking.dart';
 import '../models/chat.dart';
 import '../models/customer.dart';
@@ -48,6 +49,7 @@ class AppStore extends ChangeNotifier {
   static const String conversationsKey = 'conversations';
   static const String recentSearchesKey = 'recent_searches';
   static const String profileKey = 'profile';
+  static const String addressesKey = 'addresses';
 
   final List<FundiProfile> _fundis;
   final List<Booking> _bookings;
@@ -61,6 +63,12 @@ class AppStore extends ChangeNotifier {
 
   /// Starts from the demo profile and is replaced by saved details, if any.
   CustomerProfile _profile = CustomerProfile.demo;
+
+  final List<SavedAddress> _addresses = [...SavedAddress.demo];
+
+  /// Counter behind new address ids, kept above the restored ids so an id
+  /// is never reused across launches.
+  int _nextAddressId = 0;
 
   // ---------------------------------------------------------------- catalogue
 
@@ -214,6 +222,58 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  // --------------------------------------------------------------- addresses
+
+  /// Places the customer can send a fundi to, in the order they were added.
+  List<SavedAddress> get addresses => List.unmodifiable(_addresses);
+
+  /// The address new bookings default to, or null when none is saved.
+  SavedAddress? get defaultAddress => _addresses.isEmpty
+      ? null
+      : _addresses.firstWhere(
+          (address) => address.isDefault,
+          orElse: () => _addresses.first,
+        );
+
+  /// Adds a place, making it the default if it is the first one.
+  void addAddress({required String label, required String line}) {
+    _addresses.add(
+      SavedAddress(
+        id: 'address-${_nextAddressId++}',
+        label: label,
+        line: line,
+        isDefault: _addresses.isEmpty,
+      ),
+    );
+    _persistAddresses();
+    notifyListeners();
+  }
+
+  /// Removes a place, promoting another one if it was the default.
+  void removeAddress(String id) {
+    final index = _addresses.indexWhere((address) => address.id == id);
+    if (index == -1) return;
+
+    final removed = _addresses.removeAt(index);
+    if (removed.isDefault && _addresses.isNotEmpty) {
+      _addresses[0] = _addresses[0].copyWith(isDefault: true);
+    }
+    _persistAddresses();
+    notifyListeners();
+  }
+
+  /// Makes one place the default and clears the flag from the others.
+  void makeDefaultAddress(String id) {
+    final index = _addresses.indexWhere((address) => address.id == id);
+    if (index == -1 || _addresses[index].isDefault) return;
+
+    for (var i = 0; i < _addresses.length; i++) {
+      _addresses[i] = _addresses[i].copyWith(isDefault: i == index);
+    }
+    _persistAddresses();
+    notifyListeners();
+  }
+
   // -------------------------------------------------------------------- theme
 
   /// Whether the app follows the system, light or dark scheme.
@@ -284,6 +344,17 @@ class AppStore extends ChangeNotifier {
     if (profile != null) {
       _profile = _decodeProfile(profile) ?? _profile;
     }
+
+    final addresses = _decodeList(
+      storage.getString(addressesKey),
+      SavedAddress.fromJson,
+    );
+    if (addresses != null) {
+      _addresses
+        ..clear()
+        ..addAll(addresses);
+      _nextAddressId = addresses.length;
+    }
   }
 
   static CustomerProfile? _decodeProfile(String raw) {
@@ -326,6 +397,9 @@ class AppStore extends ChangeNotifier {
 
   void _persistRecentSearches() =>
       _storage?.setStrings(recentSearchesKey, _recentSearches);
+
+  void _persistAddresses() =>
+      _persistList(addressesKey, _addresses, (SavedAddress a) => a.toJson());
 
   void _persistList<T>(
     String key,

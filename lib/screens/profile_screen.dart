@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/appearance_screen.dart';
 import '../screens/edit_profile_screen.dart';
+import '../screens/saved_addresses_screen.dart';
 import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 import '../widgets/settings_tile.dart';
@@ -70,7 +71,12 @@ class ProfileScreen extends StatelessWidget {
               SettingsTile(
                 icon: Icons.location_on_outlined,
                 label: 'Saved addresses',
-                onTap: () {},
+                trailing: Text('${context.store.addresses.length}'),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const SavedAddressesScreen(),
+                  ),
+                ),
               ),
               SettingsTile(
                 icon: Icons.payments_outlined,
