@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/chat.dart';
+import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 
-/// A single chat message shown as a bubble.
-class ChatMessage {
-  const ChatMessage({required this.text, required this.fromMe});
-
-  final String text;
-  final bool fromMe;
-}
-
-/// Simple conversation view: static history plus a working composer.
+/// Conversation view backed by the store's thread for [contactName].
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen({super.key, required this.contactName});
 
@@ -21,13 +15,18 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  final _messages = <ChatMessage>[
-    const ChatMessage(text: 'Hello! Are you available tomorrow?', fromMe: true),
-    const ChatMessage(text: 'Yes, I am free from 9 AM.', fromMe: false),
-    const ChatMessage(text: 'I will be there in 20 minutes 🙂', fromMe: false),
-  ];
+  final TextEditingController _composerController = TextEditingController();
 
-  final _composerController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    // Opening a thread counts as reading it. Deferred to after the first
+    // frame because notifying listeners mid-build is not allowed.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.storeRead.markConversationRead(widget.contactName);
+    });
+  }
 
   @override
   void dispose() {
@@ -38,16 +37,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   void _send() {
     final text = _composerController.text.trim();
     if (text.isEmpty) return;
-    setState(() {
-      _messages.add(ChatMessage(text: text, fromMe: true));
-      _composerController.clear();
-    });
+
+    context.storeRead.sendMessage(contactName: widget.contactName, text: text);
+    _composerController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final messages = context.store.messagesFor(widget.contactName);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,37 +61,30 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              reverse: true,
-              padding: const EdgeInsets.all(16),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[_messages.length - 1 - index];
-                final bubbleColor = message.fromMe
-                    ? colors.primaryContainer
-                    : colors.surfaceContainerHigh;
-                return Align(
-                  alignment: message.fromMe
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 10,
+            child: messages.isEmpty
+                ? Center(
+                    child: Text(
+                      'Say hello to ${widget.contactName}',
+                      style: text.bodyMedium?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
                     ),
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.75,
-                    ),
-                    decoration: BoxDecoration(
-                      color: bubbleColor,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(message.text, style: text.bodyMedium),
+                  )
+                : ListView.builder(
+                    // Reversed so new messages sit at the bottom and the
+                    // list starts scrolled to the newest one.
+                    reverse: true,
+                    padding: const EdgeInsets.all(16),
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[messages.length - 1 - index];
+                      return _MessageBubble(
+                        message: message,
+                        colors: colors,
+                        text: text,
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
           SafeArea(
             child: Padding(
@@ -119,6 +111,66 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// One message bubble with its clock label.
+class _MessageBubble extends StatelessWidget {
+  const _MessageBubble({
+    required this.message,
+    required this.colors,
+    required this.text,
+  });
+
+  final ChatMessage message;
+  final ColorScheme colors;
+  final TextTheme text;
+
+  @override
+  Widget build(BuildContext context) {
+    final bubbleColor = message.isMine
+        ? colors.primaryContainer
+        : colors.surfaceContainerHigh;
+    final labelColor = message.isMine
+        ? colors.onPrimaryContainer
+        : colors.onSurfaceVariant;
+
+    return Align(
+      alignment: message.isMine ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.75,
+        ),
+        decoration: BoxDecoration(
+          color: bubbleColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                message.text,
+                style: text.bodyMedium?.copyWith(
+                  color: message.isMine ? colors.onPrimaryContainer : null,
+                ),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              message.timeLabel,
+              style: text.labelSmall?.copyWith(
+                color: labelColor.withAlpha(178),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

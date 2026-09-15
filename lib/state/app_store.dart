@@ -157,7 +157,7 @@ class AppStore extends ChangeNotifier {
   int get unreadMessageCount =>
       _conversations.fold(0, (total, chat) => total + chat.unreadCount);
 
-  /// Appends an outgoing message to a thread by bumping its preview.
+  /// Appends an outgoing message to a thread and updates its preview.
   ///
   /// Blank messages are ignored so an empty composer cannot create a thread
   /// entry with no content.
@@ -168,12 +168,24 @@ class AppStore extends ChangeNotifier {
     final index = _conversations.indexWhere((c) => c.name == contactName);
     if (index == -1) return;
 
+    final sentAt = _clock();
     _conversations[index] = _conversations[index].copyWith(
       lastMessage: message,
-      timeLabel: Formatters.timeOfDay(_clock()),
+      timeLabel: Formatters.timeOfDay(sentAt),
       unreadCount: 0,
     );
+    _messages
+        .putIfAbsent(contactName, () => <ChatMessage>[])
+        .add(
+          ChatMessage(
+            text: message,
+            sentAt: sentAt,
+            author: ChatAuthor.customer,
+          ),
+        );
+
     _persistConversations();
+    _persistMessages();
     notifyListeners();
   }
 
@@ -439,6 +451,14 @@ class AppStore extends ChangeNotifier {
 
   void _persistAddresses() =>
       _persistList(addressesKey, _addresses, (SavedAddress a) => a.toJson());
+
+  void _persistMessages() => _storage?.setString(
+    messagesKey,
+    jsonEncode({
+      for (final entry in _messages.entries)
+        entry.key: [for (final message in entry.value) message.toJson()],
+    }),
+  );
 
   void _persistList<T>(
     String key,

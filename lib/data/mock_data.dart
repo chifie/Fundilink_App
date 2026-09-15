@@ -106,8 +106,8 @@ abstract final class MockData {
 
   /// Thread history keyed by contact name.
   ///
-  /// The newest message in each thread matches that conversation's preview
-  /// above so the list and the chat room never disagree.
+  /// The newest message in each thread is the one previewed in the chats
+  /// list; the list shows a short timestamp while bubbles show a clock.
   static final Map<String, List<ChatMessage>> messages = {
     'Grace Wanjiku': [
       ChatMessage(

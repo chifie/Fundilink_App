@@ -314,6 +314,30 @@ void main() {
       );
     });
 
+    test('sendMessage appends to the thread and persists it', () {
+      final storage = InMemoryKeyValueStore();
+      final store = AppStore(storage: storage);
+
+      store.sendMessage(contactName: 'Grace Wanjiku', text: 'Karibu');
+
+      final sent = store.messagesFor('Grace Wanjiku').last;
+      expect(sent.text, 'Karibu');
+      expect(sent.author, ChatAuthor.customer);
+      expect(storage.getString(AppStore.messagesKey), contains('Karibu'));
+      expect(
+        AppStore(storage: storage).messagesFor('Grace Wanjiku').last.text,
+        'Karibu',
+      );
+    });
+
+    test('sendMessage keeps unknown contacts out of the store', () {
+      final store = _store();
+
+      store.sendMessage(contactName: 'Nobody', text: 'Hello');
+
+      expect(store.messagesFor('Nobody'), isEmpty);
+    });
+
     test('every demo conversation has a matching thread', () {
       final store = AppStore();
 
