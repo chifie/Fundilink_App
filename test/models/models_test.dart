@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fundilink_app/models/booking.dart';
 import 'package:fundilink_app/models/chat.dart';
@@ -13,6 +15,14 @@ const FundiProfile _grace = FundiProfile(
   isOnline: true,
 );
 
+const Conversation _conversation = Conversation(
+  name: 'Grace Wanjiku',
+  lastMessage: 'I will be there in 20 minutes 🙂',
+  timeLabel: '09:41',
+  unreadCount: 2,
+  isOnline: true,
+);
+
 Booking _booking({
   BookingStatus status = BookingStatus.active,
   RequestStep step = RequestStep.inProgress,
@@ -25,6 +35,11 @@ Booking _booking({
   status: status,
   step: step,
 );
+
+/// Round-trips a map through a real JSON string, so the test also catches
+/// values that are not actually encodable.
+Map<String, dynamic> _throughJson(Map<String, dynamic> json) =>
+    jsonDecode(jsonEncode(json)) as Map<String, dynamic>;
 
 void main() {
   group('FundiProfile', () {
@@ -74,30 +89,55 @@ void main() {
   });
 
   group('Conversation', () {
-    const conversation = Conversation(
-      name: 'Grace Wanjiku',
-      lastMessage: 'I will be there in 20 minutes 🙂',
-      timeLabel: '09:41',
-      unreadCount: 2,
-      isOnline: true,
-    );
-
     test('hasUnread is false once the counter reaches zero', () {
-      expect(conversation.hasUnread, isTrue);
-      expect(conversation.copyWith(unreadCount: 0).hasUnread, isFalse);
+      expect(_conversation.hasUnread, isTrue);
+      expect(_conversation.copyWith(unreadCount: 0).hasUnread, isFalse);
     });
 
     test('copyWith updates the preview and keeps the rest', () {
-      final updated = conversation.copyWith(
+      final updated = _conversation.copyWith(
         lastMessage: 'Karibu!',
         timeLabel: '10:02',
       );
 
       expect(updated.lastMessage, 'Karibu!');
       expect(updated.timeLabel, '10:02');
-      expect(updated.name, conversation.name);
-      expect(updated.unreadCount, conversation.unreadCount);
-      expect(updated == conversation, isFalse);
+      expect(updated.name, _conversation.name);
+      expect(updated.unreadCount, _conversation.unreadCount);
+      expect(updated == _conversation, isFalse);
+    });
+  });
+
+  group('JSON serialization', () {
+    test('FundiProfile round-trips through a JSON string', () {
+      final restored = FundiProfile.fromJson(_throughJson(_grace.toJson()));
+
+      expect(restored, _grace);
+      expect(restored.skill, FundiSkill.cleaning);
+      expect(restored.rating, 4.9);
+    });
+
+    test('Booking round-trips its nested fundi and schedule', () {
+      final booking = _booking(status: BookingStatus.completed);
+      final restored = Booking.fromJson(_throughJson(booking.toJson()));
+
+      expect(restored, booking);
+      expect(restored.fundi, _grace);
+      expect(restored.scheduledAt, DateTime(2026, 9, 20, 14));
+      expect(restored.status, BookingStatus.completed);
+    });
+
+    test('Conversation round-trips through a JSON string', () {
+      final restored = Conversation.fromJson(
+        _throughJson(_conversation.toJson()),
+      );
+
+      expect(restored, _conversation);
+    });
+
+    test('enums are persisted by name, not by index', () {
+      expect(_booking().toJson()['step'], 'inProgress');
+      expect(_booking().toJson()['status'], 'active');
     });
   });
 }
