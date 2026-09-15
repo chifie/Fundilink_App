@@ -3,10 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fundilink_app/screens/bookings_screen.dart';
 
+import '../support/pump_app.dart';
+
 void main() {
   Future<void> pumpBookings(WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(home: BookingsScreen()));
-    await tester.pumpAndSettle();
+    await pumpWithStore(tester, const BookingsScreen());
   }
 
   testWidgets('active filter shows in-progress bookings only', (tester) async {

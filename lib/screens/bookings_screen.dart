@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../data/mock_data.dart';
 import '../models/booking.dart';
 import '../screens/booking_detail_sheet.dart';
+import '../state/store_scope.dart';
 import '../widgets/booking_card.dart';
 import '../widgets/empty_state.dart';
 
@@ -19,9 +19,9 @@ class _BookingsScreenState extends State<BookingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bookings = MockData.bookings
-        .where((b) => b.status == _filter)
-        .toList();
+    // Watching the store keeps this list in step with cancellations and
+    // with requests created from the new-request sheet.
+    final bookings = context.store.bookingsWithStatus(_filter);
 
     return Scaffold(
       appBar: AppBar(title: const Text('My bookings')),
