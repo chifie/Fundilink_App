@@ -15,4 +15,29 @@ void main() {
       expect(Formatters.currency(1499.6), 'KSh 1,500');
     });
   });
+
+  group('date and time formatting', () {
+    test('dayMonth drops the leading zero on single digit days', () {
+      expect(Formatters.dayMonth(DateTime(2026, 9, 5)), 'Sep 5');
+      expect(Formatters.dayMonth(DateTime(2026, 9, 20)), 'Sep 20');
+    });
+
+    test('timeOfDay renders a 12-hour clock without seconds', () {
+      expect(Formatters.timeOfDay(DateTime(2026, 9, 20, 14)), '2:00 PM');
+      expect(Formatters.timeOfDay(DateTime(2026, 9, 20, 9, 30)), '9:30 AM');
+      expect(Formatters.timeOfDay(DateTime(2026, 9, 20, 0, 5)), '12:05 AM');
+      expect(Formatters.timeOfDay(DateTime(2026, 9, 20, 12)), '12:00 PM');
+    });
+
+    test('dateTime joins day and time with a separator', () {
+      expect(
+        Formatters.dateTime(DateTime(2026, 9, 20, 14)),
+        'Sep 20 · 2:00 PM',
+      );
+    });
+
+    test('fullDate spells out the weekday and year', () {
+      expect(Formatters.fullDate(DateTime(2026, 9, 20)), 'Sun, Sep 20, 2026');
+    });
+  });
 }
