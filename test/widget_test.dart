@@ -78,10 +78,7 @@ void main() {
     // The home tab keeps its search field behind the sheet, so target the
     // sheet's own description field.
     await tester.enterText(
-      find.descendant(
-        of: find.byType(NewRequestSheet),
-        matching: find.byType(TextField),
-      ),
+      find.byKey(const Key('request-description-field')),
       'Repair the gate hinge',
     );
     // The category grid behind the sheet also offers "Repairs".
