@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fundi.dart';
-import 'fundi_card.dart';
+import '../widgets/fundi_card.dart';
 
 /// Full-screen search with live fundi filtering.
 class FundiSearchDelegate extends SearchDelegate<FundiProfile?> {
