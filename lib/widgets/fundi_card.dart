@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fundi.dart';
+import '../utils/formatters.dart';
 import 'fundi_avatar.dart';
 
 /// List card presenting a fundi: avatar, rating, hourly price and actions.
@@ -73,7 +74,7 @@ class FundiCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'KSh ${fundi.pricePerHour}',
+                      Formatters.currency(fundi.pricePerHour),
                       style: text.titleMedium?.copyWith(color: colors.primary),
                     ),
                     Text(

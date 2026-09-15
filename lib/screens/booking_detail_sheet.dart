@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/booking.dart';
+import '../utils/formatters.dart';
 import '../widgets/fundi_avatar.dart';
 
 /// Modal sheet with full booking details and a progress timeline.
@@ -63,7 +64,7 @@ class _BookingDetailSheet extends StatelessWidget {
                 Text(booking.dateLabel, style: text.bodyMedium),
                 const Spacer(),
                 Text(
-                  'KSh ${booking.price}',
+                  Formatters.currency(booking.price),
                   style: text.titleMedium?.copyWith(color: colors.primary),
                 ),
               ],

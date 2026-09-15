@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/booking.dart';
+import '../utils/formatters.dart';
 import 'fundi_avatar.dart';
 import 'status_badge.dart';
 
@@ -69,7 +70,7 @@ class BookingCard extends StatelessWidget {
                 Text(booking.dateLabel, style: text.labelMedium),
                 const Spacer(),
                 Text(
-                  'KSh ${booking.price}',
+                  Formatters.currency(booking.price),
                   style: text.titleSmall?.copyWith(color: colors.primary),
                 ),
               ],

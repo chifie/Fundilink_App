@@ -56,7 +56,7 @@ void main() {
       expect(find.text('Active'), findsOneWidget);
       expect(find.text('In progress'), findsOneWidget);
       expect(find.text('Cancel'), findsOneWidget);
-      expect(find.text('KSh 1800'), findsOneWidget);
+      expect(find.text('KSh 1,800'), findsOneWidget);
     });
 
     testWidgets('completed booking offers rebook without tracker', (
