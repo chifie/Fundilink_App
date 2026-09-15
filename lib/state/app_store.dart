@@ -8,6 +8,7 @@ import '../models/booking.dart';
 import '../models/chat.dart';
 import '../models/customer.dart';
 import '../models/fundi.dart';
+import '../models/notification.dart';
 import '../utils/formatters.dart';
 import 'key_value_store.dart';
 
@@ -287,6 +288,69 @@ class AppStore extends ChangeNotifier {
     _recentSearches.clear();
     _persistRecentSearches();
     notifyListeners();
+  }
+
+  // ----------------------------------------------------------- notifications
+
+  /// Activity worth surfacing on the home tab, unread items first.
+  List<AppNotification> get notifications {
+    final items = <AppNotification>[];
+
+    for (final chat in _conversations) {
+      if (!chat.hasUnread) continue;
+      items.add(
+        AppNotification(
+          id: 'message-${chat.name}',
+          kind: NotificationKind.message,
+          title: '${chat.name} sent you a message',
+          detail: chat.lastMessage,
+          contactName: chat.name,
+          isUnread: true,
+        ),
+      );
+    }
+
+    for (final booking in _bookings) {
+      final isAwaitingFundi = booking.step == RequestStep.requested;
+      items.add(
+        AppNotification(
+          id: 'booking-${booking.id}',
+          kind: switch (booking.status) {
+            BookingStatus.cancelled => NotificationKind.awaitingFundi,
+            BookingStatus.completed => NotificationKind.completed,
+            BookingStatus.active when isAwaitingFundi =>
+              NotificationKind.awaitingFundi,
+            BookingStatus.active => NotificationKind.inProgress,
+          },
+          title: _notificationTitle(booking),
+          detail: '${booking.service} · ${booking.dateLabel}',
+          isUnread: booking.isActive && isAwaitingFundi,
+        ),
+      );
+    }
+
+    items.sort((a, b) {
+      if (a.isUnread == b.isUnread) return 0;
+      return a.isUnread ? -1 : 1;
+    });
+    return List.unmodifiable(items);
+  }
+
+  /// Number of notifications the customer has not caught up with.
+  int get unreadNotificationCount =>
+      notifications.where((item) => item.isUnread).length;
+
+  String _notificationTitle(Booking booking) {
+    if (booking.status == BookingStatus.completed) {
+      return '${booking.fundi.name} finished your job';
+    }
+    if (booking.status == BookingStatus.cancelled) {
+      return '${booking.service} was cancelled';
+    }
+    if (booking.step == RequestStep.requested) {
+      return 'Waiting for a fundi to accept';
+    }
+    return '${booking.fundi.name} is on the way';
   }
 
   /// How long the stand-in catalogue refresh pretends to take.

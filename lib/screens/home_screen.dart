@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/fundi.dart';
 import '../screens/all_fundis_screen.dart';
 import '../screens/fundi_detail_sheet.dart';
+import '../screens/notifications_sheet.dart';
 import '../search/fundi_search_delegate.dart';
 import '../state/store_scope.dart';
 import '../widgets/fundi_card.dart';
@@ -43,10 +44,14 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    IconButton.filledTonal(
-                      tooltip: 'Notifications',
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications_outlined),
+                    Badge.count(
+                      count: context.store.unreadNotificationCount,
+                      isLabelVisible: context.store.unreadNotificationCount > 0,
+                      child: IconButton.filledTonal(
+                        tooltip: 'Notifications',
+                        onPressed: () => showNotificationsSheet(context),
+                        icon: const Icon(Icons.notifications_outlined),
+                      ),
                     ),
                   ],
                 ),

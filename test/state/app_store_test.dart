@@ -8,6 +8,7 @@ import 'package:fundilink_app/models/chat.dart';
 import 'package:fundilink_app/models/address.dart';
 import 'package:fundilink_app/models/customer.dart';
 import 'package:fundilink_app/models/fundi.dart';
+import 'package:fundilink_app/models/notification.dart';
 import 'package:fundilink_app/state/app_store.dart';
 import 'package:fundilink_app/state/key_value_store.dart';
 
@@ -34,6 +35,7 @@ const FundiProfile _joseph = FundiProfile(
 Booking _booking({
   String id = 'b1',
   BookingStatus status = BookingStatus.active,
+  RequestStep step = RequestStep.inProgress,
 }) => Booking(
   id: id,
   fundi: _grace,
@@ -41,7 +43,7 @@ Booking _booking({
   scheduledAt: DateTime(2026, 9, 20, 14),
   price: 1800,
   status: status,
-  step: RequestStep.inProgress,
+  step: step,
 );
 
 /// Store with a small, fully controlled fixture instead of the demo data.
@@ -284,6 +286,88 @@ void main() {
       store.clearRecentSearches();
 
       expect(store.recentSearches, isEmpty);
+    });
+  });
+
+  group('notifications', () {
+    AppNotification byId(AppStore store, String id) =>
+        store.notifications.firstWhere((item) => item.id == id);
+
+    test('unread conversations become unread notifications', () {
+      final message = byId(_store(), 'message-Grace Wanjiku');
+
+      expect(message.kind, NotificationKind.message);
+      expect(message.title, 'Grace Wanjiku sent you a message');
+      expect(message.contactName, 'Grace Wanjiku');
+      expect(message.isUnread, isTrue);
+      expect(message.detail, contains('20 minutes'));
+    });
+
+    test('read conversations are left out', () {
+      final store = _store();
+
+      expect(
+        store.notifications.where((item) => item.contactName == 'Joseph Kamau'),
+        isEmpty,
+      );
+    });
+
+    test('a job in progress reports the fundi is on the way', () {
+      final store = _store(bookings: [_booking()]);
+
+      final booking = byId(store, 'booking-b1');
+      expect(booking.kind, NotificationKind.inProgress);
+      expect(booking.title, 'Grace Wanjiku is on the way');
+      expect(booking.isUnread, isFalse);
+      expect(booking.detail, contains('Deep house cleaning'));
+    });
+
+    test('a request nobody accepted is unread and awaiting a fundi', () {
+      final store = _store(bookings: [_booking(step: RequestStep.requested)]);
+
+      final booking = byId(store, 'booking-b1');
+      expect(booking.kind, NotificationKind.awaitingFundi);
+      expect(booking.title, 'Waiting for a fundi to accept');
+      expect(booking.isUnread, isTrue);
+    });
+
+    test('finished and cancelled jobs are reported once', () {
+      final store = _store(
+        bookings: [
+          _booking(id: 'b3', status: BookingStatus.completed),
+          _booking(id: 'b4', status: BookingStatus.cancelled),
+        ],
+      );
+
+      expect(
+        byId(store, 'booking-b3').title,
+        'Grace Wanjiku finished your job',
+      );
+      expect(byId(store, 'booking-b4').title, contains('was cancelled'));
+      expect(byId(store, 'booking-b4').isUnread, isFalse);
+    });
+
+    test('unread items sort ahead of the rest', () {
+      // The unread message and the pending request both outrank the job
+      // that is already in progress.
+      final pending = _store(bookings: [_booking(step: RequestStep.requested)]);
+      expect(pending.notifications, hasLength(2));
+      expect(pending.notifications.every((item) => item.isUnread), isTrue);
+
+      final running = _store().notifications;
+      expect(running, hasLength(2));
+      expect(running.first.isUnread, isTrue);
+      expect(running.last.isUnread, isFalse);
+    });
+
+    test('unreadNotificationCount counts only unread items', () {
+      expect(_store().unreadNotificationCount, 1);
+      expect(
+        _store(
+          bookings: [_booking(step: RequestStep.requested)],
+        ).unreadNotificationCount,
+        2,
+      );
     });
   });
 

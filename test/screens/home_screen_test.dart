@@ -45,6 +45,29 @@ void main() {
     expect(find.text('Grace Wanjiku'), findsOneWidget);
   });
 
+  testWidgets('the bell shows how many notifications are unread', (
+    tester,
+  ) async {
+    final store = AppStore(storage: InMemoryKeyValueStore());
+    await pumpHome(tester, store: store);
+
+    expect(store.unreadNotificationCount, 2);
+    expect(
+      find.descendant(of: find.byType(Badge), matching: find.text('2')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('the bell opens the notifications sheet', (tester) async {
+    await pumpHome(tester);
+
+    await tester.tap(find.byIcon(Icons.notifications_outlined));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Notifications'), findsOneWidget);
+    expect(find.text('Grace Wanjiku sent you a message'), findsOneWidget);
+  });
+
   testWidgets('pulling down re-checks the catalogue', (tester) async {
     final store = AppStore(storage: InMemoryKeyValueStore());
     var notified = 0;
