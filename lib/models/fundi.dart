@@ -43,4 +43,47 @@ class FundiProfile {
   final int jobsDone;
   final int pricePerHour;
   final bool isOnline;
+
+  /// Copy with any field replaced; omitted fields keep their value.
+  FundiProfile copyWith({
+    String? name,
+    FundiSkill? skill,
+    double? rating,
+    int? reviewCount,
+    int? jobsDone,
+    int? pricePerHour,
+    bool? isOnline,
+  }) => FundiProfile(
+    name: name ?? this.name,
+    skill: skill ?? this.skill,
+    rating: rating ?? this.rating,
+    reviewCount: reviewCount ?? this.reviewCount,
+    jobsDone: jobsDone ?? this.jobsDone,
+    pricePerHour: pricePerHour ?? this.pricePerHour,
+    isOnline: isOnline ?? this.isOnline,
+  );
+
+  /// Fundis are value objects: two profiles match when every field does.
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FundiProfile &&
+          other.name == name &&
+          other.skill == skill &&
+          other.rating == rating &&
+          other.reviewCount == reviewCount &&
+          other.jobsDone == jobsDone &&
+          other.pricePerHour == pricePerHour &&
+          other.isOnline == isOnline;
+
+  @override
+  int get hashCode => Object.hash(
+    name,
+    skill,
+    rating,
+    reviewCount,
+    jobsDone,
+    pricePerHour,
+    isOnline,
+  );
 }
