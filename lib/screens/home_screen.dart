@@ -48,10 +48,14 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: SearchBarField(
-                onTap: () => showSearch(
-                  context: context,
-                  delegate: FundiSearchDelegate(fundis: context.store.fundis),
-                ),
+                onTap: () async {
+                  final fundi = await showSearch<FundiProfile?>(
+                    context: context,
+                    delegate: FundiSearchDelegate(store: context.storeRead),
+                  );
+                  if (fundi == null || !context.mounted) return;
+                  showFundiDetailSheet(context, fundi);
+                },
               ),
             ),
             Padding(

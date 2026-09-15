@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../models/fundi.dart';
+import '../state/app_store.dart';
+import '../widgets/empty_state.dart';
 import '../widgets/fundi_card.dart';
 
-/// Full-screen search with live fundi filtering.
+/// Full-screen search with live fundi filtering and a search history.
 class FundiSearchDelegate extends SearchDelegate<FundiProfile?> {
-  FundiSearchDelegate({required this.fundis});
+  FundiSearchDelegate({required this.store});
 
-  final List<FundiProfile> fundis;
+  final AppStore store;
 
   @override
   String get searchFieldLabel => 'Search services or fundis';
@@ -30,35 +32,103 @@ class FundiSearchDelegate extends SearchDelegate<FundiProfile?> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
-    return _resultsList(context);
+  void showResults(BuildContext context) {
+    // Only a submitted search is worth remembering; live typing is not.
+    final term = query.trim();
+    if (term.isNotEmpty) store.recordSearch(term);
+    super.showResults(context);
+  }
+
+  /// Fundis whose name or service matches the query, case-insensitively.
+  ///
+  /// An empty query suggests the top-rated fundis instead of nothing.
+  List<FundiProfile> matches() {
+    final term = query.trim().toLowerCase();
+    if (term.isEmpty) return store.topRatedFundis;
+
+    return store.fundis
+        .where(
+          (fundi) =>
+              fundi.name.toLowerCase().contains(term) ||
+              fundi.skill.label.toLowerCase().contains(term),
+        )
+        .toList();
   }
 
   @override
+  Widget buildResults(BuildContext context) => _resultList(context, matches());
+
+  @override
   Widget buildSuggestions(BuildContext context) {
-    return _resultsList(context);
+    if (query.trim().isEmpty) {
+      // The history lives in the store and SearchDelegate does not listen to
+      // it, so this section repaints itself when the history changes.
+      return ListenableBuilder(
+        listenable: store,
+        builder: (context, _) => _history(context),
+      );
+    }
+    return _resultList(context, matches());
   }
 
-  Widget _resultsList(BuildContext context) {
-    final q = query.trim().toLowerCase();
-    final results = q.isEmpty
-        ? fundis
-        : fundis.where((fundi) {
-            final name = fundi.name.toLowerCase();
-            final skill = fundi.skill.label.toLowerCase();
-            return name.contains(q) || skill.contains(q);
-          }).toList();
+  /// Recent searches plus a starting point, shown before anything is typed.
+  Widget _history(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final recent = store.recentSearches;
 
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      children: [
+        if (recent.isNotEmpty) ...[
+          Row(
+            children: [
+              Expanded(child: Text('Recent searches', style: text.titleSmall)),
+              TextButton(
+                onPressed: store.clearRecentSearches,
+                child: const Text('Clear'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final term in recent)
+                ActionChip(
+                  avatar: const Icon(Icons.history, size: 18),
+                  label: Text(term),
+                  onPressed: () {
+                    query = term;
+                    showResults(context);
+                  },
+                ),
+            ],
+          ),
+          const SizedBox(height: 20),
+        ],
+        Text('Suggested for you', style: text.titleSmall),
+        const SizedBox(height: 8),
+        for (final fundi in store.topRatedFundis)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: FundiCard(
+              fundi: fundi,
+              onView: () => close(context, fundi),
+              onBook: () => close(context, fundi),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _resultList(BuildContext context, List<FundiProfile> results) {
     if (results.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.search_off, size: 48, color: Colors.grey.shade500),
-            const SizedBox(height: 12),
-            Text('No fundis found for "$query"'),
-          ],
-        ),
+      return EmptyState(
+        icon: Icons.search_off,
+        title: 'No fundis found',
+        message:
+            'Nothing matches "${query.trim()}". Try another service or name.',
       );
     }
 
@@ -69,6 +139,7 @@ class FundiSearchDelegate extends SearchDelegate<FundiProfile?> {
         padding: const EdgeInsets.only(bottom: 12),
         child: FundiCard(
           fundi: results[index],
+          onView: () => close(context, results[index]),
           onBook: () => close(context, results[index]),
         ),
       ),

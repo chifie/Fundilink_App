@@ -6,6 +6,7 @@ import 'package:fundilink_app/models/fundi.dart';
 import 'package:fundilink_app/screens/home_screen.dart';
 import 'package:fundilink_app/state/app_store.dart';
 import 'package:fundilink_app/state/key_value_store.dart';
+import 'package:fundilink_app/widgets/search_bar_field.dart';
 
 import '../support/pump_app.dart';
 
@@ -42,6 +43,23 @@ void main() {
 
     await scrollDown(tester, find.text('Top rated fundis'));
     expect(find.text('Grace Wanjiku'), findsOneWidget);
+  });
+
+  testWidgets('a search result opens that fundi\'s detail sheet', (
+    tester,
+  ) async {
+    await pumpHome(tester);
+
+    await tester.tap(find.byType(SearchBarField));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'joseph');
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Book'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Book now'), findsOneWidget);
+    expect(find.text('Joseph Kamau'), findsWidgets);
   });
 
   testWidgets('book action opens detail sheet and sends request', (
