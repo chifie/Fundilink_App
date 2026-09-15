@@ -122,8 +122,52 @@ class AppStore extends ChangeNotifier {
   List<Booking> bookingsWithStatus(BookingStatus status) =>
       List.unmodifiable(_bookings.where((b) => b.status == status));
 
+  /// Customer-facing active queue. These are requests still needing attention.
+  List<Booking> get activeBookings =>
+      List.unmodifiable(_bookings.where((b) => b.isActive));
+
+  /// Jobs a fundi would see in their dashboard, newest first.
+  List<Booking> get fundiJobs =>
+      List.unmodifiable(_bookings.where((b) => b.isFundiActionable));
+
+  /// Requests waiting for the fundi to accept or reject.
+  List<Booking> get pendingRequests => List.unmodifiable(
+    _bookings.where((b) => b.status == BookingStatus.pending),
+  );
+
+  /// Jobs that have been accepted but are not finished yet.
+  List<Booking> get upcomingJobs => List.unmodifiable(
+    _bookings.where((b) => b.status == BookingStatus.accepted),
+  );
+
+  /// Jobs currently moving or being worked on.
+  List<Booking> get jobsInProgress => List.unmodifiable(
+    _bookings.where(
+      (b) =>
+          b.status == BookingStatus.onTheWay ||
+          b.status == BookingStatus.inProgress ||
+          b.status == BookingStatus.active,
+    ),
+  );
+
+  /// Jobs completed by the fundi, including those awaiting payment.
+  List<Booking> get completedJobs => List.unmodifiable(
+    _bookings.where(
+      (b) =>
+          b.status == BookingStatus.completed ||
+          b.status == BookingStatus.paymentPending ||
+          b.status == BookingStatus.paid ||
+          b.status == BookingStatus.rated,
+    ),
+  );
+
   /// How many jobs are currently in flight.
   int get activeBookingCount => _bookings.where((b) => b.isActive).length;
+
+  /// Simple local MVP earnings total from paid/rated jobs.
+  int get totalEarnings => _bookings
+      .where((b) => b.status == BookingStatus.paid || b.status == BookingStatus.rated)
+      .fold(0, (sum, booking) => sum + booking.payableAmount);
 
   /// The best-rated fundi offering [skill], or null when nobody does yet.
   FundiProfile? bestFundiFor(FundiSkill skill) {
@@ -143,11 +187,19 @@ class AppStore extends ChangeNotifier {
     required FundiSkill skill,
     required String description,
     DateTime? scheduledAt,
+    String? location,
+    String? notes,
   }) {
     final fundi = bestFundiFor(skill);
     if (fundi == null) return null;
 
-    return bookFundi(fundi, service: description, scheduledAt: scheduledAt);
+    return bookFundi(
+      fundi,
+      service: description,
+      scheduledAt: scheduledAt,
+      location: location,
+      notes: notes,
+    );
   }
 
   /// Books [fundi] directly, for a customer who already picked one.
@@ -155,6 +207,8 @@ class AppStore extends ChangeNotifier {
     FundiProfile fundi, {
     String? service,
     DateTime? scheduledAt,
+    String? location,
+    String? notes,
   }) {
     final booking = Booking(
       id: 'booking-${_nextBookingId++}',
@@ -162,8 +216,10 @@ class AppStore extends ChangeNotifier {
       service: service ?? '${fundi.skill.label} job',
       scheduledAt: scheduledAt ?? _nextMorning(),
       price: fundi.pricePerHour,
-      status: BookingStatus.active,
+      status: BookingStatus.pending,
       step: RequestStep.requested,
+      location: location ?? defaultAddress?.line ?? _profile.location,
+      notes: notes ?? '',
     );
     _bookings.insert(0, booking);
     _persistBookings();
@@ -195,13 +251,113 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Advances the progress tracker of a booking that is still active.
-  void advanceBooking(String id, RequestStep step) {
+  /// Fundi accepts a pending customer request.
+  void acceptBooking(String id) {
+    _updateBooking(id, (booking) {
+      if (booking.status != BookingStatus.pending) return booking;
+      return booking.copyWith(
+        status: BookingStatus.accepted,
+        step: RequestStep.accepted,
+      );
+    });
+  }
+
+  /// Fundi rejects a pending customer request.
+  void rejectBooking(String id) {
+    _updateBooking(id, (booking) {
+      if (booking.status != BookingStatus.pending) return booking;
+      return booking.copyWith(status: BookingStatus.rejected);
+    });
+  }
+
+  /// Moves an accepted job through the fundi-side work stages.
+  void updateBookingStatus(String id, BookingStatus status) {
+    final allowed = {
+      BookingStatus.onTheWay,
+      BookingStatus.inProgress,
+      BookingStatus.completed,
+    };
+    if (!allowed.contains(status)) return;
+
+    _updateBooking(id, (booking) {
+      final canMove = switch ((booking.status, status)) {
+        (BookingStatus.accepted, BookingStatus.onTheWay) => true,
+        (BookingStatus.onTheWay, BookingStatus.inProgress) => true,
+        (BookingStatus.inProgress, BookingStatus.completed) => true,
+        (BookingStatus.active, BookingStatus.onTheWay) => true,
+        _ => false,
+      };
+      if (!canMove) return booking;
+      return booking.copyWith(
+        status: status,
+        step: switch (status) {
+          BookingStatus.onTheWay => RequestStep.accepted,
+          BookingStatus.inProgress => RequestStep.inProgress,
+          BookingStatus.completed => RequestStep.done,
+          _ => booking.step,
+        },
+      );
+    });
+  }
+
+  /// Fundi completes a job and records the simple MVP invoice.
+  void completeJob({
+    required String id,
+    required String workCompleted,
+    required int labourCost,
+    required int materialCost,
+  }) {
+    final total = labourCost + materialCost;
+    _updateBooking(id, (booking) {
+      if (booking.status != BookingStatus.inProgress) return booking;
+      return booking.copyWith(
+        status: BookingStatus.paymentPending,
+        step: RequestStep.done,
+        workCompleted: workCompleted.trim(),
+        labourCost: labourCost,
+        materialCost: materialCost,
+        totalAmount: total,
+        price: total == 0 ? booking.price : total,
+      );
+    });
+  }
+
+  /// Customer marks the simple local MVP payment as done.
+  void markPaid(String id, String method) {
+    _updateBooking(id, (booking) {
+      if (booking.status != BookingStatus.paymentPending) return booking;
+      return booking.copyWith(status: BookingStatus.paid, paymentMethod: method);
+    });
+  }
+
+  /// Customer rates the fundi after payment.
+  void rateBooking({required String id, required int rating, String review = ''}) {
+    _updateBooking(id, (booking) {
+      if (booking.status != BookingStatus.paid) return booking;
+      return booking.copyWith(
+        status: BookingStatus.rated,
+        rating: rating.clamp(1, 5),
+        review: review.trim(),
+      );
+    });
+  }
+
+  void _updateBooking(String id, Booking Function(Booking booking) update) {
     final index = _bookings.indexWhere((b) => b.id == id);
-    if (index == -1 || !_bookings[index].isActive) return;
-    _bookings[index] = _bookings[index].copyWith(step: step);
+    if (index == -1) return;
+    final next = update(_bookings[index]);
+    if (next == _bookings[index]) return;
+    _bookings[index] = next;
     _persistBookings();
     notifyListeners();
+  }
+
+  /// Advances the progress tracker of a booking that is still active.
+  void advanceBooking(String id, RequestStep step) {
+    _updateBooking(id, (booking) {
+      if (!booking.isActive) return booking;
+      return booking.copyWith(step: step);
+    });
   }
 
   // ------------------------------------------------------------ conversations
@@ -311,20 +467,25 @@ class AppStore extends ChangeNotifier {
     }
 
     for (final booking in _bookings) {
-      final isAwaitingFundi = booking.step == RequestStep.requested;
+      final isAwaitingFundi = booking.status == BookingStatus.pending ||
+          booking.step == RequestStep.requested;
       items.add(
         AppNotification(
           id: 'booking-${booking.id}',
           kind: switch (booking.status) {
+            BookingStatus.rejected => NotificationKind.awaitingFundi,
             BookingStatus.cancelled => NotificationKind.awaitingFundi,
-            BookingStatus.completed => NotificationKind.completed,
-            BookingStatus.active when isAwaitingFundi =>
+            BookingStatus.completed ||
+            BookingStatus.paymentPending ||
+            BookingStatus.paid ||
+            BookingStatus.rated => NotificationKind.completed,
+            BookingStatus.pending =>
               NotificationKind.awaitingFundi,
-            BookingStatus.active => NotificationKind.inProgress,
+            _ => NotificationKind.inProgress,
           },
           title: _notificationTitle(booking),
           detail: '${booking.service} · ${booking.dateLabel}',
-          isUnread: booking.isActive && isAwaitingFundi,
+          isUnread: isAwaitingFundi,
         ),
       );
     }
@@ -344,11 +505,27 @@ class AppStore extends ChangeNotifier {
     if (booking.status == BookingStatus.completed) {
       return '${booking.fundi.name} finished your job';
     }
+    if (booking.status == BookingStatus.paymentPending) {
+      return 'Payment is pending for ${booking.service}';
+    }
+    if (booking.status == BookingStatus.paid) {
+      return 'Payment received for ${booking.service}';
+    }
+    if (booking.status == BookingStatus.rated) {
+      return 'Thanks for rating ${booking.fundi.name}';
+    }
+    if (booking.status == BookingStatus.rejected) {
+      return '${booking.fundi.name} rejected your request';
+    }
     if (booking.status == BookingStatus.cancelled) {
       return '${booking.service} was cancelled';
     }
-    if (booking.step == RequestStep.requested) {
+    if (booking.status == BookingStatus.pending ||
+        booking.step == RequestStep.requested) {
       return 'Waiting for a fundi to accept';
+    }
+    if (booking.status == BookingStatus.accepted) {
+      return '${booking.fundi.name} accepted your request';
     }
     return '${booking.fundi.name} is on the way';
   }
