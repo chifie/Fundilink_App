@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/booking.dart';
 import '../screens/booking_detail_sheet.dart';
+import '../screens/fundi_detail_sheet.dart';
 import '../state/store_scope.dart';
 import '../widgets/booking_card.dart';
 import '../widgets/empty_state.dart';
@@ -16,6 +17,35 @@ class BookingsScreen extends StatefulWidget {
 
 class _BookingsScreenState extends State<BookingsScreen> {
   BookingStatus _filter = BookingStatus.active;
+
+  /// Cancelling is irreversible here, so it goes through a confirmation.
+  Future<void> _confirmCancel(Booking booking) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Cancel this booking?'),
+        content: Text(
+          '${booking.service} with ${booking.fundi.name} will be cancelled.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Keep it'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Cancel booking'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    context.storeRead.cancelBooking(booking.id);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('${booking.service} cancelled')));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +99,11 @@ class _BookingsScreenState extends State<BookingsScreen> {
                         booking: bookings[index],
                         onDetails: () =>
                             showBookingDetailSheet(context, bookings[index]),
+                        onCancel: () => _confirmCancel(bookings[index]),
+                        onRebook: () => showFundiDetailSheet(
+                          context,
+                          bookings[index].fundi,
+                        ),
                       ),
                     ),
                   ),
