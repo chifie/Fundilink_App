@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/booking.dart';
 import '../utils/formatters.dart';
 import '../widgets/fundi_avatar.dart';
+import '../widgets/status_badge.dart';
 
 /// Modal sheet with full booking details and a progress timeline.
 void showBookingDetailSheet(BuildContext context, Booking booking) {
@@ -50,6 +51,7 @@ class _BookingDetailSheet extends StatelessWidget {
                     ],
                   ),
                 ),
+                StatusBadge(status: booking.status),
               ],
             ),
             const SizedBox(height: 20),
@@ -69,6 +71,38 @@ class _BookingDetailSheet extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  size: 18,
+                  color: colors.onSurfaceVariant,
+                ),
+                const SizedBox(width: 6),
+                Expanded(child: Text(booking.location, style: text.bodyMedium)),
+              ],
+            ),
+            if (booking.notes.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(
+                booking.notes,
+                style: text.bodyMedium?.copyWith(
+                  color: colors.onSurfaceVariant,
+                ),
+              ),
+            ],
+            if (booking.workCompleted != null) ...[
+              const SizedBox(height: 12),
+              Text('Work completed', style: text.titleSmall),
+              const SizedBox(height: 4),
+              Text(booking.workCompleted!),
+              const SizedBox(height: 4),
+              Text(
+                'Total: ${Formatters.currency(booking.payableAmount)}',
+                style: text.titleSmall?.copyWith(color: colors.primary),
+              ),
+            ],
             const SizedBox(height: 20),
             for (var i = 0; i < labels.length; i++)
               _TimelineTile(

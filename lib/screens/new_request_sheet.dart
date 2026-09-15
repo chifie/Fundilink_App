@@ -18,6 +18,8 @@ class NewRequestSheet extends StatefulWidget {
 class _NewRequestSheetState extends State<NewRequestSheet> {
   late FundiSkill? _skill = widget.initialSkill;
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _notesController = TextEditingController();
 
   /// Null keeps the store's default slot: tomorrow at 09:00.
   DateTime? _scheduledAt;
@@ -26,6 +28,8 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
   @override
   void dispose() {
     _descriptionController.dispose();
+    _locationController.dispose();
+    _notesController.dispose();
     super.dispose();
   }
 
@@ -72,6 +76,10 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
       skill: skill,
       description: description,
       scheduledAt: _scheduledAt,
+      location: _locationController.text.trim().isEmpty
+          ? null
+          : _locationController.text.trim(),
+      notes: _notesController.text.trim(),
     );
     final messenger = ScaffoldMessenger.of(context);
     Navigator.of(context).pop();
@@ -130,6 +138,24 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
               decoration: InputDecoration(
                 hintText: 'Describe the job (e.g. leaking sink in kitchen)',
                 errorText: _descriptionError,
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _locationController,
+              decoration: InputDecoration(
+                labelText: 'Location',
+                hintText: context.store.defaultAddress?.line ??
+                    context.store.profile.location,
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _notesController,
+              maxLines: 2,
+              decoration: const InputDecoration(
+                labelText: 'Additional notes',
+                hintText: 'Optional',
               ),
             ),
             const SizedBox(height: 12),
