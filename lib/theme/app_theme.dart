@@ -21,13 +21,28 @@ abstract final class AppTheme {
   /// Light color scheme generated from the seed color.
   static ColorScheme get lightScheme => ColorScheme.fromSeed(seedColor: _seed);
 
-  /// Dark color scheme generated from the seed color.
-  static ColorScheme get darkScheme =>
-      ColorScheme.fromSeed(seedColor: _seed, brightness: Brightness.dark);
+  /// Dark color scheme with lowered surface tones so cards and bars read
+  /// as gentle steps instead of harsh contrast against the background.
+  static ColorScheme get darkScheme => ColorScheme.fromSeed(
+        seedColor: _seed,
+        brightness: Brightness.dark,
+        surface: const Color(0xFF101413),
+        surfaceContainerLowest: const Color(0xFF0C100F),
+        surfaceContainerLow: const Color(0xFF161B1A),
+        surfaceContainer: const Color(0xFF1B201F),
+        surfaceContainerHigh: const Color(0xFF262B29),
+        surfaceContainerHighest: const Color(0xFF313634),
+      );
 
   static ThemeData light() => _theme(lightScheme);
 
   static ThemeData dark() => _theme(darkScheme);
+
+  /// Shared corner radii: small for chips and text fields, medium for
+  /// cards and sheets, large for dialogs and search bars.
+  static const double radiusSm = 10;
+  static const double radiusMd = 16;
+  static const double radiusLg = 24;
 
   static ThemeData _theme(ColorScheme colors) {
     final TextTheme textTheme = _textTheme();
@@ -51,19 +66,19 @@ abstract final class AppTheme {
         thickness: 1,
         space: 1,
       ),
-      // Cards: 12dp corners, tonal surface, subtle elevation.
+      // Cards: 16dp corners, tonal surface, subtle elevation.
       cardTheme: CardThemeData(
         color: colors.surfaceContainerLow,
-        elevation: 1,
+        elevation: 0,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: colors.primaryContainer,
-        foregroundColor: colors.onPrimaryContainer,
-        elevation: 3,
-        highlightElevation: 3,
+        backgroundColor: colors.primary,
+        foregroundColor: colors.onPrimary,
+        elevation: 0,
+        highlightElevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
       // Buttons: pill-shaped, 40dp tall, labelLarge text (M3 metrics).
