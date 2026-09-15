@@ -38,6 +38,36 @@ class StatusBadge extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     final (Color bg, Color fg, String label, IconData icon) = switch (status) {
+      BookingStatus.pending => (
+        colors.tertiaryContainer,
+        colors.onTertiaryContainer,
+        'Pending',
+        Icons.hourglass_top_outlined,
+      ),
+      BookingStatus.accepted => (
+        colors.primaryContainer,
+        colors.onPrimaryContainer,
+        'Accepted',
+        Icons.event_available_outlined,
+      ),
+      BookingStatus.rejected => (
+        colors.errorContainer,
+        colors.onErrorContainer,
+        'Rejected',
+        Icons.block_outlined,
+      ),
+      BookingStatus.onTheWay => (
+        colors.primaryContainer,
+        colors.onPrimaryContainer,
+        'On the way',
+        Icons.directions_bike_outlined,
+      ),
+      BookingStatus.inProgress => (
+        colors.primaryContainer,
+        colors.onPrimaryContainer,
+        'In progress',
+        Icons.construction_outlined,
+      ),
       BookingStatus.active => (
         colors.primaryContainer,
         colors.onPrimaryContainer,
@@ -49,6 +79,24 @@ class StatusBadge extends StatelessWidget {
         colors.onSecondaryContainer,
         'Completed',
         Icons.check_circle_outline,
+      ),
+      BookingStatus.paymentPending => (
+        colors.tertiaryContainer,
+        colors.onTertiaryContainer,
+        'Payment',
+        Icons.payments_outlined,
+      ),
+      BookingStatus.paid => (
+        colors.secondaryContainer,
+        colors.onSecondaryContainer,
+        'Paid',
+        Icons.paid_outlined,
+      ),
+      BookingStatus.rated => (
+        colors.secondaryContainer,
+        colors.onSecondaryContainer,
+        'Rated',
+        Icons.star_outline,
       ),
       BookingStatus.cancelled => (
         colors.errorContainer,
