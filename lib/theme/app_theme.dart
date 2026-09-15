@@ -66,6 +66,56 @@ abstract final class AppTheme {
         thickness: 1,
         space: 1,
       ),
+      navigationBarTheme: NavigationBarThemeData(
+        height: 68,
+        backgroundColor: colors.surfaceContainer,
+        indicatorColor: colors.secondaryContainer,
+        elevation: 0,
+        labelTextStyle: WidgetStatePropertyAll(
+          textTheme.labelMedium,
+        ),
+      ),
+      chipTheme: ChipThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusSm),
+        ),
+        side: BorderSide(color: colors.outlineVariant),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          side: WidgetStatePropertyAll(
+            BorderSide(color: colors.outlineVariant),
+          ),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: colors.surfaceContainerLow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusLg),
+        ),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colors.surfaceContainerLow,
+        modalBackgroundColor: colors.surfaceContainerLow,
+        showDragHandle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+      ),
+      listTileTheme: ListTileThemeData(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        iconColor: colors.onSurfaceVariant,
+      ),
       // Cards: 16dp corners, tonal surface, subtle elevation.
       cardTheme: CardThemeData(
         color: colors.surfaceContainerLow,
