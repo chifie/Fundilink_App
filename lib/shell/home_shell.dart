@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../screens/bookings_screen.dart';
+import '../screens/fundi_dashboard_screen.dart';
 import '../screens/new_request_sheet.dart';
 import '../screens/home_screen.dart';
 import '../screens/messages_screen.dart';
 import '../screens/profile_screen.dart';
 
 /// Tabs available in the customer bottom navigation.
-enum _Tab { home, bookings, messages, profile }
+enum _Tab { home, bookings, messages, fundi, profile }
 
 /// Main app scaffold: IndexedStack body plus a Material 3 NavigationBar.
 class HomeShell extends StatefulWidget {
@@ -45,6 +46,7 @@ class _HomeShellState extends State<HomeShell> {
           const HomeScreen(),
           const BookingsScreen(),
           const MessagesScreen(),
+          const FundiDashboardScreen(),
           const ProfileScreen(),
         ],
       ),
@@ -70,6 +72,11 @@ class _HomeShellState extends State<HomeShell> {
             icon: Icon(Icons.chat_bubble_outline),
             selectedIcon: Icon(Icons.chat_bubble),
             label: 'Chats',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.engineering_outlined),
+            selectedIcon: Icon(Icons.engineering),
+            label: 'Fundi',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline),

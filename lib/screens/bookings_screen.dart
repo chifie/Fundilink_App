@@ -51,7 +51,10 @@ class _BookingsScreenState extends State<BookingsScreen> {
   Widget build(BuildContext context) {
     // Watching the store keeps this list in step with cancellations and
     // with requests created from the new-request sheet.
-    final bookings = context.store.bookingsWithStatus(_filter);
+    final store = context.store;
+    final bookings = _filter == BookingStatus.active
+        ? store.activeBookings
+        : store.bookingsWithStatus(_filter);
 
     return Scaffold(
       appBar: AppBar(title: const Text('My bookings')),
