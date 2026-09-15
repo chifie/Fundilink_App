@@ -1,8 +1,23 @@
 import '../utils/formatters.dart';
 import 'fundi.dart';
 
-/// Coarse lifecycle of a booking, used for filtering and status chips.
-enum BookingStatus { active, completed, cancelled }
+/// Lifecycle of a booking from request to review.
+///
+/// `active` is kept only so older saved demo data can still be opened. New
+/// bookings use the explicit MVP statuses from the FundiLink workflow.
+enum BookingStatus {
+  pending,
+  accepted,
+  rejected,
+  cancelled,
+  onTheWay,
+  inProgress,
+  completed,
+  paymentPending,
+  paid,
+  rated,
+  active,
+}
 
 /// Fine-grained progress within an active booking.
 enum RequestStep { requested, accepted, inProgress, done }
@@ -17,6 +32,15 @@ class Booking {
     required this.price,
     required this.status,
     required this.step,
+    this.location = 'Customer location',
+    this.notes = '',
+    this.workCompleted,
+    this.labourCost = 0,
+    this.materialCost = 0,
+    int? totalAmount,
+    this.paymentMethod,
+    this.rating,
+    this.review,
   });
 
   final String id;
@@ -26,12 +50,46 @@ class Booking {
   final int price;
   final BookingStatus status;
   final RequestStep step;
+  final String location;
+  final String notes;
+  final String? workCompleted;
+  final int labourCost;
+  final int materialCost;
+  final int? totalAmount;
+  final String? paymentMethod;
+  final int? rating;
+  final String? review;
 
   /// Compact, timezone-free label such as "Sep 20 · 2:00 PM".
   String get dateLabel => Formatters.dateTime(scheduledAt);
 
-  /// True while the fundi is still expected to show up.
-  bool get isActive => status == BookingStatus.active;
+  /// Amount the customer sees after a job is priced.
+  int get payableAmount => totalAmount ?? price;
+
+  /// True while the job is still open or awaiting payment/review.
+  bool get isActive => switch (status) {
+    BookingStatus.pending ||
+    BookingStatus.accepted ||
+    BookingStatus.onTheWay ||
+    BookingStatus.inProgress ||
+    BookingStatus.paymentPending ||
+    BookingStatus.paid ||
+    BookingStatus.active => true,
+    BookingStatus.rejected ||
+    BookingStatus.cancelled ||
+    BookingStatus.completed ||
+    BookingStatus.rated => false,
+  };
+
+  /// True when the fundi can still act on the request.
+  bool get isFundiActionable => switch (status) {
+    BookingStatus.pending ||
+    BookingStatus.accepted ||
+    BookingStatus.onTheWay ||
+    BookingStatus.inProgress ||
+    BookingStatus.active => true,
+    _ => false,
+  };
 
   /// Copy with any field replaced; omitted fields keep their value.
   Booking copyWith({
@@ -42,6 +100,15 @@ class Booking {
     int? price,
     BookingStatus? status,
     RequestStep? step,
+    String? location,
+    String? notes,
+    String? workCompleted,
+    int? labourCost,
+    int? materialCost,
+    int? totalAmount,
+    String? paymentMethod,
+    int? rating,
+    String? review,
   }) => Booking(
     id: id ?? this.id,
     fundi: fundi ?? this.fundi,
@@ -50,6 +117,15 @@ class Booking {
     price: price ?? this.price,
     status: status ?? this.status,
     step: step ?? this.step,
+    location: location ?? this.location,
+    notes: notes ?? this.notes,
+    workCompleted: workCompleted ?? this.workCompleted,
+    labourCost: labourCost ?? this.labourCost,
+    materialCost: materialCost ?? this.materialCost,
+    totalAmount: totalAmount ?? this.totalAmount,
+    paymentMethod: paymentMethod ?? this.paymentMethod,
+    rating: rating ?? this.rating,
+    review: review ?? this.review,
   );
 
   @override
@@ -62,11 +138,37 @@ class Booking {
           other.scheduledAt == scheduledAt &&
           other.price == price &&
           other.status == status &&
-          other.step == step;
+          other.step == step &&
+          other.location == location &&
+          other.notes == notes &&
+          other.workCompleted == workCompleted &&
+          other.labourCost == labourCost &&
+          other.materialCost == materialCost &&
+          other.totalAmount == totalAmount &&
+          other.paymentMethod == paymentMethod &&
+          other.rating == rating &&
+          other.review == review;
 
   @override
   int get hashCode =>
-      Object.hash(id, fundi, service, scheduledAt, price, status, step);
+      Object.hashAll([
+        id,
+        fundi,
+        service,
+        scheduledAt,
+        price,
+        status,
+        step,
+        location,
+        notes,
+        workCompleted,
+        labourCost,
+        materialCost,
+        totalAmount,
+        paymentMethod,
+        rating,
+        review,
+      ]);
 
   /// Rebuilds a booking from the JSON written by [toJson].
   factory Booking.fromJson(Map<String, dynamic> json) => Booking(
@@ -75,8 +177,17 @@ class Booking {
     service: json['service'] as String,
     scheduledAt: DateTime.parse(json['scheduledAt'] as String),
     price: json['price'] as int,
-    status: BookingStatus.values.byName(json['status'] as String),
+    status: _statusFromName(json['status'] as String),
     step: RequestStep.values.byName(json['step'] as String),
+    location: json['location'] as String? ?? 'Customer location',
+    notes: json['notes'] as String? ?? '',
+    workCompleted: json['workCompleted'] as String?,
+    labourCost: json['labourCost'] as int? ?? 0,
+    materialCost: json['materialCost'] as int? ?? 0,
+    totalAmount: json['totalAmount'] as int?,
+    paymentMethod: json['paymentMethod'] as String?,
+    rating: json['rating'] as int?,
+    review: json['review'] as String?,
   );
 
   /// Plain JSON map, safe for `jsonEncode` and local persistence.
@@ -88,5 +199,17 @@ class Booking {
     'price': price,
     'status': status.name,
     'step': step.name,
+    'location': location,
+    'notes': notes,
+    'workCompleted': workCompleted,
+    'labourCost': labourCost,
+    'materialCost': materialCost,
+    'totalAmount': totalAmount,
+    'paymentMethod': paymentMethod,
+    'rating': rating,
+    'review': review,
   };
+
+  static BookingStatus _statusFromName(String name) =>
+      BookingStatus.values.asNameMap()[name] ?? BookingStatus.pending;
 }
