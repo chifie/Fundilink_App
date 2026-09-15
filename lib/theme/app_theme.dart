@@ -13,7 +13,10 @@ abstract final class AppTheme {
   static const String? fontFamily = null;
 
   /// Seed color used to generate both color schemes.
-  static const Color _seed = Colors.deepPurple;
+  ///
+  /// Deep teal-green brand color: trustworthy and calm, fitting for a
+  /// services marketplace connecting customers with fundis.
+  static const Color _seed = Color(0xFF00696B);
 
   /// Light color scheme generated from the seed color.
   static ColorScheme get lightScheme => ColorScheme.fromSeed(seedColor: _seed);
