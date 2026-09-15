@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
 import '../models/fundi.dart';
+import '../screens/fundi_detail_sheet.dart';
 import '../widgets/fundi_card.dart';
+import '../widgets/promo_banner.dart';
 import '../widgets/search_bar_field.dart';
 import '../widgets/section_header.dart';
 import '../widgets/service_category_grid.dart';
@@ -49,17 +51,22 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ServiceCategoryGrid(
-                onTap: (skill) {},
+                onTap: (skill) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${skill.label} coming soon')),
+                  );
+                },
               ),
             ),
+            const PromoBanner(),
             const SectionHeader(title: 'Top rated fundis', onSeeAll: null),
             for (final FundiProfile fundi in MockData.fundis.take(3))
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: FundiCard(
                   fundi: fundi,
-                  onView: () {},
-                  onBook: () {},
+                  onView: () => showFundiDetailSheet(context, fundi),
+                  onBook: () => showFundiDetailSheet(context, fundi),
                 ),
               ),
           ],
