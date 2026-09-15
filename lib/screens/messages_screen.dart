@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
+import '../screens/chat_room_screen.dart';
 import '../widgets/fundi_avatar.dart';
 
 /// Chats tab listing conversations with unread counters.
@@ -60,7 +61,13 @@ class MessagesScreen extends StatelessWidget {
                   ),
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => ChatRoomScreen(contactName: chat.name),
+                ),
+              );
+            },
           );
         },
       ),
