@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/appearance_screen.dart';
 import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 
@@ -73,7 +74,11 @@ class ProfileScreen extends StatelessWidget {
               _SettingsTile(
                 icon: Icons.dark_mode_outlined,
                 label: 'Appearance',
-                onTap: () {},
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const AppearanceScreen(),
+                  ),
+                ),
               ),
               _SettingsTile(
                 icon: Icons.notifications_outlined,
