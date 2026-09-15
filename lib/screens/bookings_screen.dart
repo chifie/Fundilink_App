@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
 import '../models/booking.dart';
+import '../screens/booking_detail_sheet.dart';
 import '../widgets/booking_card.dart';
 import '../widgets/empty_state.dart';
 
@@ -62,7 +63,13 @@ class _BookingsScreenState extends State<BookingsScreen> {
                     itemCount: bookings.length,
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: BookingCard(booking: bookings[index]),
+                      child: BookingCard(
+                        booking: bookings[index],
+                        onDetails: () => showBookingDetailSheet(
+                          context,
+                          bookings[index],
+                        ),
+                      ),
                     ),
                   ),
           ),
