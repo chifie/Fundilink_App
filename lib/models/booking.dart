@@ -1,3 +1,4 @@
+import '../utils/formatters.dart';
 import 'fundi.dart';
 
 /// Coarse lifecycle of a booking, used for filtering and status chips.
@@ -27,25 +28,5 @@ class Booking {
   final RequestStep step;
 
   /// Compact, timezone-free label such as "Sep 20 · 2:00 PM".
-  String get dateLabel {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final month = months[scheduledAt.month - 1];
-    final hour12 = scheduledAt.hour % 12 == 0 ? 12 : scheduledAt.hour % 12;
-    final suffix = scheduledAt.hour < 12 ? 'AM' : 'PM';
-    final minute = scheduledAt.minute.toString().padLeft(2, '0');
-    return '$month ${scheduledAt.day} · $hour12:$minute $suffix';
-  }
+  String get dateLabel => Formatters.dateTime(scheduledAt);
 }
