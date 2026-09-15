@@ -108,6 +108,21 @@ abstract final class AppTheme {
               const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
         ),
       ),
+      // Text fields: filled tonal surface, rounded 12dp, quiet borders.
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: colors.surfaceContainerLow,
+        hintStyle: TextStyle(color: colors.onSurfaceVariant),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        border: _fieldBorder(colors.outlineVariant),
+        enabledBorder: _fieldBorder(colors.outlineVariant),
+        focusedBorder: _fieldBorder(colors.primary, width: 2),
+        errorBorder: _fieldBorder(colors.error),
+        focusedErrorBorder: _fieldBorder(colors.error, width: 2),
+      ),
     );
   }
 
@@ -119,6 +134,12 @@ abstract final class AppTheme {
         padding:
             const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 24)),
         textStyle: WidgetStatePropertyAll(text.labelLarge),
+      );
+
+  static OutlineInputBorder _fieldBorder(Color color, {double width = 1}) =>
+      OutlineInputBorder(
+        borderRadius: BorderRadius.circular(radiusSm),
+        borderSide: BorderSide(color: color, width: width),
       );
 
   /// Material 3 type scale (15 styles) with spec sizes, weights, letter
