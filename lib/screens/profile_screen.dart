@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 
 /// Profile tab: identity header plus grouped settings tiles.
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key, required this.onToggleTheme});
-
-  final VoidCallback onToggleTheme;
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,11 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             tooltip: 'Toggle light/dark theme',
-            onPressed: onToggleTheme,
+            // Reads the OS brightness so a store still following the system
+            // scheme flips to the opposite of what is on screen.
+            onPressed: () => context.storeRead.toggleTheme(
+              platformBrightness: MediaQuery.platformBrightnessOf(context),
+            ),
             icon: const Icon(Icons.brightness_6_outlined),
           ),
         ],

@@ -11,9 +11,7 @@ enum _Tab { home, bookings, messages, profile }
 
 /// Main app scaffold: IndexedStack body plus a Material 3 NavigationBar.
 class HomeShell extends StatefulWidget {
-  const HomeShell({super.key, required this.onToggleTheme});
-
-  final VoidCallback onToggleTheme;
+  const HomeShell({super.key});
 
   @override
   State<HomeShell> createState() => _HomeShellState();
@@ -44,10 +42,10 @@ class _HomeShellState extends State<HomeShell> {
       body: IndexedStack(
         index: _current.index,
         children: [
-          HomeScreen(),
-          BookingsScreen(),
-          MessagesScreen(),
-          ProfileScreen(onToggleTheme: widget.onToggleTheme),
+          const HomeScreen(),
+          const BookingsScreen(),
+          const MessagesScreen(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: NavigationBar(

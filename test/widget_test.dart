@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fundilink_app/main.dart';
+import 'package:fundilink_app/state/app_store.dart';
+import 'package:fundilink_app/state/key_value_store.dart';
 
 void main() {
   Future<void> pumpApp(WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      MyApp(store: AppStore(storage: InMemoryKeyValueStore())),
+    );
     await tester.pumpAndSettle();
   }
 
