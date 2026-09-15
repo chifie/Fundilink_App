@@ -128,6 +128,7 @@ class _NewRequestSheetState extends State<NewRequestSheet> {
             ),
             const SizedBox(height: 16),
             TextField(
+              key: const Key('request-description-field'),
               controller: _descriptionController,
               maxLines: 3,
               onChanged: (_) {

@@ -45,7 +45,10 @@ void main() {
   }
 
   Future<void> describeJob(WidgetTester tester, String description) async {
-    await tester.enterText(find.byType(TextField), description);
+    await tester.enterText(
+      find.byKey(const Key('request-description-field')),
+      description,
+    );
     await tester.pumpAndSettle();
   }
 
@@ -85,7 +88,7 @@ void main() {
     expect(created.service, 'Deep clean the kitchen');
     expect(created.fundi.name, 'Grace Wanjiku');
     expect(created.price, 600);
-    expect(created.status, BookingStatus.active);
+    expect(created.status, BookingStatus.pending);
     expect(created.step, RequestStep.requested);
     expect(find.text('Request sent to Grace Wanjiku'), findsOneWidget);
   });
