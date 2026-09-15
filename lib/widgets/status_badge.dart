@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/fundi.dart';
+import '../models/booking.dart';
 
 /// Small rounded pill for filter chips.
 class FilterChipPill extends StatelessWidget {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../models/fundi.dart';
-
 /// Circular fundi photo with a subtle online indicator.
 ///
 /// Falls back to initials on a tonal disc until real avatars exist.
