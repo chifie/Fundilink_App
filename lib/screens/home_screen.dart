@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../data/mock_data.dart';
 import '../models/fundi.dart';
 import '../screens/all_fundis_screen.dart';
 import '../screens/fundi_detail_sheet.dart';
 import '../search/fundi_search_delegate.dart';
+import '../state/store_scope.dart';
 import '../widgets/fundi_card.dart';
 import '../widgets/promo_banner.dart';
 import '../widgets/search_bar_field.dart';
@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
               child: SearchBarField(
                 onTap: () => showSearch(
                   context: context,
-                  delegate: FundiSearchDelegate(fundis: MockData.fundis),
+                  delegate: FundiSearchDelegate(fundis: context.store.fundis),
                 ),
               ),
             ),
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            for (final FundiProfile fundi in MockData.fundis.take(3))
+            for (final FundiProfile fundi in context.store.topRatedFundis)
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: FundiCard(

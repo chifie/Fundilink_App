@@ -4,10 +4,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fundilink_app/models/fundi.dart';
 import 'package:fundilink_app/screens/home_screen.dart';
 
+import '../support/pump_app.dart';
+
 void main() {
   Future<void> pumpHome(WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(home: HomeScreen()));
-    await tester.pumpAndSettle();
+    await pumpWithStore(tester, const HomeScreen());
   }
 
   Future<void> scrollDown(WidgetTester tester, Finder finder) async {
