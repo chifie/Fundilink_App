@@ -41,7 +41,7 @@ class Booking {
     this.paymentMethod,
     this.rating,
     this.review,
-  });
+  }) : totalAmount = totalAmount ?? price;
 
   final String id;
   final FundiProfile fundi;
