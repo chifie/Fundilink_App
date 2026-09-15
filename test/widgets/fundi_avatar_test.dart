@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fundilink_app/models/booking.dart';
-import 'package:fundilink_app/models/fundi.dart';
 import 'package:fundilink_app/widgets/fundi_avatar.dart';
 import 'package:fundilink_app/widgets/status_badge.dart';
 

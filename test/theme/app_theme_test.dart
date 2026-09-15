@@ -24,16 +24,16 @@ void main() {
     test('dark surfaces form a stepped scale', () {
       final colors = AppTheme.darkScheme;
       expect(
-        colors.surfaceContainerLowest!.value,
-        lessThan(colors.surfaceContainerLow!.value),
+        colors.surfaceContainerLowest.toARGB32(),
+        lessThan(colors.surfaceContainerLow.toARGB32()),
       );
       expect(
-        colors.surfaceContainerLow!.value,
-        lessThan(colors.surfaceContainer!.value),
+        colors.surfaceContainerLow.toARGB32(),
+        lessThan(colors.surfaceContainer.toARGB32()),
       );
       expect(
-        colors.surfaceContainer!.value,
-        lessThan(colors.surfaceContainerHigh!.value),
+        colors.surfaceContainer.toARGB32(),
+        lessThan(colors.surfaceContainerHigh.toARGB32()),
       );
     });
   });
