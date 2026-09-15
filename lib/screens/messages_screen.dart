@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../data/mock_data.dart';
 import '../screens/chat_room_screen.dart';
+import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 
 /// Chats tab listing conversations with unread counters.
@@ -12,14 +12,15 @@ class MessagesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final conversations = context.store.conversations;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Messages')),
       body: ListView.builder(
         padding: const EdgeInsets.only(bottom: 24),
-        itemCount: MockData.chats.length,
+        itemCount: conversations.length,
         itemBuilder: (context, index) {
-          final chat = MockData.chats[index];
+          final chat = conversations[index];
           return ListTile(
             leading: FundiAvatar(name: chat.name, isOnline: chat.isOnline),
             title: Text(chat.name),
@@ -28,7 +29,7 @@ class MessagesScreen extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: text.bodyMedium?.copyWith(
-                color: chat.unreadCount > 0
+                color: chat.hasUnread
                     ? colors.onSurface
                     : colors.onSurfaceVariant,
               ),
@@ -39,7 +40,7 @@ class MessagesScreen extends StatelessWidget {
               children: [
                 Text(chat.timeLabel, style: text.labelSmall),
                 const SizedBox(height: 4),
-                if (chat.unreadCount > 0)
+                if (chat.hasUnread)
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
