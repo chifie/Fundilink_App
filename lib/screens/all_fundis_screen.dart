@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../data/mock_data.dart';
 import '../models/fundi.dart';
 import '../screens/fundi_detail_sheet.dart';
+import '../state/store_scope.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/fundi_card.dart';
 
@@ -21,19 +21,22 @@ extension FundiSortLabel on FundiSort {
 
 /// Full fundi catalogue with skill filters and sorting.
 class AllFundisScreen extends StatefulWidget {
-  const AllFundisScreen({super.key});
+  const AllFundisScreen({super.key, this.initialSkill});
+
+  /// Service to filter by, set when opened from a category tile.
+  final FundiSkill? initialSkill;
 
   @override
   State<AllFundisScreen> createState() => _AllFundisScreenState();
 }
 
 class _AllFundisScreenState extends State<AllFundisScreen> {
-  FundiSkill? _skillFilter;
+  late FundiSkill? _skillFilter = widget.initialSkill;
   FundiSort _sort = FundiSort.rating;
 
   List<FundiProfile> get _filtered {
     final fundis =
-        MockData.fundis
+        context.store.fundis
             .where((f) => _skillFilter == null || f.skill == _skillFilter)
             .toList()
           ..sort((a, b) {
@@ -56,7 +59,7 @@ class _AllFundisScreenState extends State<AllFundisScreen> {
     final fundis = _filtered;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('All fundis')),
+      appBar: AppBar(title: Text(_skillFilter?.label ?? 'All fundis')),
       body: Column(
         children: [
           SizedBox(

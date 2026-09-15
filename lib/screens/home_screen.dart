@@ -61,11 +61,11 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ServiceCategoryGrid(
-                onTap: (skill) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${skill.label} coming soon')),
-                  );
-                },
+                onTap: (skill) => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => AllFundisScreen(initialSkill: skill),
+                  ),
+                ),
               ),
             ),
             const PromoBanner(),

@@ -45,6 +45,30 @@ void main() {
     expect(find.text('Grace Wanjiku'), findsOneWidget);
   });
 
+  testWidgets('a category tile opens the catalogue filtered by service', (
+    tester,
+  ) async {
+    await pumpHome(tester);
+
+    await tester.tap(find.text('Plumbing'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Joseph Kamau'), findsOneWidget);
+    expect(find.text('Grace Wanjiku'), findsNothing);
+  });
+
+  testWidgets('see all opens the unfiltered catalogue', (tester) async {
+    await pumpHome(tester);
+
+    await scrollDown(tester, find.text('Top rated fundis'));
+    await tester.tap(find.text('See all'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('All fundis'), findsOneWidget);
+    expect(find.text('Grace Wanjiku'), findsOneWidget);
+    expect(find.text('Mary Achieng'), findsOneWidget);
+  });
+
   testWidgets('a search result opens that fundi\'s detail sheet', (
     tester,
   ) async {
