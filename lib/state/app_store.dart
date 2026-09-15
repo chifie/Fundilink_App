@@ -289,6 +289,19 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// How long the stand-in catalogue refresh pretends to take.
+  static const Duration refreshDelay = Duration(milliseconds: 600);
+
+  /// Re-checks the catalogue for changes.
+  ///
+  /// There is no backend yet, so this waits a beat and notifies listeners
+  /// once. It exists so pull-to-refresh has something honest to wait on
+  /// rather than a spinner that lies about doing work.
+  Future<void> refresh() async {
+    await Future<void>.delayed(refreshDelay);
+    notifyListeners();
+  }
+
   // ------------------------------------------------------------------ profile
 
   /// The signed-in customer's details.

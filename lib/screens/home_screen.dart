@@ -21,74 +21,81 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.only(bottom: 24),
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Good morning 👋', style: text.bodyMedium),
-                        Text('Find a trusted fundi', style: text.headlineSmall),
-                      ],
+        child: RefreshIndicator(
+          onRefresh: context.storeRead.refresh,
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 24),
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Good morning 👋', style: text.bodyMedium),
+                          Text(
+                            'Find a trusted fundi',
+                            style: text.headlineSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton.filledTonal(
+                      tooltip: 'Notifications',
+                      onPressed: () {},
+                      icon: const Icon(Icons.notifications_outlined),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SearchBarField(
+                  onTap: () async {
+                    final fundi = await showSearch<FundiProfile?>(
+                      context: context,
+                      delegate: FundiSearchDelegate(store: context.storeRead),
+                    );
+                    if (fundi == null || !context.mounted) return;
+                    showFundiDetailSheet(context, fundi);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ServiceCategoryGrid(
+                  onTap: (skill) => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => AllFundisScreen(initialSkill: skill),
                     ),
                   ),
-                  IconButton.filledTonal(
-                    tooltip: 'Notifications',
-                    onPressed: () {},
-                    icon: const Icon(Icons.notifications_outlined),
-                  ),
-                ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: SearchBarField(
-                onTap: () async {
-                  final fundi = await showSearch<FundiProfile?>(
-                    context: context,
-                    delegate: FundiSearchDelegate(store: context.storeRead),
+              const PromoBanner(),
+              SectionHeader(
+                title: 'Top rated fundis',
+                onSeeAll: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const AllFundisScreen(),
+                    ),
                   );
-                  if (fundi == null || !context.mounted) return;
-                  showFundiDetailSheet(context, fundi);
                 },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ServiceCategoryGrid(
-                onTap: (skill) => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => AllFundisScreen(initialSkill: skill),
+              for (final FundiProfile fundi in context.store.topRatedFundis)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: FundiCard(
+                    fundi: fundi,
+                    onView: () => showFundiDetailSheet(context, fundi),
+                    onBook: () => showFundiDetailSheet(context, fundi),
                   ),
                 ),
-              ),
-            ),
-            const PromoBanner(),
-            SectionHeader(
-              title: 'Top rated fundis',
-              onSeeAll: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => const AllFundisScreen(),
-                  ),
-                );
-              },
-            ),
-            for (final FundiProfile fundi in context.store.topRatedFundis)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: FundiCard(
-                  fundi: fundi,
-                  onView: () => showFundiDetailSheet(context, fundi),
-                  onBook: () => showFundiDetailSheet(context, fundi),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

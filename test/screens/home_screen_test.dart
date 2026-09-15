@@ -45,6 +45,23 @@ void main() {
     expect(find.text('Grace Wanjiku'), findsOneWidget);
   });
 
+  testWidgets('pulling down re-checks the catalogue', (tester) async {
+    final store = AppStore(storage: InMemoryKeyValueStore());
+    var notified = 0;
+    store.addListener(() => notified++);
+    await pumpHome(tester, store: store);
+    notified = 0;
+
+    expect(find.byType(RefreshIndicator), findsOneWidget);
+
+    await tester.fling(find.byType(ListView).first, const Offset(0, 400), 1200);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+
+    expect(notified, greaterThan(0));
+  });
+
   testWidgets('a category tile opens the catalogue filtered by service', (
     tester,
   ) async {
