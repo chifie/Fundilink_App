@@ -48,6 +48,7 @@ class FundiAvatar extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Container(
+              key: const Key('fundi-online-dot'),
               width: size * 0.28,
               height: size * 0.28,
               decoration: BoxDecoration(
