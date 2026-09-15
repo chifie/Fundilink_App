@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fundilink_app/data/mock_data.dart';
@@ -5,6 +7,7 @@ import 'package:fundilink_app/models/booking.dart';
 import 'package:fundilink_app/models/chat.dart';
 import 'package:fundilink_app/models/fundi.dart';
 import 'package:fundilink_app/state/app_store.dart';
+import 'package:fundilink_app/state/key_value_store.dart';
 
 const FundiProfile _grace = FundiProfile(
   name: 'Grace Wanjiku',
@@ -316,6 +319,122 @@ void main() {
       final store = _store()..setThemeMode(ThemeMode.system);
 
       store.toggleTheme(platformBrightness: Brightness.dark);
+
+      expect(store.themeMode, ThemeMode.light);
+    });
+  });
+
+  group('persistence', () {
+    /// Storage holding a previous session's state.
+    InMemoryKeyValueStore savedState() {
+      final previous = _store();
+      return InMemoryKeyValueStore()
+        ..setString(
+          AppStore.bookingsKey,
+          jsonEncode([for (final b in previous.bookings) b.toJson()]),
+        )
+        ..setString(
+          AppStore.conversationsKey,
+          jsonEncode([for (final c in previous.conversations) c.toJson()]),
+        )
+        ..setStrings(AppStore.recentSearchesKey, const ['plumbing'])
+        ..setString(AppStore.themeModeKey, ThemeMode.dark.name);
+    }
+
+    test('restores saved state instead of the demo data', () {
+      final store = AppStore(storage: savedState());
+
+      expect(store.bookings, _store().bookings);
+      expect(store.conversations, _store().conversations);
+      expect(store.recentSearches, ['plumbing']);
+      expect(store.themeMode, ThemeMode.dark);
+    });
+
+    test('an empty in-memory store keeps the seeded demo data', () {
+      final store = AppStore(storage: InMemoryKeyValueStore());
+
+      expect(store.bookings, MockData.bookings);
+      expect(store.conversations, MockData.chats);
+      expect(store.themeMode, ThemeMode.light);
+    });
+
+    test('stores bookings written through addBooking and cancelBooking', () {
+      final storage = InMemoryKeyValueStore();
+      final store = AppStore(storage: storage);
+
+      store.addBooking(_booking(id: 'b9'));
+      expect(storage.getString(AppStore.bookingsKey), contains('"id":"b9"'));
+
+      store.cancelBooking('b9');
+      final saved =
+          jsonDecode(storage.getString(AppStore.bookingsKey)!) as List;
+      expect((saved.first as Map)['status'], BookingStatus.cancelled.name);
+    });
+
+    test('stores the chat preview when a message is sent', () {
+      final storage = InMemoryKeyValueStore();
+      final store = AppStore(storage: storage);
+
+      store.sendMessage(contactName: 'Grace Wanjiku', text: 'Karibu');
+
+      final saved =
+          jsonDecode(storage.getString(AppStore.conversationsKey)!) as List;
+      expect((saved.first as Map)['lastMessage'], 'Karibu');
+    });
+
+    test('stores the search history as it changes', () {
+      final storage = InMemoryKeyValueStore();
+      final store = AppStore(storage: storage);
+
+      store.recordSearch('plumbing');
+      expect(storage.getStrings(AppStore.recentSearchesKey), ['plumbing']);
+
+      store.clearRecentSearches();
+      expect(storage.getStrings(AppStore.recentSearchesKey), isEmpty);
+    });
+
+    test('stores the theme mode', () {
+      final storage = InMemoryKeyValueStore();
+
+      AppStore(storage: storage).setThemeMode(ThemeMode.dark);
+
+      expect(storage.getString(AppStore.themeModeKey), 'dark');
+    });
+
+    test('a store without storage still works and writes nothing', () {
+      final store = _store()..addBooking(_booking(id: 'b9'));
+
+      expect(store.bookings.first.id, 'b9');
+    });
+
+    test('falls back to the seed data when the payload is unreadable', () {
+      final store = AppStore(
+        storage: InMemoryKeyValueStore({
+          AppStore.bookingsKey: '{not json',
+          AppStore.conversationsKey: '"a string, not a list"',
+        }),
+      );
+
+      expect(store.bookings, MockData.bookings);
+      expect(store.conversations, MockData.chats);
+    });
+
+    test('falls back when a saved enum name is no longer valid', () {
+      final store = AppStore(
+        storage: InMemoryKeyValueStore({
+          AppStore.bookingsKey: jsonEncode([
+            {..._booking().toJson(), 'status': 'retired'},
+          ]),
+        }),
+      );
+
+      expect(store.bookings, MockData.bookings);
+    });
+
+    test('an unknown theme mode name keeps the default', () {
+      final store = AppStore(
+        storage: InMemoryKeyValueStore({AppStore.themeModeKey: 'sepia'}),
+      );
 
       expect(store.themeMode, ThemeMode.light);
     });

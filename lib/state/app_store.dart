@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
@@ -5,6 +7,7 @@ import '../models/booking.dart';
 import '../models/chat.dart';
 import '../models/fundi.dart';
 import '../utils/formatters.dart';
+import 'key_value_store.dart';
 
 /// Single source of truth for everything the customer can see or change.
 ///
@@ -18,25 +21,40 @@ class AppStore extends ChangeNotifier {
     List<Conversation>? conversations,
     ThemeMode themeMode = ThemeMode.light,
     List<String> recentSearches = const <String>[],
+    KeyValueStore? storage,
     DateTime Function()? clock,
   }) : _fundis = <FundiProfile>[...(fundis ?? MockData.fundis)],
        _bookings = <Booking>[...(bookings ?? MockData.bookings)],
        _conversations = <Conversation>[...(conversations ?? MockData.chats)],
-       // A public `themeMode` parameter reads better than exposing the
-       // backing field as an initializing formal.
        // ignore: prefer_initializing_formals
        _themeMode = themeMode,
        _recentSearches = <String>[...recentSearches],
-       _clock = clock ?? DateTime.now;
+       // Named parameters cannot be private, so both the public `themeMode`
+       // and `storage` parameters are assigned rather than taken as
+       // initializing formals.
+       // ignore: prefer_initializing_formals
+       _storage = storage,
+       _clock = clock ?? DateTime.now {
+    _restore();
+  }
 
   /// Number of search terms kept for the search sheet's history.
   static const int maxRecentSearches = 5;
+
+  /// Storage keys, public so tests and migrations share one source of truth.
+  static const String themeModeKey = 'theme_mode';
+  static const String bookingsKey = 'bookings';
+  static const String conversationsKey = 'conversations';
+  static const String recentSearchesKey = 'recent_searches';
 
   final List<FundiProfile> _fundis;
   final List<Booking> _bookings;
   final List<Conversation> _conversations;
   final List<String> _recentSearches;
   final DateTime Function() _clock;
+
+  /// Local storage, or null when the store should stay in memory only.
+  final KeyValueStore? _storage;
   ThemeMode _themeMode;
 
   // ---------------------------------------------------------------- catalogue
@@ -87,6 +105,7 @@ class AppStore extends ChangeNotifier {
   /// Stores a new request at the top of the list.
   void addBooking(Booking booking) {
     _bookings.insert(0, booking);
+    _persistBookings();
     notifyListeners();
   }
 
@@ -97,6 +116,7 @@ class AppStore extends ChangeNotifier {
     _bookings[index] = _bookings[index].copyWith(
       status: BookingStatus.cancelled,
     );
+    _persistBookings();
     notifyListeners();
   }
 
@@ -105,6 +125,7 @@ class AppStore extends ChangeNotifier {
     final index = _bookings.indexWhere((b) => b.id == id);
     if (index == -1 || !_bookings[index].isActive) return;
     _bookings[index] = _bookings[index].copyWith(step: step);
+    _persistBookings();
     notifyListeners();
   }
 
@@ -133,6 +154,7 @@ class AppStore extends ChangeNotifier {
       timeLabel: Formatters.timeOfDay(_clock()),
       unreadCount: 0,
     );
+    _persistConversations();
     notifyListeners();
   }
 
@@ -142,6 +164,7 @@ class AppStore extends ChangeNotifier {
     if (index == -1 || !_conversations[index].hasUnread) return;
 
     _conversations[index] = _conversations[index].copyWith(unreadCount: 0);
+    _persistConversations();
     notifyListeners();
   }
 
@@ -161,6 +184,7 @@ class AppStore extends ChangeNotifier {
     if (_recentSearches.length > maxRecentSearches) {
       _recentSearches.removeRange(maxRecentSearches, _recentSearches.length);
     }
+    _persistRecentSearches();
     notifyListeners();
   }
 
@@ -168,6 +192,7 @@ class AppStore extends ChangeNotifier {
   void clearRecentSearches() {
     if (_recentSearches.isEmpty) return;
     _recentSearches.clear();
+    _persistRecentSearches();
     notifyListeners();
   }
 
@@ -191,6 +216,89 @@ class AppStore extends ChangeNotifier {
   void setThemeMode(ThemeMode mode) {
     if (_themeMode == mode) return;
     _themeMode = mode;
+    _storage?.setString(themeModeKey, mode.name);
     notifyListeners();
   }
+
+  // --------------------------------------------------------------- persistence
+
+  /// Replaces the seed data with anything saved by a previous run.
+  ///
+  /// A corrupt or outdated payload is skipped rather than thrown so a bad
+  /// write can never stop the app from starting.
+  void _restore() {
+    final storage = _storage;
+    if (storage == null) return;
+
+    final bookings = _decodeList(
+      storage.getString(bookingsKey),
+      Booking.fromJson,
+    );
+    if (bookings != null) {
+      _bookings
+        ..clear()
+        ..addAll(bookings);
+    }
+
+    final conversations = _decodeList(
+      storage.getString(conversationsKey),
+      Conversation.fromJson,
+    );
+    if (conversations != null) {
+      _conversations
+        ..clear()
+        ..addAll(conversations);
+    }
+
+    final searches = storage.getStrings(recentSearchesKey);
+    if (searches != null) {
+      _recentSearches
+        ..clear()
+        ..addAll(searches);
+    }
+
+    final mode = storage.getString(themeModeKey);
+    if (mode != null) {
+      _themeMode = ThemeMode.values.asNameMap()[mode] ?? _themeMode;
+    }
+  }
+
+  static List<T>? _decodeList<T>(
+    String? raw,
+    T Function(Map<String, dynamic>) fromJson,
+  ) {
+    if (raw == null) return null;
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! List) return null;
+      return [
+        for (final item in decoded)
+          if (item is Map<String, dynamic>) fromJson(item),
+      ];
+    } catch (_) {
+      // Unreadable payload: fall back to the seed data.
+      return null;
+    }
+  }
+
+  void _persistBookings() =>
+      _persistList(bookingsKey, _bookings, (Booking b) => b.toJson());
+
+  void _persistConversations() => _persistList(
+    conversationsKey,
+    _conversations,
+    (Conversation c) => c.toJson(),
+  );
+
+  void _persistRecentSearches() =>
+      _storage?.setStrings(recentSearchesKey, _recentSearches);
+
+  void _persistList<T>(
+    String key,
+    List<T> items,
+    Map<String, dynamic> Function(T) toJson,
+  ) => _storage?.setString(
+    key,
+    jsonEncode([for (final item in items) toJson(item)]),
+  );
 }
