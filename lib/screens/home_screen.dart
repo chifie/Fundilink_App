@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import '../models/fundi.dart';
 import '../screens/all_fundis_screen.dart';
-import '../screens/all_fundis_sheet.dart';
 import '../screens/fundi_detail_sheet.dart';
 import '../search/fundi_search_delegate.dart';
 import '../widgets/fundi_card.dart';
