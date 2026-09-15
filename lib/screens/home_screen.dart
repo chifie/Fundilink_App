@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
 import '../models/fundi.dart';
+import '../screens/all_fundis_screen.dart';
 import '../screens/all_fundis_sheet.dart';
 import '../screens/fundi_detail_sheet.dart';
 import '../search/fundi_search_delegate.dart';
@@ -68,7 +69,13 @@ class HomeScreen extends StatelessWidget {
             const PromoBanner(),
             SectionHeader(
               title: 'Top rated fundis',
-              onSeeAll: () => showAllFundisSheet(context),
+              onSeeAll: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const AllFundisScreen(),
+                ),
+                );
+              },
             ),
             for (final FundiProfile fundi in MockData.fundis.take(3))
               Padding(
