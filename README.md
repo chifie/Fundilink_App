@@ -1,17 +1,43 @@
-# Fundilink
+# FundiLink
 
-A Flutter application built with **Material 3** (Material You) design.
+Connect with trusted local fundis and service providers — a Flutter app
+built with a clean **Material 3** (Material You) design.
 
-## Material 3 design system
+## Features
 
-All colors, components and typography are defined in [`lib/theme/app_theme.dart`](lib/theme/app_theme.dart):
+- **Home** — greeting header, service search, tappable category grid, promo
+  banner and top-rated fundis with a detail bottom sheet
+- **Bookings** — Active / Done / Cancelled filters, progress tracker and a
+  timeline detail sheet
+- **Chats** — conversation list with unread badges and a working chat room
+- **Profile** — grouped settings, theme toggle and account actions
+- **New request** — FAB flow with service chips and job description
 
-- **Color** — light and dark schemes generated from a single seed color via `ColorScheme.fromSeed`
-- **Buttons** — filled, tonal, elevated, outlined and text variants with M3 metrics (pill shape, 40 dp height, `labelLarge` labels)
-- **Cards** — 12 dp corner radius and tonal surfaces for all three variants (`Card`, `Card.filled`, `Card.outlined`)
-- **Typography** — the full 15-style M3 type scale (display → label) with spec sizes, weights and letter spacing
+## Design system
 
-`main.dart` showcases every element, and the app bar includes a light/dark toggle.
+All colors, components and typography live in
+[`lib/theme/app_theme.dart`](lib/theme/app_theme.dart):
+
+- **Color** — light and dark schemes seeded from the FundiLink teal via
+  `ColorScheme.fromSeed`, with stepped dark surfaces
+- **Shapes** — shared 10/16/24 dp corner radius scale
+- **Buttons** — pill-shaped M3 variants with 40 dp height
+- **Inputs** — filled, rounded text fields with quiet borders
+- **Typography** — the full 15-style M3 type scale
+
+The app shell uses an `IndexedStack` body plus a Material 3 `NavigationBar`.
+
+## Project structure
+
+```
+lib/
+├── data/       # Mock catalogue (fundis, bookings, chats)
+├── models/     # Domain models and enums
+├── screens/    # Tab screens and bottom sheets
+├── shell/      # Home shell with bottom navigation
+├── theme/      # Material 3 design tokens
+└── widgets/    # Reusable UI components
+```
 
 ## Getting started
 
@@ -24,4 +50,5 @@ flutter run
 
 ```sh
 flutter test
+flutter analyze
 ```
