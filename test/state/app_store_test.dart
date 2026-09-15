@@ -287,6 +287,46 @@ void main() {
     });
   });
 
+  group('message threads', () {
+    test('seeds a thread per demo conversation, oldest first', () {
+      final store = _store();
+
+      final grace = store.messagesFor('Grace Wanjiku');
+
+      expect(grace, hasLength(3));
+      expect(grace.first.text, 'Hello! Are you available tomorrow?');
+      expect(grace.last.text, 'I will be there in 20 minutes 🙂');
+      for (var i = 0; i < grace.length - 1; i++) {
+        expect(grace[i].sentAt.isBefore(grace[i + 1].sentAt), isTrue);
+      }
+    });
+
+    test('unknown contacts have an empty thread', () {
+      expect(_store().messagesFor('Nobody'), isEmpty);
+    });
+
+    test('threads cannot be mutated by callers', () {
+      final store = _store();
+
+      expect(
+        () => store.messagesFor('Grace Wanjiku').clear(),
+        throwsUnsupportedError,
+      );
+    });
+
+    test('every demo conversation has a matching thread', () {
+      final store = AppStore();
+
+      for (final chat in MockData.chats) {
+        expect(
+          store.messagesFor(chat.name),
+          isNotEmpty,
+          reason: '${chat.name} has no thread history',
+        );
+      }
+    });
+  });
+
   group('addresses', () {
     test('starts from the demo addresses', () {
       expect(_store().addresses, SavedAddress.demo);

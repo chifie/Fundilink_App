@@ -1,3 +1,5 @@
+import '../utils/formatters.dart';
+
 /// A chat conversation row shown in the chats tab.
 class Conversation {
   const Conversation({
@@ -67,4 +69,51 @@ class Conversation {
     'unreadCount': unreadCount,
     'isOnline': isOnline,
   };
+}
+
+/// Who wrote a message in a thread.
+enum ChatAuthor { customer, fundi }
+
+/// One message inside a conversation thread.
+class ChatMessage {
+  const ChatMessage({
+    required this.text,
+    required this.sentAt,
+    required this.author,
+  });
+
+  final String text;
+  final DateTime sentAt;
+  final ChatAuthor author;
+
+  /// True for messages the customer wrote, which align to the right.
+  bool get isMine => author == ChatAuthor.customer;
+
+  /// Clock label shown under the bubble, e.g. `9:41 AM`.
+  String get timeLabel => Formatters.timeOfDay(sentAt);
+
+  /// Rebuilds a message from the JSON written by [toJson].
+  factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
+    text: json['text'] as String,
+    sentAt: DateTime.parse(json['sentAt'] as String),
+    author: ChatAuthor.values.byName(json['author'] as String),
+  );
+
+  /// Plain JSON map, safe for `jsonEncode` and local persistence.
+  Map<String, dynamic> toJson() => {
+    'text': text,
+    'sentAt': sentAt.toIso8601String(),
+    'author': author.name,
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ChatMessage &&
+          other.text == text &&
+          other.sentAt == sentAt &&
+          other.author == author;
+
+  @override
+  int get hashCode => Object.hash(text, sentAt, author);
 }

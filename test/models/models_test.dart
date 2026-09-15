@@ -90,6 +90,23 @@ void main() {
   });
 
   group('Conversation', () {
+    test('ChatMessage knows its author and clock label', () {
+      final mine = ChatMessage(
+        text: 'Hello! Are you available tomorrow?',
+        sentAt: DateTime(2026, 9, 15, 9, 32),
+        author: ChatAuthor.customer,
+      );
+      final theirs = ChatMessage(
+        text: 'Yes, I am free from 9 AM.',
+        sentAt: DateTime(2026, 9, 15, 9, 41),
+        author: ChatAuthor.fundi,
+      );
+
+      expect(mine.isMine, isTrue);
+      expect(theirs.isMine, isFalse);
+      expect(theirs.timeLabel, '9:41 AM');
+    });
+
     test('hasUnread is false once the counter reaches zero', () {
       expect(_conversation.hasUnread, isTrue);
       expect(_conversation.copyWith(unreadCount: 0).hasUnread, isFalse);
@@ -134,6 +151,20 @@ void main() {
       );
 
       expect(restored, _conversation);
+    });
+
+    test('ChatMessage round-trips through a JSON string', () {
+      final message = ChatMessage(
+        text: 'I will be there in 20 minutes 🙂',
+        sentAt: DateTime(2026, 9, 15, 9, 41),
+        author: ChatAuthor.fundi,
+      );
+
+      final restored = ChatMessage.fromJson(_throughJson(message.toJson()));
+
+      expect(restored, message);
+      expect(restored.sentAt, DateTime(2026, 9, 15, 9, 41));
+      expect(restored.author, ChatAuthor.fundi);
     });
 
     test('SavedAddress round-trips through a JSON string', () {

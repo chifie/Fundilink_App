@@ -50,6 +50,7 @@ class AppStore extends ChangeNotifier {
   static const String recentSearchesKey = 'recent_searches';
   static const String profileKey = 'profile';
   static const String addressesKey = 'addresses';
+  static const String messagesKey = 'messages';
 
   final List<FundiProfile> _fundis;
   final List<Booking> _bookings;
@@ -65,6 +66,11 @@ class AppStore extends ChangeNotifier {
   CustomerProfile _profile = CustomerProfile.demo;
 
   final List<SavedAddress> _addresses = [...SavedAddress.demo];
+
+  /// Thread history per contact, oldest message first.
+  final Map<String, List<ChatMessage>> _messages = {
+    for (final entry in MockData.messages.entries) entry.key: [...entry.value],
+  };
 
   /// Counter behind new address ids, kept above the restored ids so an id
   /// is never reused across launches.
@@ -170,6 +176,13 @@ class AppStore extends ChangeNotifier {
     _persistConversations();
     notifyListeners();
   }
+
+  /// The thread with [contactName], oldest message first.
+  ///
+  /// Unknown contacts return an empty thread rather than throwing, so a
+  /// deleted conversation cannot crash the chat room.
+  List<ChatMessage> messagesFor(String contactName) =>
+      List.unmodifiable(_messages[contactName] ?? const <ChatMessage>[]);
 
   /// Clears the unread badge for one thread.
   void markConversationRead(String contactName) {
@@ -354,6 +367,32 @@ class AppStore extends ChangeNotifier {
         ..clear()
         ..addAll(addresses);
       _nextAddressId = addresses.length;
+    }
+
+    final messages = _decodeMessages(storage.getString(messagesKey));
+    if (messages != null) {
+      _messages
+        ..clear()
+        ..addAll(messages);
+    }
+  }
+
+  static Map<String, List<ChatMessage>>? _decodeMessages(String? raw) {
+    if (raw == null) return null;
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map<String, dynamic>) return null;
+      return {
+        for (final entry in decoded.entries)
+          if (entry.value is List)
+            entry.key: [
+              for (final item in entry.value as List)
+                if (item is Map<String, dynamic>) ChatMessage.fromJson(item),
+            ],
+      };
+    } catch (_) {
+      // Unreadable payload: fall back to the seeded threads.
+      return null;
     }
   }
 

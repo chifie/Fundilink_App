@@ -104,6 +104,61 @@ abstract final class MockData {
   static List<Booking> get activeBookings =>
       bookings.where((b) => b.status == BookingStatus.active).toList();
 
+  /// Thread history keyed by contact name.
+  ///
+  /// The newest message in each thread matches that conversation's preview
+  /// above so the list and the chat room never disagree.
+  static final Map<String, List<ChatMessage>> messages = {
+    'Grace Wanjiku': [
+      ChatMessage(
+        text: 'Hello! Are you available tomorrow?',
+        sentAt: DateTime(2026, 9, 15, 9, 32),
+        author: ChatAuthor.customer,
+      ),
+      ChatMessage(
+        text: 'Yes, I am free from 9 AM.',
+        sentAt: DateTime(2026, 9, 15, 9, 35),
+        author: ChatAuthor.fundi,
+      ),
+      ChatMessage(
+        text: 'I will be there in 20 minutes 🙂',
+        sentAt: DateTime(2026, 9, 15, 9, 41),
+        author: ChatAuthor.fundi,
+      ),
+    ],
+    'Brian Otieno': [
+      ChatMessage(
+        text: 'How much to fix the kitchen wiring?',
+        sentAt: DateTime(2026, 9, 14, 8, 15),
+        author: ChatAuthor.customer,
+      ),
+      ChatMessage(
+        text: 'Sawa, the quote is KSh 2,500.',
+        sentAt: DateTime(2026, 9, 14, 8, 20),
+        author: ChatAuthor.fundi,
+      ),
+    ],
+    'Joseph Kamau': [
+      ChatMessage(
+        text: 'Thanks for the job, karibu tena!',
+        sentAt: DateTime(2026, 9, 13, 17, 5),
+        author: ChatAuthor.fundi,
+      ),
+    ],
+    'Faith Njeri': [
+      ChatMessage(
+        text: 'The paint is ready to collect.',
+        sentAt: DateTime(2026, 9, 12, 11, 30),
+        author: ChatAuthor.fundi,
+      ),
+      ChatMessage(
+        text: 'Can we reschedule to Friday?',
+        sentAt: DateTime(2026, 9, 12, 11, 45),
+        author: ChatAuthor.fundi,
+      ),
+    ],
+  };
+
   static const List<Conversation> chats = [
     Conversation(
       name: 'Grace Wanjiku',
