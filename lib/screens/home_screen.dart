@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
 import '../models/fundi.dart';
+import '../screens/all_fundis_sheet.dart';
 import '../screens/fundi_detail_sheet.dart';
 import '../widgets/fundi_card.dart';
 import '../widgets/promo_banner.dart';
@@ -59,7 +60,10 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const PromoBanner(),
-            const SectionHeader(title: 'Top rated fundis', onSeeAll: null),
+            SectionHeader(
+              title: 'Top rated fundis',
+              onSeeAll: () => showAllFundisSheet(context),
+            ),
             for (final FundiProfile fundi in MockData.fundis.take(3))
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
