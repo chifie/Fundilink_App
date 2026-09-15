@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import '../models/booking.dart';
 import '../models/chat.dart';
+import '../models/customer.dart';
 import '../models/fundi.dart';
 import '../utils/formatters.dart';
 import 'key_value_store.dart';
@@ -46,6 +47,7 @@ class AppStore extends ChangeNotifier {
   static const String bookingsKey = 'bookings';
   static const String conversationsKey = 'conversations';
   static const String recentSearchesKey = 'recent_searches';
+  static const String profileKey = 'profile';
 
   final List<FundiProfile> _fundis;
   final List<Booking> _bookings;
@@ -56,6 +58,9 @@ class AppStore extends ChangeNotifier {
   /// Local storage, or null when the store should stay in memory only.
   final KeyValueStore? _storage;
   ThemeMode _themeMode;
+
+  /// Starts from the demo profile and is replaced by saved details, if any.
+  CustomerProfile _profile = CustomerProfile.demo;
 
   // ---------------------------------------------------------------- catalogue
 
@@ -196,6 +201,19 @@ class AppStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ------------------------------------------------------------------ profile
+
+  /// The signed-in customer's details.
+  CustomerProfile get profile => _profile;
+
+  /// Saves edited profile details and remembers them for next launch.
+  void updateProfile(CustomerProfile profile) {
+    if (_profile == profile) return;
+    _profile = profile;
+    _storage?.setString(profileKey, jsonEncode(profile.toJson()));
+    notifyListeners();
+  }
+
   // -------------------------------------------------------------------- theme
 
   /// Whether the app follows the system, light or dark scheme.
@@ -260,6 +278,22 @@ class AppStore extends ChangeNotifier {
     final mode = storage.getString(themeModeKey);
     if (mode != null) {
       _themeMode = ThemeMode.values.asNameMap()[mode] ?? _themeMode;
+    }
+
+    final profile = storage.getString(profileKey);
+    if (profile != null) {
+      _profile = _decodeProfile(profile) ?? _profile;
+    }
+  }
+
+  static CustomerProfile? _decodeProfile(String raw) {
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map<String, dynamic>) return null;
+      return CustomerProfile.fromJson(decoded);
+    } catch (_) {
+      // Unreadable payload: keep the demo profile.
+      return null;
     }
   }
 

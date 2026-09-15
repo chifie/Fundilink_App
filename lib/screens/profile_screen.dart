@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/appearance_screen.dart';
+import '../screens/edit_profile_screen.dart';
 import '../state/store_scope.dart';
 import '../widgets/fundi_avatar.dart';
 import '../widgets/settings_tile.dart';
@@ -12,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final profile = context.store.profile;
 
     return Scaffold(
       appBar: AppBar(
@@ -34,17 +36,21 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Column(
             children: [
-              const FundiAvatar(name: 'Amina Yusuf', size: 72),
+              FundiAvatar(name: profile.name, size: 72),
               const SizedBox(height: 12),
+              Text(profile.name, style: Theme.of(context).textTheme.titleLarge),
               Text(
-                'Amina Yusuf',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'amina.yusuf@example.com',
+                profile.email,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colors.onSurfaceVariant,
                 ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                profile.location,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colors.onSurfaceVariant),
               ),
             ],
           ),
@@ -55,7 +61,11 @@ class ProfileScreen extends StatelessWidget {
               SettingsTile(
                 icon: Icons.person_outline,
                 label: 'Edit profile',
-                onTap: () {},
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const EditProfileScreen(),
+                  ),
+                ),
               ),
               SettingsTile(
                 icon: Icons.location_on_outlined,

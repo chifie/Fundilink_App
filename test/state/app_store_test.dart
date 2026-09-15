@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fundilink_app/data/mock_data.dart';
 import 'package:fundilink_app/models/booking.dart';
 import 'package:fundilink_app/models/chat.dart';
+import 'package:fundilink_app/models/customer.dart';
 import 'package:fundilink_app/models/fundi.dart';
 import 'package:fundilink_app/state/app_store.dart';
 import 'package:fundilink_app/state/key_value_store.dart';
@@ -282,6 +283,53 @@ void main() {
       store.clearRecentSearches();
 
       expect(store.recentSearches, isEmpty);
+    });
+  });
+
+  group('profile', () {
+    test('starts from the demo customer', () {
+      expect(_store().profile, CustomerProfile.demo);
+    });
+
+    test('updateProfile saves the change and notifies', () {
+      final storage = InMemoryKeyValueStore();
+      final store = AppStore(storage: storage);
+      var notifications = 0;
+      store.addListener(() => notifications++);
+
+      store.updateProfile(store.profile.copyWith(name: 'Amina Y'));
+
+      expect(store.profile.name, 'Amina Y');
+      expect(notifications, 1);
+      expect(storage.getString(AppStore.profileKey), contains('Amina Y'));
+    });
+
+    test('updateProfile ignores identical details', () {
+      final store = _store();
+      var notifications = 0;
+      store.addListener(() => notifications++);
+
+      store.updateProfile(store.profile);
+
+      expect(notifications, 0);
+    });
+
+    test('restores saved details', () {
+      final storage = InMemoryKeyValueStore({
+        AppStore.profileKey: jsonEncode(
+          CustomerProfile.demo.copyWith(name: 'Saved Name').toJson(),
+        ),
+      });
+
+      expect(AppStore(storage: storage).profile.name, 'Saved Name');
+    });
+
+    test('keeps the demo profile when the payload is unreadable', () {
+      final store = AppStore(
+        storage: InMemoryKeyValueStore({AppStore.profileKey: 'nonsense'}),
+      );
+
+      expect(store.profile, CustomerProfile.demo);
     });
   });
 
