@@ -52,7 +52,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
     // Watching the store keeps this list in step with cancellations and
     // with requests created from the new-request sheet.
     final store = context.store;
-    final bookings = _filter == BookingStatus.active
+    final bookings = _filter == BookingStatus.activ
         ? store.activeBookings
         : store.bookingsWithStatus(_filter);
 
