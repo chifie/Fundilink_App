@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                     Badge.count(
                       count: context.store.unreadNotificationCount,
                       isLabelVisible: context.store.unreadNotificationCount > 0,
-                      child: IconButton.filledTonal
+                      child: IconButton.filledTonal(
                         tooltip: 'Notifications',
                         onPressed: () => showNotificationsSheet(context),
                         icon: const Icon(Icons.notifications_outlined),
