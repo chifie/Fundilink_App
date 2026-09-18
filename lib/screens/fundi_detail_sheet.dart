@@ -96,7 +96,7 @@ class _FundiDetailSheet extends StatelessWidget {
                 Navigator.of(context).pop();
                 messenger.showSnackBar(
                   SnackBar(
-                    content: Text('Request sent to ${booking.fundi.name}'),
+                    content: Text('Request sent to ${booking.fundi.name}')
                   ),
                 );
               },
